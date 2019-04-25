@@ -70,6 +70,8 @@ where `{target_foundation_profile}` is something like `pws` or `pcfone`
 
 ## How to deploy to Pivotal Application Service
 
+// FIXME Waiting on solution to https://github.com/pivotal-cf/spring-cloud-services-connector/issues/124#issuecomment-486753842
+
 Please review the [manifest.yml](manifest.yml) before deploying.
 
 ### using scripts
