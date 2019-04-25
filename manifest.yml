@@ -1,0 +1,12 @@
+---
+applications:
+- name: cf-hoover-ui
+  memory: 1G
+  random-route: true
+  stack: cflinuxfs3
+  path: build/libs/cf-hoover-ui-0.1-SNAPSHOT.jar
+  instances: 1
+  env:
+    JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
+    SPRING_PROFILES_ACTIVE: cloud
+    JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 11.+ } }'
