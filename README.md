@@ -84,3 +84,7 @@ Shutdown and destroy the app and service instances with
 ```
 ./destroy.sh
 ```
+
+## Credits
+
+* [Vaadin Flow and Reactive Spring](https://committed.software/posts/vaadin-and-spring/vaadin-spring/)
