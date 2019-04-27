@@ -1,1 +1,21 @@
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,httptrace,loggers,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  info:
+    git:
+      mode: full
+
+---
+spring:
+  profiles: cloud
+
+management:
+  cloudfoundry:
+    enabled: true
+    skip-ssl-validation: true
 

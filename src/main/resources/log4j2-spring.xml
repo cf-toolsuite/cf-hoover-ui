@@ -30,7 +30,8 @@
         </Root>
 
         <Logger name="org.springframework" level="warn" />
-        <!-- <Logger name="reactor.core" level="debug" /> -->
+        <Logger name="reactor.core" level="debug" />
+        <Logger name="reactivefeign" level="debug" />
     </Loggers>
 
 </Configuration>

@@ -1,5 +1,7 @@
 package io.pivotal.cfapp.ui;
 
+import java.time.Duration;
+
 import javax.annotation.PostConstruct;
 
 import com.vaadin.flow.component.html.H2;
@@ -14,8 +16,7 @@ import com.vaadin.flow.theme.material.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import io.pivotal.cfapp.client.SnapshotClient;
-import io.pivotal.cfapp.client.UsageClient;
+import io.pivotal.cfapp.client.HooverClient;
 
 
 @Route(value = "")
@@ -25,21 +26,18 @@ public class CfHooverDashboard extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
-    private final SnapshotClient snapshotClient;
-    private final UsageClient usageClient;
+    private final HooverClient client;
 
     @Autowired
     public CfHooverDashboard(
-        SnapshotClient snapshotClient,
-        UsageClient usageClient) {
-        this.snapshotClient = snapshotClient;
-        this.usageClient = usageClient;
+        HooverClient client) {
+        this.client = client;
     }
 
     @PostConstruct
     protected void init() {
         // TODO property-drive this title thru externalized configuration
-        snapshotClient.getSummary().subscribe(s -> {
+        client.getSummary().delayElement(Duration.ofMillis(500)).subscribe(s -> {
             H2 title = new H2("Hoover Dashboard");
             HorizontalLayout firstRow = new HorizontalLayout();
             VerticalLayout statLayout = new VerticalLayout();

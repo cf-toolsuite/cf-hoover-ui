@@ -4,8 +4,7 @@
 
 > Status: Incubating
 
-// TODO description
-
+You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.  You've come to the right place friend.
 
 ## Prerequisites
 
@@ -69,8 +68,6 @@ where `{target_foundation_profile}` is something like `pws` or `pcfone`
 
 
 ## How to deploy to Pivotal Application Service
-
-// FIXME Waiting on solution to https://github.com/pivotal-cf/spring-cloud-services-connector/issues/124#issuecomment-486753842
 
 Please review the [manifest.yml](manifest.yml) before deploying.
 
