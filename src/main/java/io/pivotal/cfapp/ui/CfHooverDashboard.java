@@ -7,9 +7,8 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.material.Material;
+import com.vaadin.flow.theme.lumo.Lumo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,8 +16,9 @@ import io.pivotal.cfapp.client.HooverClient;
 
 
 @Route(value = "")
-@Theme(Material.class)
-@PWA(name = "Hoover UI, Vaadin Flow with Spring", shortName = "Hoover UI")
+@Theme(Lumo.class)
+//@Theme(Material.class)
+//@PWA(name = "Hoover UI, Vaadin Flow with Spring", shortName = "Hoover UI")
 public class CfHooverDashboard extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

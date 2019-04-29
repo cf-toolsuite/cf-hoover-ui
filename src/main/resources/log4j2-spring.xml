@@ -29,6 +29,7 @@
             <AppenderRef ref="RollingFile" />
         </Root>
 
+        <Logger name="io.pivotal.cfapp" level="debug" />
         <Logger name="org.springframework" level="warn" />
         <Logger name="reactor.core" level="debug" />
         <Logger name="reactivefeign" level="debug" />

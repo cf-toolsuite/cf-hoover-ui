@@ -22,7 +22,8 @@ repositories {
 ext {
 	set('springCloudServicesVersion', '2.1.2.RELEASE')
 	set('springCloudVersion', 'Greenwich.SR1')
-	set('vaadinVersion', '13.0.4')
+	set('vaadinVersion', '10.0.13') // LTS
+	//set('vaadinVersion', '13.0.4')
 	set('jackson.version', '2.9.8')
 	set('junit-jupiter.version', '5.4.2')
 	set('mockito.version', '2.27.0')

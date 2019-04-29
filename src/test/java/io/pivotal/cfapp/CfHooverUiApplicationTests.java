@@ -1,4 +1,4 @@
-package io.pivotal;
+package io.pivotal.cfapp;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
