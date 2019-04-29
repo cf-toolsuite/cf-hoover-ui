@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
 
 import io.pivotal.cfapp.client.HooverClient;
+import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -17,41 +19,54 @@ import reactor.core.publisher.Mono;
 @Component
 public class HooverClientSmokeTest implements ApplicationRunner {
 
-    private final HooverClient client;
+    private final HooverClient hooverClient;
+    private final WebClient webClient;
     private final ObjectMapper mapper;
     
     @Autowired
     public HooverClientSmokeTest(
-        HooverClient client,
+        HooverClient hooverClient,
+        WebClient webClient,
         ObjectMapper mapper) {
-        this.client = client;
+        this.hooverClient = hooverClient;
+        this.webClient = webClient;
         this.mapper = mapper;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        client
+        hooverClient
             .getSummary()
                 .map(summary -> mapWithException("SnapshotSummary", summary))
                 .onErrorReturn("Could not obtain SnapshotSummary")
                 .doOnNext(r -> log.debug(r))
-            .then(client.getDetail())
+            .then(hooverClient.getDetail())
                 .map(detail -> mapWithException("SnapshotDetail", detail))
                 .onErrorReturn("Could not obtain SnapshotDetail")
                 .doOnNext(r -> log.debug(r))
-            .then(client.getApplicationReport())
+            .then(hooverClient.getApplicationReport())
                 .map(appReport -> mapWithException("AppUsageReport", appReport))
                 .onErrorReturn("Could not obtain AppUsageReport")
                 .doOnNext(r -> log.debug(r))
-            .then(client.getServiceReport())
+            .then(hooverClient.getServiceReport())
                 .map(serviceReport -> mapWithException("ServiceUsageReport", serviceReport))
                 .onErrorReturn("Could not obtain ServiceUsageReort")
                 .doOnNext(r -> log.debug(r))
-            .then(client.getTaskReport())
+            .then(hooverClient.getTaskReport())
                 .map(taskReport -> mapWithException("TaskUsageReport", taskReport))
                 .onErrorReturn("Could not obtain TaskUsageReort")
                 .doOnNext(r -> log.debug(r))
             .subscribe();
+
+            
+            webClient.get()
+                    .uri("https://cf-hoover-hilarious-alligator.apps.pcfone.io/snapshot/detail")
+                    .retrieve()
+                    .bodyToMono(SnapshotDetail.class)
+                    .map(sd -> mapWithException("SnapshotDetail", sd))
+                    .onErrorReturn("Could not obtain SnapshotDetail")
+                    .doOnNext(r -> log.debug(r))
+                    .subscribe();
     }
 
     private String mapWithException(String type, Object value) {
