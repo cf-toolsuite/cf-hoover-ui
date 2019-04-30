@@ -30,9 +30,10 @@
         </Root>
 
         <Logger name="io.pivotal.cfapp" level="debug" />
-        <Logger name="org.springframework" level="warn" />
-        <Logger name="reactor.core" level="debug" />
-        <Logger name="reactivefeign" level="debug" />
+        <Logger name="org.springframework" level="info" />
+        <Logger name="reactor.core" level="info" />
+        <Logger name="io.github.resilience4j" level="info" />
+        <Logger name="io.vavr" level="info" />
     </Loggers>
 
 </Configuration>
