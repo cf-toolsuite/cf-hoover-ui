@@ -7,26 +7,26 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.lumo.Lumo;
+import com.vaadin.flow.theme.material.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.pivotal.cfapp.client.HooverClient;
 
 
-@Route(value = "")
-@Theme(Lumo.class)
-//@Theme(Material.class)
-//@PWA(name = "Hoover UI, Vaadin Flow with Spring", shortName = "Hoover UI")
-public class CfHooverDashboard extends VerticalLayout {
+@Route(value = "snapshot/summary/application")
+@Theme(Material.class)
+@PWA(name = "Snapshot Application Summary View", shortName = "SASV")
+public class SnapshotApplicationSummaryView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
     private final HooverClient client;
 
     @Autowired
-    public CfHooverDashboard(
+    public SnapshotApplicationSummaryView(
         HooverClient client) {
         this.client = client;
     }
@@ -34,7 +34,7 @@ public class CfHooverDashboard extends VerticalLayout {
     @PostConstruct
     protected void init() {
         // TODO property-drive this title thru externalized configuration
-        H2 title = new H2("Hoover Dashboard");
+        H2 title = new H2("Snapshot Summary / Application Metrics");
         HorizontalLayout firstRow = new HorizontalLayout();
         HorizontalLayout secondRow = new HorizontalLayout();
         Tile applications = new Tile("Applications");
@@ -65,14 +65,14 @@ public class CfHooverDashboard extends VerticalLayout {
     }
 
     private String refreshStatistic(Long stat) {
-        return stat != null ? refreshStatistic(stat): "0";
+        return stat != null ? String.valueOf(stat): "0";
     }
 
     private String refreshStatistic(Integer stat) {
-        return stat != null ? refreshStatistic(stat): "0";
+        return stat != null ? String.valueOf(stat): "0";
     }
 
     private String refreshStatistic(Double stat) {
-        return stat != null ? refreshStatistic(stat): "0.0";
+        return stat != null ? String.valueOf(stat): "0.0";
     }
 }

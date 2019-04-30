@@ -1,33 +1,66 @@
 package io.pivotal.cfapp.client;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 
-import feign.Headers;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
 import io.pivotal.cfapp.domain.accounting.application.AppUsageReport;
 import io.pivotal.cfapp.domain.accounting.service.ServiceUsageReport;
 import io.pivotal.cfapp.domain.accounting.task.TaskUsageReport;
-import reactivefeign.spring.config.ReactiveFeignClient;
 import reactor.core.publisher.Mono;
 
-@ReactiveFeignClient(name = "cf-hoover", fallbackFactory = HooverClientFallbackFactory.class)
-@Headers({ "Accept: application/json" })
-public interface HooverClient {
+@Service
+@CircuitBreaker(name = "hooverClient")
+public class HooverClient {
 
-	@GetMapping("snapshot/detail")
-	public Mono<SnapshotDetail> getDetail();
+    private final WebClient client;
 
-	@GetMapping("snapshot/summary")
-    public Mono<SnapshotSummary> getSummary();
+    @Autowired
+    public HooverClient(WebClient client) {
+        this.client = client;
+    }
     
-    @GetMapping("accounting/tasks")
-    public Mono<TaskUsageReport> getTaskReport();
+    public Mono<SnapshotDetail> getDetail() {
+        return client
+                .get()
+                    .uri("/snapshot/detail")
+                    .retrieve()
+                    .bodyToMono(SnapshotDetail.class);
+    }
 
-    @GetMapping("accounting/applications")
-    public Mono<AppUsageReport> getApplicationReport();
+    public Mono<SnapshotSummary> getSummary() {
+        return client
+                .get()
+                    .uri("/snapshot/summary")
+                    .retrieve()
+                    .bodyToMono(SnapshotSummary.class);
+    }
 
-    @GetMapping("accounting/services")
-    public Mono<ServiceUsageReport> getServiceReport();
+    public Mono<TaskUsageReport> getTaskReport() {
+        return client
+                .get()
+                    .uri("/accounting/tasks")
+                    .retrieve()
+                    .bodyToMono(TaskUsageReport.class);
+    }
+
+    public Mono<AppUsageReport> getApplicationReport() {
+        return client
+                .get()
+                    .uri("/accounting/applications")
+                    .retrieve()
+                    .bodyToMono(AppUsageReport.class);
+    }
+
+    public Mono<ServiceUsageReport> getServiceReport() {
+        return client
+                .get()
+                    .uri("/accounting/services")
+                    .retrieve()
+                    .bodyToMono(ServiceUsageReport.class);
+    }
 
 }

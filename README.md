@@ -4,7 +4,13 @@
 
 > Status: Incubating
 
-You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.  You've come to the right place friend.
+You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.
+
+`cf-hoover-ui` humbly aspires to deliver individual dashboards corresponding to each of the endpoints `cf-hoover` exposes.
+
+Here's a sample...
+
+![Snapshot Summary containing application and application instance metrics](docs/early-prototype-dashboard.png)
 
 ## Prerequisites
 
@@ -88,3 +94,5 @@ Shutdown and destroy the app and service instances with
 ## Credits
 
 * [Vaadin Flow and Reactive Spring](https://committed.software/posts/vaadin-and-spring/vaadin-spring/)
+* [Achieving Fault Tolerance With Resilience4j](https://dzone.com/articles/resilience4j-intro)
+* [Spring Boot Demo of Resilience4j](https://github.com/RobWin/resilience4j-spring-boot2-demo)

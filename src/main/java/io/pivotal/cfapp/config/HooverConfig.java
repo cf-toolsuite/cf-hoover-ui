@@ -3,6 +3,7 @@ package io.pivotal.cfapp.config;
 import javax.net.ssl.SSLException;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,24 +20,37 @@ import reactor.netty.tcp.TcpClient;
 @Configuration
 public class HooverConfig {
 
+    // @see https://github.com/spring-cloud-incubator/spring-cloud-loadbalancer/blob/master/docs/src/main/asciidoc/spring-cloud-commons.adoc#spring-webflux-webclient-as-a-load-balancer-client
     // @see https://stackoverflow.com/questions/45418523/spring-5-webclient-using-ssl/53147631#53147631
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="true")
-    public WebClient insecureWebClient() throws SSLException {
+    public WebClient insecureWebClient(HooverSettings settings, LoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
         SslContext sslContext = SslContextBuilder
                 .forClient()
                 .trustManager(InsecureTrustManagerFactory.INSTANCE)
                 .build();
         TcpClient tcpClient = TcpClient.create().secure(sslProviderBuilder -> sslProviderBuilder.sslContext(sslContext));
         HttpClient httpClient = HttpClient.from(tcpClient);
-        return WebClient.builder().clientConnector(new ReactorClientHttpConnector(httpClient)).build();
+        return 
+            WebClient
+                .builder()
+                    .filter(lbFunction)
+                    .clientConnector(new ReactorClientHttpConnector(httpClient))
+                    .baseUrl(settings.getBaseUrl())
+                    .build();
     }
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="false", matchIfMissing=true)
-    public WebClient secureWebClient() throws SSLException {
-        return WebClient.builder().clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true))).build();
+    public WebClient secureWebClient(HooverSettings settings, LoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+        return 
+            WebClient
+                .builder()
+                    .filter(lbFunction)
+                    .clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true)))
+                    .baseUrl(settings.getBaseUrl())
+                    .build();
     }
 
 }
