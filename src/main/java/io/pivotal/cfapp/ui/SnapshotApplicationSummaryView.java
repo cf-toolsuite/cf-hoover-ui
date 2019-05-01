@@ -1,6 +1,7 @@
 package io.pivotal.cfapp.ui;
 
-import java.text.NumberFormat;
+import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
@@ -42,6 +43,7 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
         H2 title = new H2("Snapshot » Summary » Application");
         HorizontalLayout firstRow = new HorizontalLayout();
         HorizontalLayout secondRow = new HorizontalLayout();
+        HorizontalLayout thirdRow = new HorizontalLayout();
         Tile applications = new Tile("Applications");
         Tile runningAIs = new Tile("Running Application Instances");
         Tile stoppedAIs = new Tile("Stopped Application Instances");
@@ -49,26 +51,43 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
         Tile totalAIs = new Tile("Total Application Instances");
         Tile memoryUsed = new Tile("Memory Used (in Gb)");
         Tile diskUsed = new Tile("Disk Used (in Gb)");
-        firstRow.add(applications, runningAIs, stoppedAIs, totalAIs);
+        GridTile<Map<String, Long>> byBuildpack = new GridTile<>("By Buildpack");
+        GridTile<Map<String, Long>> byStack = new GridTile<>("By Stack");
+        GridTile<Map<String, Long>> velocity = new GridTile<>("Velocity");
+        firstRow.add(applications, runningAIs, stoppedAIs, crashedAIs, totalAIs);
         secondRow.add(memoryUsed, diskUsed);
+        thirdRow.add(byBuildpack, byStack, velocity);
         setSizeFull();  
         Button button = new Button("Refresh", event -> {
             client.getSummary()
                 .subscribe(
                     summary -> getUI().ifPresent(ui -> {
                         ui.access(() -> {
-                            applications.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalApplications()));
-                            runningAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalRunningApplicationInstances()));
-                            stoppedAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalStoppedApplicationInstances()));
-                            crashedAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalCrashedApplicationInstances()));
-                            totalAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalApplicationInstances()));
-                            memoryUsed.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalMemoryUsed()));
-                            diskUsed.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalDiskUsed()));
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalApplications()), applications);
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalRunningApplicationInstances()), runningAIs);
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalStoppedApplicationInstances()), stoppedAIs);
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalCrashedApplicationInstances()), crashedAIs);
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalApplicationInstances()), totalAIs);
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalMemoryUsed()), memoryUsed);
+                            refreshTile(formatter.format(summary.getApplicationCounts().getTotalDiskUsed()), diskUsed);
+                            refreshGridTile(summary.getApplicationCounts().getByBuildpack(), byBuildpack);
+                            refreshGridTile(summary.getApplicationCounts().getByStack(), byStack);
+                            refreshGridTile(summary.getApplicationCounts().getVelocity(), velocity);
                         });
                     })
                 );
         });
-        add(title, firstRow, secondRow, button);
+        add(title, firstRow, secondRow, thirdRow, button);
+    }
+
+    private void refreshTile(String metric, Tile target) {
+        target.getStat().setText(metric);
+    }
+
+    private void refreshGridTile(Map<String, Long> metrics, GridTile<Map<String, Long>> target) {
+        List<Map<String, Long>> list = List.of(metrics);
+        list.get(0).keySet().forEach(key -> target.getStat().addColumn(c -> c.get(key)));
+        target.getStat().setItems(list);
     }
 
 }
