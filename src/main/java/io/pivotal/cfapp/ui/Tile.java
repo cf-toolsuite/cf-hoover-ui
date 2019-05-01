@@ -7,6 +7,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class Tile extends VerticalLayout {
         
+    private static final long serialVersionUID = 1L;
+    
     private H3 stat;
 
     public Tile(String labelName) {

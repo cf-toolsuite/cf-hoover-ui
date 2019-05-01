@@ -1,5 +1,7 @@
 package io.pivotal.cfapp.ui;
 
+import java.text.NumberFormat;
+
 import javax.annotation.PostConstruct;
 
 import com.vaadin.flow.component.button.Button;
@@ -24,22 +26,26 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
     private static final long serialVersionUID = 1L;
 
     private final HooverClient client;
+    private final MetricFormatter formatter;
 
     @Autowired
     public SnapshotApplicationSummaryView(
-        HooverClient client) {
+        HooverClient client,
+        MetricFormatter formatter) {
         this.client = client;
+        this.formatter = formatter;
     }
 
     @PostConstruct
     protected void init() {
         // TODO property-drive this title thru externalized configuration
-        H2 title = new H2("Snapshot Summary / Application Metrics");
+        H2 title = new H2("Snapshot » Summary » Application");
         HorizontalLayout firstRow = new HorizontalLayout();
         HorizontalLayout secondRow = new HorizontalLayout();
         Tile applications = new Tile("Applications");
         Tile runningAIs = new Tile("Running Application Instances");
         Tile stoppedAIs = new Tile("Stopped Application Instances");
+        Tile crashedAIs = new Tile("Crashed Application Instances");
         Tile totalAIs = new Tile("Total Application Instances");
         Tile memoryUsed = new Tile("Memory Used (in Gb)");
         Tile diskUsed = new Tile("Disk Used (in Gb)");
@@ -51,12 +57,13 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
                 .subscribe(
                     summary -> getUI().ifPresent(ui -> {
                         ui.access(() -> {
-                            applications.getStat().setText(refreshStatistic(summary.getApplicationCounts().getTotalApplications()));
-                            runningAIs.getStat().setText(refreshStatistic(summary.getApplicationCounts().getTotalRunningApplicationInstances()));
-                            stoppedAIs.getStat().setText(refreshStatistic(summary.getApplicationCounts().getTotalStoppedApplicationInstances()));
-                            totalAIs.getStat().setText(refreshStatistic(summary.getApplicationCounts().getTotalApplicationInstances()));
-                            memoryUsed.getStat().setText(refreshStatistic(summary.getApplicationCounts().getTotalMemoryUsed()));
-                            diskUsed.getStat().setText(refreshStatistic(summary.getApplicationCounts().getTotalDiskUsed()));
+                            applications.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalApplications()));
+                            runningAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalRunningApplicationInstances()));
+                            stoppedAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalStoppedApplicationInstances()));
+                            crashedAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalCrashedApplicationInstances()));
+                            totalAIs.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalApplicationInstances()));
+                            memoryUsed.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalMemoryUsed()));
+                            diskUsed.getStat().setText(formatter.format(summary.getApplicationCounts().getTotalDiskUsed()));
                         });
                     })
                 );
@@ -64,15 +71,4 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
         add(title, firstRow, secondRow, button);
     }
 
-    private String refreshStatistic(Long stat) {
-        return stat != null ? String.valueOf(stat): "0";
-    }
-
-    private String refreshStatistic(Integer stat) {
-        return stat != null ? String.valueOf(stat): "0";
-    }
-
-    private String refreshStatistic(Double stat) {
-        return stat != null ? String.valueOf(stat): "0.0";
-    }
 }
