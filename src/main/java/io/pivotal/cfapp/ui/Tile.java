@@ -6,18 +6,13 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 
 public class Tile extends VerticalLayout {
-        
+
     private static final long serialVersionUID = 1L;
-    
-    private final H3 stat;
 
-    public Tile(String labelName) {
-        this.stat = new H3();
+    public Tile(String labelName, String number) {
+        H3 stat = new H3(number);
         this.add(stat, new Label(labelName));
-    }
-
-    public H3 getStat() {
-        return stat;
+        setSizeFull();
     }
 
 }
