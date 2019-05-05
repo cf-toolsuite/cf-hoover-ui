@@ -9,25 +9,25 @@ import com.vaadin.flow.theme.material.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import io.pivotal.cfapp.domain.accounting.service.NormalizedServiceMonthlyUsage;
+import io.pivotal.cfapp.domain.accounting.service.NormalizedServicePlanMonthlyUsage;
 import io.pivotal.cfapp.repository.MetricCache;
 
 
-@Route(value = "accounting/services")
+@Route(value = "accounting/service/plans")
 @Theme(Material.class)
-public class ServiceUsageReportView extends VerticalLayout {
+public class ServicePlanUsageReportView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
 
     @Autowired
-    public ServiceUsageReportView(
+    public ServicePlanUsageReportView(
         MetricCache cache) {
         // TODO Resource bundle for title and tile labels
-        H2 title = new H2("Accounting » Services");
+        H2 title = new H2("Accounting » Service » Plans");
         HorizontalLayout firstRow = new HorizontalLayout();
-        GridTile<NormalizedServiceMonthlyUsage> tile = new GridTile<>("Services » Monthly", NormalizedServiceMonthlyUsage.class, NormalizedServiceMonthlyUsage.listOf(cache.getServiceUsage()), new String[] { "year", "month", "serviceName", "serviceGuid", "averageInstances", "maximumInstances", "durationInHours" });
+        GridTile<NormalizedServicePlanMonthlyUsage> tile = new GridTile<>("Service » Plans » Monthly", NormalizedServicePlanMonthlyUsage.class, NormalizedServicePlanMonthlyUsage.listOf(cache.getServiceUsage()), new String[] { "year", "month", "serviceName", "serviceGuid", "servicePlanName", "servicePlanGuid", "averageInstances", "maximumInstances", "durationInHours" });
         firstRow.add(tile);
-        firstRow.setWidth("1280px"); firstRow.setHeight("800px");
+        firstRow.setSizeFull();
         add(title, firstRow);
         setSizeFull();
     }
