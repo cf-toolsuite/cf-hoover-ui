@@ -13,13 +13,13 @@ import lombok.Data;
 public class ServicePlanUsageMonthly {
 
     @JsonProperty("usages")
-    public List<ServiceUsageMonthly> usages;
+    private List<ServiceUsageMonthly> usages;
 
     @JsonProperty("service_plan_name")
-    public String servicePlanName;
+    private String servicePlanName;
 
     @JsonProperty("service_plan_guid")
-    public String servicePlanGuid;
+    private String servicePlanGuid;
 
     @JsonIgnore
     public boolean combine(ServicePlanUsageMonthly usage) {

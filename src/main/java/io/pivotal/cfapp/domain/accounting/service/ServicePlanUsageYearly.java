@@ -11,22 +11,22 @@ import lombok.Data;
 public class ServicePlanUsageYearly {
 
     @JsonProperty("service_plan_name")
-    public String servicePlanName;
+    private String servicePlanName;
 
     @JsonProperty("service_plan_guid")
-    public String servicePlanGuid;
+    private String servicePlanGuid;
 
     @JsonProperty("year")
-    public Integer year;
+    private Integer year;
 
     @JsonProperty("duration_in_hours")
-    public Double durationInHours;
+    private Double durationInHours;
 
     @JsonProperty("maximum_instances")
-    public Integer maximumInstances;
+    private Integer maximumInstances;
 
     @JsonProperty("average_instances")
-    public Integer averageInstances;
+    private Integer averageInstances;
 
     @JsonIgnore
     public boolean combine(ServicePlanUsageYearly usage) {

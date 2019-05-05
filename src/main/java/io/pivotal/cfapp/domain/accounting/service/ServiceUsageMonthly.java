@@ -11,19 +11,19 @@ import lombok.Data;
 public class ServiceUsageMonthly {
 
     @JsonProperty("month")
-    public Integer month;
+    private Integer month;
 
     @JsonProperty("year")
-    public Integer year;
+    private Integer year;
 
     @JsonProperty("duration_in_hours")
-    public Double durationInHours;
+    private Double durationInHours;
 
     @JsonProperty("average_instances")
-    public Integer averageInstances;
+    private Integer averageInstances;
 
     @JsonProperty("maximum_instances")
-    public Integer maximumInstances;
+    private Integer maximumInstances;
 
     @JsonIgnore
     public boolean combine(ServiceUsageMonthly usage) {

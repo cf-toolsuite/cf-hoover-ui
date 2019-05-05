@@ -13,25 +13,25 @@ import lombok.Data;
 public class ServiceUsageYearlyAggregate {
 
     @JsonProperty("service_name")
-    public String serviceName;
+    private String serviceName;
 
     @JsonProperty("service_guid")
-    public String serviceGuid;
+    private String serviceGuid;
 
     @JsonProperty("year")
-    public Integer year;
+    private Integer year;
 
     @JsonProperty("duration_in_hours")
-    public Double durationInHours;
+    private Double durationInHours;
 
     @JsonProperty("maximum_instances")
-    public Integer maximumInstances;
+    private Integer maximumInstances;
 
     @JsonProperty("average_instances")
-    public Integer averageInstances;
+    private Integer averageInstances;
 
     @JsonProperty("plans")
-    public List<ServicePlanUsageYearly> plans;
+    private List<ServicePlanUsageYearly> plans;
 
     @JsonIgnore
     public boolean combine(ServiceUsageYearlyAggregate usage) {

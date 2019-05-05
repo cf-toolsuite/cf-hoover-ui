@@ -14,16 +14,16 @@ import lombok.Data;
 public class ServiceUsageMonthlyAggregate {
 
     @JsonProperty("service_name")
-    public String serviceName;
+    private String serviceName;
 
     @JsonProperty("service_guid")
-    public String serviceGuid;
+    private String serviceGuid;
 
     @JsonProperty("usages")
-    public List<ServiceUsageMonthly> usages;
+    private List<ServiceUsageMonthly> usages;
 
     @JsonProperty("plans")
-    public List<ServicePlanUsageMonthly> plans;
+    private List<ServicePlanUsageMonthly> plans;
 
     @JsonIgnore
     public boolean combine(ServiceUsageMonthlyAggregate usage) {

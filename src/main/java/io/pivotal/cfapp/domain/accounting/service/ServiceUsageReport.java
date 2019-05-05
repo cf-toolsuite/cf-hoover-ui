@@ -14,13 +14,13 @@ import lombok.Data;
 public class ServiceUsageReport {
 
     @JsonProperty("report_time")
-    public String reportTime;
+    private String reportTime;
 
     @JsonProperty("monthly_service_reports")
-    public List<ServiceUsageMonthlyAggregate> monthlyServiceReports;
+    private List<ServiceUsageMonthlyAggregate> monthlyServiceReports;
 
     @JsonProperty("yearly_service_report")
-    public List<ServiceUsageYearlyAggregate> yearlyServiceReports;
+    private List<ServiceUsageYearlyAggregate> yearlyServiceReports;
 
     public static ServiceUsageReport aggregate(List<ServiceUsageReport> source) {
         ServiceUsageReport report = new ServiceUsageReport();
