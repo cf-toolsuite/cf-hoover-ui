@@ -10,13 +10,15 @@ You're a platform operator and you've managed to get [cf-hoover](https://github.
 
 Here's a sample...
 
-![Snapshot Summary containing application and application instance metrics](docs/early-prototype-dashboard.png)
+![Snapshot Summary containing application and application instance metrics](docs/snapshot-summary-ai.png)
 
 ## Prerequisites
 
 Required
 
-* [Pivotal Application Service](https://pivotal.io/platform/pivotal-application-service) account
+* [cf-hoover](https://github.com/pacphi/cf-hoover)
+* [Pivotal Application Service](https://pivotal.io/platform/pivotal-application-service) 2.4 or better
+* [Service Registry for Pivotal Cloud Foundry](https://docs.pivotal.io/spring-cloud-services/2-0/common/service-registry/index.html) 2.0.x or better
 
 
 ## Tools
@@ -39,8 +41,6 @@ Make a copy of then edit the contents of the `application.yml` file located in `
 
 > You really should not bundle configuration with the application. To take some of the sting away, you might consider externalizing and/or [encrypting](https://blog.novatec-gmbh.de/encrypted-properties-spring/) this configuration.
 
-// TODO Add some notes on how cf-hoover-ui interacts with cf-hoover via Service Registry
-
 ### General configuration notes
 
 If you copied and appended a suffix to the original `application.yml` then you would set `spring.profiles.active` to be that suffix
@@ -51,9 +51,6 @@ E.g., if you had a configuration file named `application-pws.yml`
 ./gradlew bootRun -Dspring.profiles.active=pws
 ```
 
-> See the [samples](samples) directory for some examples of configuration when deploying to [Pivotal Web Services](https://login.run.pivotal.io/login) or [PCF One](https://login.run.pcfone.io/login).
-
-
 ## How to Build
 
 ```
@@ -63,7 +60,12 @@ E.g., if you had a configuration file named `application-pws.yml`
 
 ## How to Run with Gradle
 
-// FIXME Need to add local profile and appropriate scripting and config for tests and running "off platform"
+If you intend to run `cf-hoover-ui` in a local development environment, you must first:
+
+    * Launch a standalone instance of [Eureka server](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-eureka-server.html)
+    * Launch an instance of [cf-hoover](https://github.com/pacphi/cf-hoover#how-to-run-with-gradle)
+
+Then:
 
 ```
 ./gradlew bootRun -Dspring.profiles.active={target_foundation_profile}
@@ -79,17 +81,68 @@ Please review the [manifest.yml](manifest.yml) before deploying.
 
 ### using scripts
 
-Deploy the app (bound to an instance of Spring Cloud Service Registry)
+Deploy the app (bound to a pre-existing instance of Spring Cloud Service Registry)
 
 ```
 ./deploy.sh
 ```
 
-Shutdown and destroy the app and service instances with
+Shutdown and delete the app with
 
 ```
 ./destroy.sh
 ```
+
+## Available UI Endpoints
+
+### Accounting
+
+Official system-wide reporting for all foundations registered
+
+```
+GET /accounting/applications
+```
+> Provides summary metrics for application instances by year and month across all registered foundations
+
+```
+GET /accounting/service/plans
+```
+> Provides summary metrics for service instances by year and month and then by plan across all registered foundations
+
+```
+GET /accounting/services
+```
+> Provides summary metrics for service instances by year and month across all registered foundations
+
+```
+GET /accounting/tasks
+```
+> Provides summary metrics for tasks by year and month across all registered foundations
+
+### Snapshot
+
+Point in time capture of all workloads
+
+```
+GET /snapshot/detail/ai
+```
+> Provides list of all applications (by foundation, organization and space)
+
+
+```
+GET /snapshot/detail/si
+```
+> Provides list of all service instances (by foundation, organization and space)
+
+```
+GET /snapshot/summary/ai
+```
+> Provides summary metrics for applications across all registered foundations
+
+```
+GET /snapshot/summary/si
+```
+> Provides summary metrics for service instances across all registered foundations
 
 ## Credits
 
