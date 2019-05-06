@@ -150,6 +150,12 @@ GET /snapshot/summary/si
 ```
 > Provides summary metrics for service instances across all registered foundations
 
+
+## What else would you like to see?
+
+What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/pacphi/cf-hoover-ui/issues/new).
+
+
 ## Credits
 
 * [Vaadin Flow and Reactive Spring](https://committed.software/posts/vaadin-and-spring/vaadin-spring/)
