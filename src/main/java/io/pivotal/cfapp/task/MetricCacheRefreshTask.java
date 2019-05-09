@@ -42,33 +42,34 @@ public class MetricCacheRefreshTask implements ApplicationRunner {
 
     @Scheduled(cron = "${cron.collection}")
     protected void refreshCache() {
+        log.info("MetricCacheRefreshTask started");
         hooverClient
             .getSummary()
                 .doOnNext(r -> {
-                    log.debug(mapWithException("SnapshotSummary", r));
+                    log.trace(mapWithException("SnapshotSummary", r));
                     cache.setSnapshotSummary(r);
                 })
             .then(hooverClient.getDetail())
                 .doOnNext(r -> {
-                    log.debug(mapWithException("SnapshotDetail", r));
+                    log.trace(mapWithException("SnapshotDetail", r));
                     cache.setSnapshotDetail(r);
                 })
             .then(hooverClient.getApplicationReport())
                 .doOnNext(r -> {
-                    log.debug(mapWithException("AppUsageReport", r));
+                    log.trace(mapWithException("AppUsageReport", r));
                     cache.setAppUsage(r);
                 })
             .then(hooverClient.getServiceReport())
                 .doOnNext(r -> {
-                    log.debug(mapWithException("ServiceUsageReport", r));
+                    log.trace(mapWithException("ServiceUsageReport", r));
                     cache.setServiceUsage(r);
                 })
             .then(hooverClient.getTaskReport())
                 .doOnNext(r -> {
-                    log.debug(mapWithException("TaskUsageReport", r));
+                    log.trace(mapWithException("TaskUsageReport", r));
                     cache.setTaskUsage(r);
                 })
-            .subscribe();
+            .subscribe(e -> log.info("MetricCacheRefreshTask completed"));
     }
 
     private String mapWithException(String type, Object value) {

@@ -29,7 +29,7 @@
             <AppenderRef ref="RollingFile" />
         </Root>
 
-        <Logger name="io.pivotal.cfapp" level="debug" />
+        <Logger name="io.pivotal.cfapp" level="trace" />
         <!--
         <Logger name="com.vaadin" level="debug" />
         <Logger name="org.springframework" level="debug" />
