@@ -4,8 +4,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.material.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,8 +15,7 @@ import io.pivotal.cfapp.domain.VelocityCount;
 import io.pivotal.cfapp.repository.MetricCache;
 
 
-@Route(value = "snapshot/summary/ai")
-@Theme(Material.class)
+@Route(value = "snapshot/summary/ai", layout = MainView.class)
 public class SnapshotApplicationSummaryView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

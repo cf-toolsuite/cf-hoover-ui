@@ -4,8 +4,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.material.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,8 +11,7 @@ import io.pivotal.cfapp.domain.accounting.service.NormalizedServicePlanMonthlyUs
 import io.pivotal.cfapp.repository.MetricCache;
 
 
-@Route(value = "accounting/service/plans")
-@Theme(Material.class)
+@Route(value = "accounting/service/plans", layout = MainView.class)
 public class ServicePlanUsageReportView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

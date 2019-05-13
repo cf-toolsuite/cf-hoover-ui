@@ -4,16 +4,13 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.material.Material;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.pivotal.cfapp.domain.AppDetail;
 import io.pivotal.cfapp.repository.MetricCache;
 
-@Route(value = "snapshot/detail/ai")
-@Theme(Material.class)
+@Route(value = "snapshot/detail/ai", layout = MainView.class)
 public class SnapshotApplicationDetailView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
