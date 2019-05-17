@@ -150,6 +150,10 @@ GET /snapshot/summary/si
 ```
 > Provides summary metrics for service instances across all registered foundations
 
+```
+GET /snapshot/demographics
+```
+> Provides summary metrics for organizations, spaces, user accounts and service accounts across all registered foundations
 
 ## What else would you like to see?
 
