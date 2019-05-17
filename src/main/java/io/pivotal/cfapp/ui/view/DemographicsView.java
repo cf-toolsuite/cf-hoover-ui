@@ -3,6 +3,8 @@ package io.pivotal.cfapp.ui.view;
 import static io.pivotal.cfapp.ui.view.DemographicsView.NAV;
 
 import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H4;
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
@@ -29,14 +31,22 @@ public class DemographicsView extends VerticalLayout {
         // TODO Resource bundle for title and tile labels
         H2 title = new H2("Snapshot » Demographics");
         HorizontalLayout firstRow = new HorizontalLayout();
+        HorizontalLayout secondRow = new HorizontalLayout();
         Demographics counts = cache.getDemographics();
         Tile organizations = new Tile("Organizations", formatter.format(counts.getOrganizations()));
         Tile spaces = new Tile("Spaces", formatter.format(counts.getSpaces()));
         Tile userAccounts = new Tile("User Accounts", formatter.format(counts.getUserAccounts()));
         Tile serviceAccounts = new Tile("Service Accounts", formatter.format(counts.getServiceAccounts()));
+        H4 foundationsLabel = new H4("Foundations");
+        ListBox<String> foundationsList = new ListBox<>();
+        counts.getFoundations().forEach(f -> foundationsList.add(f));
+        VerticalLayout foundations = new VerticalLayout();
+        foundations.add(foundationsLabel, foundationsList);
         firstRow.add(organizations, spaces, userAccounts, serviceAccounts);
         firstRow.setWidthFull(); firstRow.setHeight("200px");
-        add(title, firstRow);
+        secondRow.add(foundations);
+        secondRow.setWidthFull(); firstRow.setHeight("200px");
+        add(title, firstRow, secondRow);
         setSizeFull();
     }
 

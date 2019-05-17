@@ -1,17 +1,24 @@
 package io.pivotal.cfapp.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Builder.Default;
+import lombok.Getter;
 
 @Builder
 @Getter
-@JsonPropertyOrder({ "total-organizations", "total-spaces", "total-user-accounts", "total-service-accounts" })
+@JsonPropertyOrder({ "foundations", "total-organizations", "total-spaces", "total-user-accounts", "total-service-accounts" })
 public class Demographics {
+
+    @Default
+    @JsonProperty("foundations")
+    private Set<String> foundations = new HashSet<>();
 
     @Default
     @JsonProperty("total-organizations")
@@ -31,11 +38,13 @@ public class Demographics {
 
     @JsonCreator
     public Demographics(
+        @JsonProperty("foundations") Set<String> foundations,
         @JsonProperty("total-organizations") Long organizations,
         @JsonProperty("total-spaces") Long spaces,
         @JsonProperty("total-user-accounts") Long userAccounts,
         @JsonProperty("total-service-accounts") Long serviceAccounts
     ) {
+        this.foundations = foundations;
         this.organizations = organizations;
         this.spaces = spaces;
         this.userAccounts = userAccounts;
