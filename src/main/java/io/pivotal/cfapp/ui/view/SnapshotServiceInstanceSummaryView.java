@@ -1,4 +1,6 @@
-package io.pivotal.cfapp.ui;
+package io.pivotal.cfapp.ui.view;
+
+import static io.pivotal.cfapp.ui.view.SnapshotServiceInstanceSummaryView.NAV;
 
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -12,15 +14,20 @@ import io.pivotal.cfapp.domain.ServiceInstanceCounts;
 import io.pivotal.cfapp.domain.ServicePlanCount;
 import io.pivotal.cfapp.domain.VelocityCount;
 import io.pivotal.cfapp.repository.MetricCache;
+import io.pivotal.cfapp.ui.MainLayout;
+import io.pivotal.cfapp.ui.MetricFormatter;
+import io.pivotal.cfapp.ui.component.GridTile;
+import io.pivotal.cfapp.ui.component.Tile;
 
 
-@Route(value = "snapshot/summary/si", layout = MainView.class)
-public class SnapshotServiceSummaryView extends VerticalLayout {
+@Route(value = NAV, layout = MainLayout.class)
+public class SnapshotServiceInstanceSummaryView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
+    public static final String NAV = "snapshot/summary/si";
 
     @Autowired
-    public SnapshotServiceSummaryView(
+    public SnapshotServiceInstanceSummaryView(
         MetricCache cache,
         MetricFormatter formatter) {
         // TODO Resource bundle for title and tile labels

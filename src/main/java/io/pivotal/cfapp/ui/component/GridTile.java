@@ -1,4 +1,4 @@
-package io.pivotal.cfapp.ui;
+package io.pivotal.cfapp.ui.component;
 
 import java.util.Collection;
 

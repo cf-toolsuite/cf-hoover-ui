@@ -1,4 +1,4 @@
-package io.pivotal.cfapp.ui;
+package io.pivotal.cfapp.ui.component;
 
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Label;

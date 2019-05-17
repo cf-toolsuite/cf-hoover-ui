@@ -1,4 +1,6 @@
-package io.pivotal.cfapp.ui;
+package io.pivotal.cfapp.ui.view;
+
+import static io.pivotal.cfapp.ui.view.AppUsageReportView.NAV;
 
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -9,12 +11,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import io.pivotal.cfapp.domain.accounting.application.AppUsageMonthly;
 import io.pivotal.cfapp.repository.MetricCache;
+import io.pivotal.cfapp.ui.MainLayout;
+import io.pivotal.cfapp.ui.component.GridTile;
 
 
-@Route(value = "accounting/applications", layout = MainView.class)
+@Route(value = NAV, layout = MainLayout.class)
 public class AppUsageReportView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
+    public static final String NAV = "accounting/applications";
 
     @Autowired
     public AppUsageReportView(

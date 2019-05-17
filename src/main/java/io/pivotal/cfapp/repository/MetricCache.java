@@ -2,6 +2,7 @@ package io.pivotal.cfapp.repository;
 
 import org.springframework.stereotype.Component;
 
+import io.pivotal.cfapp.domain.Demographics;
 import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
 import io.pivotal.cfapp.domain.accounting.application.AppUsageReport;
@@ -18,5 +19,6 @@ public class MetricCache {
     private AppUsageReport appUsage;
     private ServiceUsageReport serviceUsage;
     private TaskUsageReport taskUsage;
+    private Demographics demographics;
 
 }

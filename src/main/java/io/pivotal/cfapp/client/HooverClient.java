@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.pivotal.cfapp.domain.Demographics;
 import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
 import io.pivotal.cfapp.domain.accounting.application.AppUsageReport;
@@ -22,7 +23,7 @@ public class HooverClient {
     public HooverClient(WebClient client) {
         this.client = client;
     }
-    
+
     public Mono<SnapshotDetail> getDetail() {
         return client
                 .get()
@@ -37,6 +38,14 @@ public class HooverClient {
                     .uri("/snapshot/summary")
                     .retrieve()
                     .bodyToMono(SnapshotSummary.class);
+    }
+
+    public Mono<Demographics> getDemographics() {
+        return client
+                .get()
+                    .uri("/snapshot/demographics")
+                    .retrieve()
+                    .bodyToMono(Demographics.class);
     }
 
     public Mono<TaskUsageReport> getTaskReport() {
