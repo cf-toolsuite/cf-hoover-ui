@@ -48,8 +48,8 @@ ext {
 	set('junit-jupiter.version', '5.4.2')
 	set('lombok.version', '1.18.6')
 	set('mockito.version', '2.27.0')
-	set('resilience4jVersion', '0.14.1')
-	set('vaadinVersion', '13.0.6')
+	set('resilience4jVersion', '0.15.0')
+	set('vaadinVersion', '13.0.7')
 }
 
 dependencyManagement {
