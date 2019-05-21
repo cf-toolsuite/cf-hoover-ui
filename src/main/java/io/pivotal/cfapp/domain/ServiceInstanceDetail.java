@@ -1,6 +1,7 @@
 package io.pivotal.cfapp.domain;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -39,7 +40,7 @@ public class ServiceInstanceDetail {
 	public String toCsv() {
 		return String.join(",", wrap(getFoundation()), wrap(getOrganization()), wrap(getSpace()), wrap(getServiceInstanceId()), wrap(getName()),
 				wrap(getService()), wrap(getDescription()), wrap(getPlan()), wrap(getType()),
-				wrap(String.join(",", getApplications())), wrap(getLastOperation()),
+				wrap(String.join(",", getApplications() != null ? getApplications(): Collections.emptyList())), wrap(getLastOperation()),
 				wrap(getLastUpdated() != null ? getLastUpdated().toString() : ""), wrap(getDashboardUrl()),
 				wrap(getRequestedState()));
 	}
@@ -51,7 +52,11 @@ public class ServiceInstanceDetail {
 	public static String headers() {
         return String.join(",", "foundation", "organization", "space", "service instance id",
                 "name", "service", "description", "plan", "type", "bound applications", "last operation", "last updated", "dashboard url", "requested state");
-    }
+	}
+
+	public String getApplicationsAsCsv() {
+		return String.join(",", getApplications() != null ? getApplications(): Collections.emptyList());
+	}
 
 	public static ServiceInstanceDetailBuilder from(ServiceInstanceDetail detail) {
         return ServiceInstanceDetail

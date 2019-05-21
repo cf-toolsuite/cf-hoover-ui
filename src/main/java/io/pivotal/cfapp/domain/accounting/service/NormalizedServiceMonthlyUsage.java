@@ -14,8 +14,6 @@ public class NormalizedServiceMonthlyUsage {
     private Integer month;
     private String serviceName;
     private String serviceGuid;
-    private String servicePlanName;
-    private String servicePlanGuid;
     private Double durationInHours;
     private Integer averageInstances;
     private Integer maximumInstances;

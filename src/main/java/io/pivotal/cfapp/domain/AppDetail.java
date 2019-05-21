@@ -65,6 +65,18 @@ public class AppDetail {
 		return Double.valueOf(input / 1000000000.0);
 	}
 
+	public Double getMemoryUsageInGb() {
+		return toGigabytes(getMemoryUsage());
+	}
+
+	public Double getDiskUsageInGb() {
+		return toGigabytes(getDiskUsage());
+	}
+
+	public String getUrlsAsCsv() {
+		return String.join(",", getUrls() != null ? getUrls(): Collections.emptyList());
+	}
+
 	public static String headers() {
 		return String.join(",", "foundation", "organization", "space", "application id", "application name", "buildpack", "image",
 				"stack", "running instances", "total instances", "memory used (in gb)", "disk used (in gb)", "urls", "last pushed", "last event",

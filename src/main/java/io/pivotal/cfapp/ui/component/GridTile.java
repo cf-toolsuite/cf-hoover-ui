@@ -14,7 +14,6 @@ public class GridTile<T> extends VerticalLayout {
     public GridTile(String labelName, Class<T> type, Collection<T> items, String[] propertyNames) {
         Grid<T> grid = new Grid<T>(type);
         grid.setColumns(propertyNames);
-        grid.setColumnReorderingAllowed(true);
         grid.setItems(items);
         grid.setSizeFull();
         add(new Label(labelName), grid);
@@ -22,4 +21,11 @@ public class GridTile<T> extends VerticalLayout {
         setSizeFull();
     }
 
+    public GridTile(String labelName, Grid<T> grid, Collection<T> items) {
+        grid.setItems(items);
+        grid.setSizeFull();
+        add(new Label(labelName), grid);
+        setAlignItems(Alignment.STRETCH);
+        setSizeFull();
+    }
 }

@@ -7,7 +7,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class MetricFormatter {
 
-    private final NumberFormat formatter = NumberFormat.getNumberInstance();
+    private final NumberFormat formatter;
+
+    public MetricFormatter() {
+        formatter = NumberFormat.getNumberInstance();
+        formatter.setMaximumFractionDigits(2);
+    }
 
     public String format(Long metric) {
         return metric != null ? formatter.format(metric): "0";
