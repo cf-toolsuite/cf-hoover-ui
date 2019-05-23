@@ -2,7 +2,6 @@ package io.pivotal.cfapp.ui.view;
 
 import static io.pivotal.cfapp.ui.view.SnapshotServiceInstanceDetailView.NAV;
 
-import java.text.NumberFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
@@ -12,7 +11,6 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.Route;
 
@@ -43,8 +41,6 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
     }
 
     public Grid<ServiceInstanceDetail> buildGrid() {
-        NumberFormat formatter = NumberFormat.getInstance();
-        formatter.setMaximumFractionDigits(2);
         Grid<ServiceInstanceDetail> grid = new Grid<>(ServiceInstanceDetail.class, false);
         grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.foundation]]").withProperty("foundation", ServiceInstanceDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.organization]]").withProperty("organization", ServiceInstanceDetail::getOrganization)).setHeader("Organization").setResizable(true);
