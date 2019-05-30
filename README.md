@@ -155,6 +155,10 @@ GET /snapshot/demographics
 ```
 > Provides summary metrics for organizations, spaces, user accounts and service accounts across all registered foundations
 
+## Take it for a spin!
+
+* [Demo site](https://cf-hoover-ui-wacky-crocodile.apps.pcfone.io)
+
 ## What else would you like to see?
 
 What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/pacphi/cf-hoover-ui/issues/new).
