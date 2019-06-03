@@ -23,7 +23,7 @@ public class HooverClient {
     private final WebClient client;
 
     @Autowired
-    public HooverClient(WebClient client) {
+    public HooverClient(WebClient cliene) {
         this.client = client;
     }
 
@@ -36,8 +36,8 @@ public class HooverClient {
                     .bodyToMono(SnapshotDetail.class);
     }
 
-    protected Mono<SnapshotDetail> fallbackForDetail(Throwable t) {
-        log.warn("Could not obtain results from call to /snapshot/detail", t);
+    protected Mono<SnapshotDetail> fallbackForDetail(Exception e) {
+        log.warn("Could not obtain results from call to /snapshot/detail", e);
         return Mono.just(SnapshotDetail.builder().build());
     }
 
@@ -50,8 +50,8 @@ public class HooverClient {
                     .bodyToMono(SnapshotSummary.class);
     }
 
-    protected Mono<SnapshotSummary> fallbackForSummary(Throwable t) {
-        log.warn("Could not obtain results from call to /snapshot/summary", t);
+    protected Mono<SnapshotSummary> fallbackForSummary(Exception e) {
+        log.warn("Could not obtain results from call to /snapshot/summary", e);
         return Mono.just(SnapshotSummary.builder().build());
     }
 
@@ -64,8 +64,8 @@ public class HooverClient {
                     .bodyToMono(Demographics.class);
     }
 
-    protected Mono<Demographics> fallbackForDemographics(Throwable t) {
-        log.warn("Could not obtain results from call to /snapshot/demographics", t);
+    protected Mono<Demographics> fallbackForDemographics(Exception e) {
+        log.warn("Could not obtain results from call to /snapshot/demographics", e);
         return Mono.just(Demographics.builder().build());
     }
 
@@ -78,8 +78,8 @@ public class HooverClient {
                     .bodyToMono(TaskUsageReport.class);
     }
 
-    protected Mono<TaskUsageReport> fallbackForTaskReport(Throwable t) {
-        log.warn("Could not obtain results from call to /accounting/tasks", t);
+    protected Mono<TaskUsageReport> fallbackForTaskReport(Exception e) {
+        log.warn("Could not obtain results from call to /accounting/tasks", e);
         return Mono.just(TaskUsageReport.aggregate(Collections.emptyList()));
     }
 
@@ -92,8 +92,8 @@ public class HooverClient {
                     .bodyToMono(AppUsageReport.class);
     }
 
-    protected Mono<AppUsageReport> fallbackForApplicationReport(Throwable t) {
-        log.warn("Could not obtain results from call to /accounting/applications", t);
+    protected Mono<AppUsageReport> fallbackForApplicationReport(Exception e) {
+        log.warn("Could not obtain results from call to /accounting/applications", e);
         return Mono.just(AppUsageReport.aggregate(Collections.emptyList()));
     }
 
@@ -106,8 +106,8 @@ public class HooverClient {
                     .bodyToMono(ServiceUsageReport.class);
     }
 
-    protected Mono<ServiceUsageReport> fallbackForServiceReport(Throwable t) {
-        log.warn("Could not obtain results from call to /accounting/services", t);
+    protected Mono<ServiceUsageReport> fallbackForServiceReport(Exception e) {
+        log.warn("Could not obtain results from call to /accounting/services", e);
         return Mono.just(ServiceUsageReport.aggregate(Collections.emptyList()));
     }
 }
