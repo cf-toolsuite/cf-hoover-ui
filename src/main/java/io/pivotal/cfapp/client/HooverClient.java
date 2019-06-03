@@ -23,7 +23,7 @@ public class HooverClient {
     private final WebClient client;
 
     @Autowired
-    public HooverClient(WebClient cliene) {
+    public HooverClient(WebClient client) {
         this.client = client;
     }
 
