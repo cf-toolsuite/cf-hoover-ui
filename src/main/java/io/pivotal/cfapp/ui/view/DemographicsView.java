@@ -39,7 +39,7 @@ public class DemographicsView extends VerticalLayout {
         Tile serviceAccounts = new Tile("Service Accounts", formatter.format(counts.getServiceAccounts()));
         H4 foundationsLabel = new H4("Foundations");
         ListBox<String> foundationsList = new ListBox<>();
-        counts.getFoundations().forEach(f -> foundationsList.add(f));
+        foundationsList.setItems(counts.getFoundations());
         VerticalLayout foundations = new VerticalLayout();
         foundations.add(foundationsLabel, foundationsList);
         firstRow.add(organizations, spaces, userAccounts, serviceAccounts);
