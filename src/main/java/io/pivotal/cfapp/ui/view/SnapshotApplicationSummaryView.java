@@ -52,7 +52,7 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
         secondRow.add(memoryUsed, diskUsed);
         thirdRow.add(byBuildpack, byStack, byDockerImage, velocity);
         firstRow.setWidthFull(); firstRow.setHeight("200px");
-        secondRow.setWidthFull(); secondRow.setHeight("200px");
+        secondRow.setWidth("1280px"); secondRow.setHeight("200px");
         thirdRow.setWidthFull(); thirdRow.setHeight("600px");
         add(title, firstRow, secondRow, thirdRow);
         setSizeFull();
