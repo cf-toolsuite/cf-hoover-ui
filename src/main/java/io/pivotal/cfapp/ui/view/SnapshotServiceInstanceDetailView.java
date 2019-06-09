@@ -4,16 +4,23 @@ import static io.pivotal.cfapp.ui.view.SnapshotServiceInstanceDetailView.NAV;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.util.Collection;
 
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.Grid.Column;
+import com.vaadin.flow.component.grid.HeaderRow;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import io.pivotal.cfapp.domain.ServiceInstanceDetail;
@@ -33,28 +40,157 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
         // TODO Resource bundle for title and tile labels
         H2 title = new H2("Snapshot » Detail » SI");
         HorizontalLayout firstRow = new HorizontalLayout();
-        GridTile<ServiceInstanceDetail> tile = new GridTile<>("Service Instances", buildGrid(), cache.getSnapshotDetail().getServiceInstances());
+        GridTile<ServiceInstanceDetail> tile = new GridTile<>("Service Instances", buildGrid(cache.getSnapshotDetail().getServiceInstances()));
         firstRow.add(tile);
         firstRow.setSizeFull();
         add(title, firstRow);
         setSizeFull();
     }
 
-    public Grid<ServiceInstanceDetail> buildGrid() {
+    public Grid<ServiceInstanceDetail> buildGrid(Collection<ServiceInstanceDetail> items) {
         Grid<ServiceInstanceDetail> grid = new Grid<>(ServiceInstanceDetail.class, false);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.foundation]]").withProperty("foundation", ServiceInstanceDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.organization]]").withProperty("organization", ServiceInstanceDetail::getOrganization)).setHeader("Organization").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.space]]").withProperty("space", ServiceInstanceDetail::getSpace)).setHeader("Space").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.serviceInstanceId]]").withProperty("serviceInstanceId", ServiceInstanceDetail::getServiceInstanceId)).setHeader("Service Instance Id").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.name]]").withProperty("name", ServiceInstanceDetail::getName)).setHeader("Name").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.service]]").withProperty("service", ServiceInstanceDetail::getService)).setHeader("Service").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.description]]").withProperty("description", ServiceInstanceDetail::getDescription)).setHeader("Description").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.plan]]").withProperty("plan", ServiceInstanceDetail::getPlan)).setHeader("Plan").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.applications]]").withProperty("applications", ServiceInstanceDetail::getApplicationsAsCsv)).setHeader("Bound Applications").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.lastOperation]]").withProperty("lastOperation", ServiceInstanceDetail::getLastOperation)).setHeader("Last Operation").setResizable(true);
-        grid.addColumn(new LocalDateTimeRenderer<ServiceInstanceDetail>(ServiceInstanceDetail::getLastUpdated, DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT))).setHeader("Last Updated").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.dashboardUrl]]").withProperty("dashboardUrl", ServiceInstanceDetail::getDashboardUrl)).setHeader("Dashboard URL").setResizable(true);
-        grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.requestedState]]").withProperty("requestedState", ServiceInstanceDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        ListDataProvider<ServiceInstanceDetail> dataProvider = new ListDataProvider<>(items);
+        grid.setDataProvider(dataProvider);
+
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
+
+        Column<ServiceInstanceDetail> foundationColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.foundation]]").withProperty("foundation", ServiceInstanceDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        Column<ServiceInstanceDetail> organizationColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.organization]]").withProperty("organization", ServiceInstanceDetail::getOrganization)).setHeader("Organization").setResizable(true);
+        Column<ServiceInstanceDetail> spaceColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.space]]").withProperty("space", ServiceInstanceDetail::getSpace)).setHeader("Space").setResizable(true);
+        Column<ServiceInstanceDetail> serviceInstanceIdColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.serviceInstanceId]]").withProperty("serviceInstanceId", ServiceInstanceDetail::getServiceInstanceId)).setHeader("Service Instance Id").setResizable(true);
+        Column<ServiceInstanceDetail> nameColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.name]]").withProperty("name", ServiceInstanceDetail::getName)).setHeader("Name").setResizable(true);
+        Column<ServiceInstanceDetail> serviceColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.service]]").withProperty("service", ServiceInstanceDetail::getService)).setHeader("Service").setResizable(true);
+        Column<ServiceInstanceDetail> descriptionColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.description]]").withProperty("description", ServiceInstanceDetail::getDescription)).setHeader("Description").setResizable(true);
+        Column<ServiceInstanceDetail> planColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.plan]]").withProperty("plan", ServiceInstanceDetail::getPlan)).setHeader("Plan").setResizable(true);
+        Column<ServiceInstanceDetail> applicationsColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.applications]]").withProperty("applications", ServiceInstanceDetail::getApplicationsAsCsv)).setHeader("Bound Applications").setResizable(true);
+        Column<ServiceInstanceDetail> lastOperationColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.lastOperation]]").withProperty("lastOperation", ServiceInstanceDetail::getLastOperation)).setHeader("Last Operation").setResizable(true);
+        Column<ServiceInstanceDetail> lastUpdatedColumn = grid.addColumn(new LocalDateTimeRenderer<ServiceInstanceDetail>(ServiceInstanceDetail::getLastUpdated, dateTimeFormatter)).setHeader("Last Updated").setTextAlign(ColumnTextAlign.END).setResizable(true);
+        Column<ServiceInstanceDetail> dashboardUrlColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.dashboardUrl]]").withProperty("dashboardUrl", ServiceInstanceDetail::getDashboardUrl)).setHeader("Dashboard URL").setResizable(true);
+        Column<ServiceInstanceDetail> requestedStateColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.requestedState]]").withProperty("requestedState", ServiceInstanceDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+
+        HeaderRow filterRow = grid.appendHeaderRow();
+
+        TextField foundationField = new TextField();
+        foundationField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getFoundation(), foundationField.getValue())));
+        foundationField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(foundationColumn).setComponent(foundationField);
+        foundationField.setSizeFull();
+        foundationField.setPlaceholder("Filter");
+
+        TextField organizationField = new TextField();
+        organizationField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getOrganization(), organizationField.getValue())));
+        organizationField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(organizationColumn).setComponent(organizationField);
+        organizationField.setSizeFull();
+        organizationField.setPlaceholder("Filter");
+
+        TextField spaceField = new TextField();
+        spaceField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getSpace(), spaceField.getValue())));
+        spaceField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(spaceColumn).setComponent(spaceField);
+        spaceField.setSizeFull();
+        spaceField.setPlaceholder("Filter");
+
+        TextField serviceInstanceIdField = new TextField();
+        serviceInstanceIdField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getServiceInstanceId(), serviceInstanceIdField.getValue())));
+        serviceInstanceIdField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(serviceInstanceIdColumn).setComponent(serviceInstanceIdField);
+        serviceInstanceIdField.setSizeFull();
+        serviceInstanceIdField.setPlaceholder("Filter");
+
+        TextField nameField = new TextField();
+        nameField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getName(), nameField.getValue())));
+        nameField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(nameColumn).setComponent(nameField);
+        nameField.setSizeFull();
+        nameField.setPlaceholder("Filter");
+
+        TextField serviceField = new TextField();
+        serviceField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getService(), serviceField.getValue())));
+        serviceField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(serviceColumn).setComponent(serviceField);
+        serviceField.setSizeFull();
+        serviceField.setPlaceholder("Filter");
+
+        TextField descriptionField = new TextField();
+        descriptionField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getDescription(), descriptionField.getValue())));
+        descriptionField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(descriptionColumn).setComponent(descriptionField);
+        descriptionField.setSizeFull();
+        descriptionField.setPlaceholder("Filter");
+
+        TextField planField = new TextField();
+        planField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getPlan(), planField.getValue())));
+        planField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(planColumn).setComponent(planField);
+        planField.setSizeFull();
+        planField.setPlaceholder("Filter");
+
+        TextField applicationsField = new TextField();
+        applicationsField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getApplicationsAsCsv(), applicationsField.getValue())));
+        applicationsField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(applicationsColumn).setComponent(applicationsField);
+        applicationsField.setSizeFull();
+        applicationsField.setPlaceholder("Filter");
+
+        TextField lastOperationField = new TextField();
+        lastOperationField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getLastOperation(), lastOperationField.getValue())));
+        lastOperationField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(lastOperationColumn).setComponent(lastOperationField);
+        lastOperationField.setSizeFull();
+        lastOperationField.setPlaceholder("Filter");
+
+        TextField lastUpdatedField = new TextField();
+        lastUpdatedField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(dateTimeFormatter.format(f.getLastUpdated()), lastUpdatedField.getValue())));
+        lastUpdatedField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(lastUpdatedColumn).setComponent(lastUpdatedField);
+        lastUpdatedField.setSizeFull();
+        lastUpdatedField.setPlaceholder("Filter");
+
+        TextField dashboardUrlField = new TextField();
+        dashboardUrlField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getDashboardUrl(), dashboardUrlField.getValue())));
+        dashboardUrlField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(dashboardUrlColumn).setComponent(dashboardUrlField);
+        dashboardUrlField.setSizeFull();
+        dashboardUrlField.setPlaceholder("Filter");
+
+        TextField requestedStateField = new TextField();
+        requestedStateField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getRequestedState(), requestedStateField.getValue())));
+        requestedStateField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(requestedStateColumn).setComponent(requestedStateField);
+        requestedStateField.setSizeFull();
+        requestedStateField.setPlaceholder("Filter");
+
+        // @see https://github.com/vaadin/vaadin-grid-flow/issues/234
+        for (Column<ServiceInstanceDetail> column : grid.getColumns())
+            column.getElement().getParent().callFunction("setAttribute", "resizable", true);
+
         return grid;
     }
 }

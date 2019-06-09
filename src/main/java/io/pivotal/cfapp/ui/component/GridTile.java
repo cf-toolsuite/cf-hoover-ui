@@ -28,4 +28,11 @@ public class GridTile<T> extends VerticalLayout {
         setAlignItems(Alignment.STRETCH);
         setSizeFull();
     }
+
+    public GridTile(String labelName, Grid<T> grid) {
+        grid.setSizeFull();
+        add(new Label(labelName), grid);
+        setAlignItems(Alignment.STRETCH);
+        setSizeFull();
+    }
 }
