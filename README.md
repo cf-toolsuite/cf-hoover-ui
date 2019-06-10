@@ -132,13 +132,17 @@ Point in time capture of all workloads
 ```
 GET /snapshot/detail/ai
 ```
-> Provides list of all applications (by foundation, organization and space)
-
+> Provides filterable list of all applications (by foundation, organization and space)
 
 ```
 GET /snapshot/detail/si
 ```
-> Provides list of all service instances (by foundation, organization and space)
+> Provides filterable list of all service instances (by foundation, organization and space)
+
+```
+GET /snapshot/detail/users
+```
+> Provides filterable lists of all user and service accounts
 
 ```
 GET /snapshot/summary/ai

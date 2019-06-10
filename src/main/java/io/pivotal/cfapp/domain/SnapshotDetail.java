@@ -1,8 +1,8 @@
 package io.pivotal.cfapp.domain;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -21,7 +21,7 @@ import lombok.ToString;
 @NoArgsConstructor(access=AccessLevel.PACKAGE)
 @Getter
 @ToString
-@JsonPropertyOrder({ "applications", "service-instances", "application-relationships", "accounts"})
+@JsonPropertyOrder({ "applications", "service-instances", "application-relationships", "user-accounts", "service-accounts" })
 public class SnapshotDetail {
 
     @Default
@@ -37,7 +37,11 @@ public class SnapshotDetail {
     private List<AppRelationship> applicationRelationships = new ArrayList<>();
 
     @Default
-    @JsonProperty("accounts")
-    private Set<String> users = new HashSet<>();
+    @JsonProperty("user-accounts")
+    private Set<String> userAccounts = new HashSet<>();
+
+    @Default
+    @JsonProperty("service-accounts")
+    private Set<String> serviceAccounts = new HashSet<>();
 
 }

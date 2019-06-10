@@ -18,6 +18,7 @@ import io.pivotal.cfapp.ui.view.SnapshotApplicationSummaryView;
 import io.pivotal.cfapp.ui.view.SnapshotServiceInstanceDetailView;
 import io.pivotal.cfapp.ui.view.SnapshotServiceInstanceSummaryView;
 import io.pivotal.cfapp.ui.view.TaskUsageReportView;
+import io.pivotal.cfapp.ui.view.UsersView;
 
 @Theme(Material.class)
 public class MainLayout extends AbstractAppRouterLayout {
@@ -35,6 +36,7 @@ public class MainLayout extends AbstractAppRouterLayout {
                 new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Accounting » Task", TaskUsageReportView.NAV),
                 new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Snapshot Detail » Application", SnapshotApplicationDetailView.NAV),
                 new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Snapshot Detail » Service Instance", SnapshotServiceInstanceDetailView.NAV),
+                new AppLayoutMenuItem(VaadinIcon.TABLE.create(), "Snapshot Detail » Users", UsersView.NAV),
                 new AppLayoutMenuItem(VaadinIcon.DASHBOARD.create(), "Snapshot Summary » Demographics", DemographicsView.NAV),
                 new AppLayoutMenuItem(VaadinIcon.DASHBOARD.create(), "Snapshot Summary » Application", SnapshotApplicationSummaryView.NAV),
                 new AppLayoutMenuItem(VaadinIcon.DASHBOARD.create(), "Snapshot Summary » Service Instance", SnapshotServiceInstanceSummaryView.NAV)
