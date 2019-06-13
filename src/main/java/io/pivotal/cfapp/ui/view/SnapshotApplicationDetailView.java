@@ -59,24 +59,24 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
 
-        Column<AppDetail> foundationColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.foundation]]").withProperty("foundation", AppDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
-        Column<AppDetail> organizationColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.organization]]").withProperty("organization", AppDetail::getOrganization)).setHeader("Organization").setResizable(true);
-        Column<AppDetail> spaceColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.space]]").withProperty("space", AppDetail::getSpace)).setHeader("Space").setResizable(true);
-        Column<AppDetail> appIdColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appId]]").withProperty("appId", AppDetail::getAppId)).setHeader("Application Id").setResizable(true);
-        Column<AppDetail> appNameColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appName]]").withProperty("appName", AppDetail::getAppName)).setHeader("Application Name").setResizable(true);
-        Column<AppDetail> buildpackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.buildpack]]").withProperty("buildpack", AppDetail::getBuildpack)).setHeader("Buildpack").setResizable(true);
-        Column<AppDetail> imageColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.image]]").withProperty("image", AppDetail::getImage)).setHeader("Docker Image").setResizable(true);
-        Column<AppDetail> stackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.stack]]").withProperty("stack", AppDetail::getStack)).setHeader("Stack").setResizable(true);
-        Column<AppDetail> runningInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getRunningInstances, formatter)).setHeader("Running Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        Column<AppDetail> totalInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getTotalInstances, formatter)).setHeader("Total Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        Column<AppDetail> memUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryUsageInGb, formatter)).setHeader("Memory Usage (in Gb)").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        Column<AppDetail> diskUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskUsageInGb, formatter)).setHeader("Disk Usage (in Gb)").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        Column<AppDetail> urlsColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.urls]]").withProperty("urls", AppDetail::getUrlsAsCsv)).setHeader("Routes").setResizable(true);
-        Column<AppDetail> lastPushedColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastPushed, dateTimeFormatter)).setHeader("Last Pushed").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        Column<AppDetail> lastEventColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.lastEvent]]").withProperty("lastEvent", AppDetail::getLastEvent)).setHeader("Last Event").setResizable(true);
-        Column<AppDetail> lastEventActorColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.lastEventActor]]").withProperty("lastEventActor", AppDetail::getLastEventActor)).setHeader("Last Event Actor").setResizable(true);
-        Column<AppDetail> lastEventTimeColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastEventTime, dateTimeFormatter)).setHeader("Last Event Time").setTextAlign(ColumnTextAlign.END).setResizable(true);
-        Column<AppDetail> requestedStateColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.requestedState]]").withProperty("requestedState", AppDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        Column<AppDetail> foundationColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.foundation]]").withProperty("foundation", AppDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER);
+        Column<AppDetail> organizationColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.organization]]").withProperty("organization", AppDetail::getOrganization)).setHeader("Organization");
+        Column<AppDetail> spaceColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.space]]").withProperty("space", AppDetail::getSpace)).setHeader("Space");
+        Column<AppDetail> appIdColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appId]]").withProperty("appId", AppDetail::getAppId)).setHeader("Application Id");
+        Column<AppDetail> appNameColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appName]]").withProperty("appName", AppDetail::getAppName)).setHeader("Application Name");
+        Column<AppDetail> buildpackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.buildpack]]").withProperty("buildpack", AppDetail::getBuildpack)).setHeader("Buildpack");
+        Column<AppDetail> imageColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.image]]").withProperty("image", AppDetail::getImage)).setHeader("Docker Image");
+        Column<AppDetail> stackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.stack]]").withProperty("stack", AppDetail::getStack)).setHeader("Stack");
+        Column<AppDetail> runningInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getRunningInstances, formatter)).setHeader("Running Instances").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> totalInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getTotalInstances, formatter)).setHeader("Total Instances").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> memUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryUsageInGb, formatter)).setHeader("Memory Usage (in Gb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> diskUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskUsageInGb, formatter)).setHeader("Disk Usage (in Gb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> urlsColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.urls]]").withProperty("urls", AppDetail::getUrlsAsCsv)).setHeader("Routes");
+        Column<AppDetail> lastPushedColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastPushed, dateTimeFormatter)).setHeader("Last Pushed").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> lastEventColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.lastEvent]]").withProperty("lastEvent", AppDetail::getLastEvent)).setHeader("Last Event");
+        Column<AppDetail> lastEventActorColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.lastEventActor]]").withProperty("lastEventActor", AppDetail::getLastEventActor)).setHeader("Last Event Actor");
+        Column<AppDetail> lastEventTimeColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastEventTime, dateTimeFormatter)).setHeader("Last Event Time").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> requestedStateColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.requestedState]]").withProperty("requestedState", AppDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER);
 
         HeaderRow filterRow = grid.appendHeaderRow();
 
