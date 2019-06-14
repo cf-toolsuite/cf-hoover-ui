@@ -1,6 +1,7 @@
 package io.pivotal.cfapp.domain.accounting.service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import lombok.Builder;
@@ -17,6 +18,10 @@ public class NormalizedServiceMonthlyUsage {
     private Double durationInHours;
     private Integer averageInstances;
     private Integer maximumInstances;
+
+    public String getKey() {
+        return String.join("-", serviceName, String.valueOf(year), String.format("%02d", month));
+    }
 
     public static List<NormalizedServiceMonthlyUsage> listOf(ServiceUsageReport report) {
         List<NormalizedServiceMonthlyUsage> result = new ArrayList<>();
@@ -39,6 +44,7 @@ public class NormalizedServiceMonthlyUsage {
                 );
             }
         }
+        result.sort(Comparator.comparing(NormalizedServiceMonthlyUsage::getKey));
         return result;
     }
 }
