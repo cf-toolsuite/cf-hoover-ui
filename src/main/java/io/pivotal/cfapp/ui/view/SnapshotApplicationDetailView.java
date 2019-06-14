@@ -3,10 +3,13 @@ package io.pivotal.cfapp.ui.view;
 import static io.pivotal.cfapp.ui.view.SnapshotApplicationDetailView.NAV;
 
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
 
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
@@ -20,6 +23,7 @@ import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.Route;
 
 import org.apache.commons.lang3.StringUtils;
@@ -197,14 +201,9 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         urlsField.setSizeFull();
         urlsField.setPlaceholder("Filter");
 
-        TextField lastPushedField = new TextField();
-        lastPushedField.addValueChangeListener(
-            event -> dataProvider.addFilter(
-                f -> StringUtils.containsIgnoreCase(dateTimeFormatter.format(f.getLastPushed()), lastPushedField.getValue())));
-        lastPushedField.setValueChangeMode(ValueChangeMode.EAGER);
+        VerticalLayout lastPushedField = getLastPushedPicker(dataProvider);
         filterRow.getCell(lastPushedColumn).setComponent(lastPushedField);
         lastPushedField.setSizeFull();
-        lastPushedField.setPlaceholder("Filter");
 
         TextField lastEventField = new TextField();
         lastEventField.addValueChangeListener(
@@ -224,14 +223,9 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         lastEventActorField.setSizeFull();
         lastEventActorField.setPlaceholder("Filter");
 
-        TextField lastEventTimeField = new TextField();
-        lastEventTimeField.addValueChangeListener(
-            event -> dataProvider.addFilter(
-                f -> StringUtils.containsIgnoreCase(dateTimeFormatter.format(f.getLastEventTime()), lastEventTimeField.getValue())));
-        lastEventTimeField.setValueChangeMode(ValueChangeMode.EAGER);
+        VerticalLayout lastEventTimeField = getLastPushedPicker(dataProvider);
         filterRow.getCell(lastEventTimeColumn).setComponent(lastEventTimeField);
         lastEventTimeField.setSizeFull();
-        lastEventTimeField.setPlaceholder("Filter");
 
         TextField requestedStateField = new TextField();
         requestedStateField.addValueChangeListener(
@@ -249,4 +243,93 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         return grid;
     }
 
+    public VerticalLayout getLastPushedPicker(ListDataProvider<AppDetail> dataProvider) {
+        DatePicker startDatePicker = new DatePicker();
+        startDatePicker.setLabel("Start");
+        startDatePicker.setSizeFull();
+        DatePicker endDatePicker = new DatePicker();
+        endDatePicker.setLabel("End");
+        endDatePicker.setSizeFull();
+
+        startDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+            if (selectedDate != null) {
+                endDatePicker.setMin(selectedDate.plusDays(1));
+                if (endDate == null) {
+                    endDatePicker.setOpened(true);
+                } else {
+                    dataProvider.addFilter(
+                        f -> f.getLastPushed() == null ? false : (f.getLastPushed().toLocalDate().isAfter(selectedDate) &&
+                            f.getLastPushed().toLocalDate().isBefore(endDate)));
+                }
+            } else {
+                endDatePicker.setMin(null);
+            }
+        });
+
+        endDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            if (selectedDate != null) {
+                startDatePicker.setMax(selectedDate.minusDays(1));
+                if (startDate != null) {
+                    dataProvider.addFilter(
+                        f -> f.getLastPushed() == null ? false : (f.getLastPushed().toLocalDate().isBefore(selectedDate) &&
+                            f.getLastPushed().toLocalDate().isAfter(startDate)));
+                }
+            } else {
+                startDatePicker.setMax(null);
+            }
+        });
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(startDatePicker, endDatePicker);
+        return layout;
+    }
+
+    public VerticalLayout getLastEventTimePicker(ListDataProvider<AppDetail> dataProvider) {
+        DatePicker startDatePicker = new DatePicker();
+        startDatePicker.setLabel("Start");
+        startDatePicker.setSizeFull();
+        DatePicker endDatePicker = new DatePicker();
+        endDatePicker.setLabel("End");
+        endDatePicker.setSizeFull();
+
+        startDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+            if (selectedDate != null) {
+                endDatePicker.setMin(selectedDate.plusDays(1));
+                if (endDate == null) {
+                    endDatePicker.setOpened(true);
+                } else {
+                    dataProvider.addFilter(
+                        f -> f.getLastEventTime() == null ? false : (f.getLastEventTime().toLocalDate().isAfter(selectedDate) &&
+                            f.getLastEventTime().toLocalDate().isBefore(endDate)));
+                }
+            } else {
+                endDatePicker.setMin(null);
+            }
+        });
+
+        endDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            if (selectedDate != null) {
+                startDatePicker.setMax(selectedDate.minusDays(1));
+                if (startDate != null) {
+                    dataProvider.addFilter(
+                        f -> f.getLastEventTime() == null ? false : (f.getLastEventTime().toLocalDate().isBefore(selectedDate) &&
+                            f.getLastEventTime().toLocalDate().isAfter(startDate)));
+                }
+            } else {
+                startDatePicker.setMax(null);
+            }
+        });
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(startDatePicker, endDatePicker);
+        return layout;
+    }
 }

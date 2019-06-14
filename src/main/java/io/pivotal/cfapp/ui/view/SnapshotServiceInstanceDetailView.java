@@ -2,10 +2,12 @@ package io.pivotal.cfapp.ui.view;
 
 import static io.pivotal.cfapp.ui.view.SnapshotServiceInstanceDetailView.NAV;
 
+import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
 
+import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
@@ -160,14 +162,9 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
         lastOperationField.setSizeFull();
         lastOperationField.setPlaceholder("Filter");
 
-        TextField lastUpdatedField = new TextField();
-        lastUpdatedField.addValueChangeListener(
-            event -> dataProvider.addFilter(
-                f -> StringUtils.containsIgnoreCase(dateTimeFormatter.format(f.getLastUpdated()), lastUpdatedField.getValue())));
-        lastUpdatedField.setValueChangeMode(ValueChangeMode.EAGER);
+        VerticalLayout lastUpdatedField = getLastUpdatedPicker(dataProvider);
         filterRow.getCell(lastUpdatedColumn).setComponent(lastUpdatedField);
         lastUpdatedField.setSizeFull();
-        lastUpdatedField.setPlaceholder("Filter");
 
         TextField dashboardUrlField = new TextField();
         dashboardUrlField.addValueChangeListener(
@@ -192,5 +189,50 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
             column.getElement().getParent().callFunction("setAttribute", "resizable", true);
 
         return grid;
+    }
+
+    public VerticalLayout getLastUpdatedPicker(ListDataProvider<ServiceInstanceDetail> dataProvider) {
+        DatePicker startDatePicker = new DatePicker();
+        startDatePicker.setLabel("Start");
+        startDatePicker.setSizeFull();
+        DatePicker endDatePicker = new DatePicker();
+        endDatePicker.setLabel("End");
+        endDatePicker.setSizeFull();
+
+        startDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate endDate = endDatePicker.getValue();
+            if (selectedDate != null) {
+                endDatePicker.setMin(selectedDate.plusDays(1));
+                if (endDate == null) {
+                    endDatePicker.setOpened(true);
+                } else {
+                    dataProvider.addFilter(
+                        f -> f.getLastUpdated() == null ? false : (f.getLastUpdated().toLocalDate().isAfter(selectedDate) &&
+                            f.getLastUpdated().toLocalDate().isBefore(endDate)));
+                }
+            } else {
+                endDatePicker.setMin(null);
+            }
+        });
+
+        endDatePicker.addValueChangeListener(event -> {
+            LocalDate selectedDate = event.getValue();
+            LocalDate startDate = startDatePicker.getValue();
+            if (selectedDate != null) {
+                startDatePicker.setMax(selectedDate.minusDays(1));
+                if (startDate != null) {
+                    dataProvider.addFilter(
+                        f -> f.getLastUpdated() == null ? false : (f.getLastUpdated().toLocalDate().isBefore(selectedDate) &&
+                            f.getLastUpdated().toLocalDate().isAfter(startDate)));
+                }
+            } else {
+                startDatePicker.setMax(null);
+            }
+        });
+
+        VerticalLayout layout = new VerticalLayout();
+        layout.add(startDatePicker, endDatePicker);
+        return layout;
     }
 }
