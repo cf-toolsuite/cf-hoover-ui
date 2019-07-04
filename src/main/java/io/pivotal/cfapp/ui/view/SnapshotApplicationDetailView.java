@@ -4,7 +4,6 @@ import static io.pivotal.cfapp.ui.view.SnapshotApplicationDetailView.NAV;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
@@ -23,7 +22,6 @@ import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.Route;
 
 import org.apache.commons.lang3.StringUtils;
