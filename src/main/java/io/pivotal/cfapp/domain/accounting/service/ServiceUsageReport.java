@@ -1,59 +1,40 @@
 package io.pivotal.cfapp.domain.accounting.service;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Builder.Default;
+import lombok.Getter;
 
-@Data
+@Builder
+@Getter
 @JsonPropertyOrder({"report_time", "monthly_service_reports", "yearly_service_report"})
 public class ServiceUsageReport {
 
     @JsonProperty("report_time")
-    private String reportTime;
+    public String reportTime;
 
+    @Default
     @JsonProperty("monthly_service_reports")
-    private List<ServiceUsageMonthlyAggregate> monthlyServiceReports;
+    public List<ServiceUsageMonthlyAggregate> monthlyServiceReports = new ArrayList<>();
 
+    @Default
     @JsonProperty("yearly_service_report")
-    private List<ServiceUsageYearlyAggregate> yearlyServiceReports;
+    public List<ServiceUsageYearlyAggregate> yearlyServiceReport = new ArrayList<>();
 
-    public static ServiceUsageReport aggregate(List<ServiceUsageReport> source) {
-        ServiceUsageReport report = new ServiceUsageReport();
-        List<ServiceUsageMonthlyAggregate> monthlyReports = new CopyOnWriteArrayList<>();
-        List<ServiceUsageYearlyAggregate> yearlyReports = new CopyOnWriteArrayList<>();
-        report.setReportTime(LocalDateTime.now().toString());
-        source.forEach(aur -> {
-            if (monthlyReports.isEmpty()) {
-                monthlyReports.addAll(aur.getMonthlyServiceReports());
-            } else {
-                for (ServiceUsageMonthlyAggregate mr: monthlyReports) {
-                    for (ServiceUsageMonthlyAggregate smr: aur.getMonthlyServiceReports()) {
-                        if (!mr.combine(smr)) {
-                            monthlyReports.add(smr);
-                        }
-                    }
-                }
-            }
-            if (yearlyReports.isEmpty()) {
-                yearlyReports.addAll(aur.getYearlyServiceReports());
-            } else {
-                for (ServiceUsageYearlyAggregate yr: yearlyReports){
-                    for (ServiceUsageYearlyAggregate syr: aur.getYearlyServiceReports()) {
-                        if (!yr.combine(syr)) {
-                            yearlyReports.add(syr);
-                        }
-                    }
-                }
-            }
-        });
-        report.setMonthlyServiceReports(monthlyReports);
-        report.setYearlyServiceReports(yearlyReports);
-        return report;
+    @JsonCreator
+    public ServiceUsageReport(
+        @JsonProperty("report_time") String reportTime,
+        @JsonProperty("monthly_service_reports") List<ServiceUsageMonthlyAggregate> monthlyServiceReports,
+        @JsonProperty("yearly_service_report") List<ServiceUsageYearlyAggregate> yearlyServiceReport) {
+        this.reportTime = reportTime;
+        this.monthlyServiceReports = monthlyServiceReports;
+        this.yearlyServiceReport = yearlyServiceReport;
     }
 
 }

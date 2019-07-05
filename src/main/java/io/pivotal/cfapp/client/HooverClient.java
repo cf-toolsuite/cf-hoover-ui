@@ -1,7 +1,5 @@
 package io.pivotal.cfapp.client;
 
-import java.util.Collections;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -80,7 +78,7 @@ public class HooverClient {
 
     protected Mono<TaskUsageReport> fallbackForTaskReport(Exception e) {
         log.warn("Could not obtain results from call to /accounting/tasks", e);
-        return Mono.just(TaskUsageReport.aggregate(Collections.emptyList()));
+        return Mono.just(TaskUsageReport.builder().build());
     }
 
     @CircuitBreaker(name = "hooverClient.appUsageReport", fallbackMethod = "fallbackForApplicationReport")
@@ -94,7 +92,7 @@ public class HooverClient {
 
     protected Mono<AppUsageReport> fallbackForApplicationReport(Exception e) {
         log.warn("Could not obtain results from call to /accounting/applications", e);
-        return Mono.just(AppUsageReport.aggregate(Collections.emptyList()));
+        return Mono.just(AppUsageReport.builder().build());
     }
 
     @CircuitBreaker(name = "hooverClient.serviceUsageReport", fallbackMethod = "fallbackForServiceReport")
@@ -108,6 +106,6 @@ public class HooverClient {
 
     protected Mono<ServiceUsageReport> fallbackForServiceReport(Exception e) {
         log.warn("Could not obtain results from call to /accounting/services", e);
-        return Mono.just(ServiceUsageReport.aggregate(Collections.emptyList()));
+        return Mono.just(ServiceUsageReport.builder().build());
     }
 }

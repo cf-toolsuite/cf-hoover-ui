@@ -1,40 +1,48 @@
 package io.pivotal.cfapp.domain.accounting.service;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Builder.Default;
 
-@Data
+@Builder
+@Getter
 @JsonPropertyOrder({"month", "year", "duration_in_hours", "average_instances", "maximum_instances"})
 public class ServiceUsageMonthly {
 
     @JsonProperty("month")
-    private Integer month;
+    public Integer month;
 
     @JsonProperty("year")
-    private Integer year;
+    public Integer year;
 
+    @Default
     @JsonProperty("duration_in_hours")
-    private Double durationInHours;
+    public Double durationInHours = 0.0;
 
+    @Default
     @JsonProperty("average_instances")
-    private Integer averageInstances;
+    public Double averageInstances = 0.0;
 
+    @Default
     @JsonProperty("maximum_instances")
-    private Integer maximumInstances;
+    public Integer maximumInstances = 0;
 
-    @JsonIgnore
-    public boolean combine(ServiceUsageMonthly usage) {
-        boolean combined = false;
-        if (usage.getYear().equals(year) && usage.getMonth().equals(month)) {
-            this.durationInHours += usage.getDurationInHours();
-            this.averageInstances += usage.getAverageInstances();
-            this.maximumInstances += usage.getMaximumInstances();
-            combined = true;
-        }
-        return combined;
+    @JsonCreator
+    public ServiceUsageMonthly(
+        @JsonProperty("month") Integer month,
+        @JsonProperty("year") Integer year,
+        @JsonProperty("duration_in_hours") Double durationInHours,
+        @JsonProperty("average_instances") Double averageInstances,
+        @JsonProperty("maximum_instances") Integer maximumInstances) {
+        this.month = month;
+        this.year = year;
+        this.durationInHours = durationInHours;
+        this.averageInstances = averageInstances;
+        this.maximumInstances = maximumInstances;
     }
 
 }

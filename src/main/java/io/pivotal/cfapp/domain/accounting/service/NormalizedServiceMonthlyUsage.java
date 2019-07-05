@@ -16,7 +16,7 @@ public class NormalizedServiceMonthlyUsage {
     private String serviceName;
     private String serviceGuid;
     private Double durationInHours;
-    private Integer averageInstances;
+    private Double averageInstances;
     private Integer maximumInstances;
 
     public String getKey() {
