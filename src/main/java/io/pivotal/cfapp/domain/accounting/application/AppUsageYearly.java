@@ -1,12 +1,13 @@
 package io.pivotal.cfapp.domain.accounting.application;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Builder.Default;
+import lombok.Getter;
 
 @Builder
 @Getter
@@ -40,4 +41,23 @@ public class AppUsageYearly {
         this.appInstanceHours = appInstanceHours;
     }
 
+    @JsonIgnore
+    public AppUsageYearly combine(AppUsageYearly usage) {
+        AppUsageYearly result = null;
+        if (usage == null) {
+            result = this;
+        } else if (usage.getYear().equals(year)) {
+            result =
+                AppUsageYearly
+                    .builder()
+                        .year(usage.getYear())
+                        .appInstanceHours(this.appInstanceHours + usage.getAppInstanceHours())
+                        .averageAppInstances(this.averageAppInstances + usage.getAverageAppInstances())
+                        .maximumAppInstances(this.maximumAppInstances + usage.getMaximumAppInstances())
+                        .build();
+        } else {
+            result = usage;
+        }
+        return result;
+    }
 }

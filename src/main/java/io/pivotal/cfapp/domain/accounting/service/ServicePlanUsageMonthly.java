@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -34,6 +35,35 @@ public class ServicePlanUsageMonthly {
         this.usages = usages;
         this.servicePlanName = servicePlanName;
         this.servicePlanGuid = servicePlanGuid;
+    }
+
+    @JsonIgnore
+    public ServicePlanUsageMonthly combine(ServicePlanUsageMonthly usage) {
+        ServicePlanUsageMonthly result = null;
+        if (usage == null) {
+            result = this;
+        } else if (usage.getServicePlanName().equals(servicePlanName)) {
+            List<ServiceUsageMonthly> u = new ArrayList<>();
+            for (ServiceUsageMonthly su: usage.getUsages()) {
+                for (ServiceUsageMonthly suu: usages) {
+                    u.add(suu.combine(su));
+                }
+            }
+            String newServicePlanGuid = usage.getServicePlanGuid();
+            if (!usage.getServicePlanGuid().contains(this.servicePlanGuid)) {
+                newServicePlanGuid = String.join(",", this.servicePlanGuid, usage.getServicePlanGuid());
+            }
+            result =
+                ServicePlanUsageMonthly
+                    .builder()
+                        .servicePlanGuid(newServicePlanGuid)
+                        .servicePlanName(usage.getServicePlanName())
+                        .usages(u)
+                        .build();
+        } else {
+            result = usage;
+        }
+        return result;
     }
 
 }

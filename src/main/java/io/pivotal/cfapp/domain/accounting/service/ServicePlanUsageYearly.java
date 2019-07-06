@@ -1,6 +1,7 @@
 package io.pivotal.cfapp.domain.accounting.service;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -50,5 +51,30 @@ public class ServicePlanUsageYearly {
         this.averageInstances = averageInstances;
     }
 
+    @JsonIgnore
+    public ServicePlanUsageYearly combine(ServicePlanUsageYearly usage) {
+        ServicePlanUsageYearly result = null;
+        if (usage == null) {
+            result = this;
+        } else if (usage.getYear().equals(year) && usage.getServicePlanName().equals(servicePlanName)) {
+            String newServicePlanGuid = usage.getServicePlanGuid();
+            if (!usage.getServicePlanGuid().contains(this.servicePlanGuid)) {
+                newServicePlanGuid = String.join(",", this.servicePlanGuid, usage.getServicePlanGuid());
+            }
+            result =
+                ServicePlanUsageYearly
+                    .builder()
+                        .year(usage.getYear())
+                        .servicePlanGuid(newServicePlanGuid)
+                        .servicePlanName(usage.getServicePlanName())
+                        .durationInHours(this.durationInHours + usage.getDurationInHours())
+                        .averageInstances(this.averageInstances + usage.getAverageInstances())
+                        .maximumInstances(this.maximumInstances + usage.getMaximumInstances())
+                        .build();
+        } else {
+            result = usage;
+        }
+        return result;
+    }
 
 }

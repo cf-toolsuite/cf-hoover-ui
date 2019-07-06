@@ -1,6 +1,7 @@
 package io.pivotal.cfapp.domain.accounting.task;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
@@ -40,4 +41,23 @@ public class TaskUsageYearly {
         this.taskHours = taskHours;
     }
 
+    @JsonIgnore
+    public TaskUsageYearly combine(TaskUsageYearly usage) {
+        TaskUsageYearly result = null;
+        if (usage == null) {
+            result = this;
+        } else if (usage.getYear().equals(year)) {
+            result =
+                TaskUsageYearly
+                    .builder()
+                        .year(usage.getYear())
+                        .totalTaskRuns(this.totalTaskRuns + usage.getTotalTaskRuns())
+                        .maximumConcurrentTasks(this.maximumConcurrentTasks + usage.getMaximumConcurrentTasks())
+                        .taskHours(this.taskHours + usage.getTaskHours())
+                        .build();
+        } else {
+            result = usage;
+        }
+        return result;
+    }
 }
