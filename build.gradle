@@ -1,6 +1,6 @@
 plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.0.0'
-    id 'org.springframework.boot' version '2.1.6.RELEASE'
+    id 'org.springframework.boot' version '2.2.0.M4'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'com.devsoap.vaadin-flow' version '1.2'
 	id 'java'
@@ -42,14 +42,11 @@ repositories {
 
 ext {
 	set('springCloudServicesVersion', '2.1.3.RELEASE')
-	set('springCloudVersion', 'Greenwich.SR1')
-	set('commons-lang3.version', '3.9')
-	set('jackson.version', '2.9.9')
-	set('junit-jupiter.version', '5.4.2')
-	set('lombok.version', '1.18.8')
-	set('mockito.version', '2.27.0')
+	set('springCloudVersion', 'Hoxton.M1')
+	set('spring-cloud-services-connectors.version', '2.1.3.RELEASE')
+    set('spring-framework.version', '5.2.0.BUILD-SNAPSHOT')
 	set('resilience4jVersion', '0.15.0')
-	set('vaadinVersion', '13.0.7')
+	set('vaadinVersion', '13.0.11')
 }
 
 dependencyManagement {
@@ -74,6 +71,10 @@ test {
 	useJUnitPlatform()
 	testLogging {
 		events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
 	}
 }
 
@@ -86,8 +87,8 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-log4j2')
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
-	implementation('io.projectreactor:reactor-core:3.2.10.RELEASE')
-    implementation('io.projectreactor.netty:reactor-netty:0.8.9.RELEASE')
+	implementation('io.projectreactor:reactor-core:3.3.0.M1')
+    implementation('io.projectreactor.netty:reactor-netty:0.9.0.M2')
 	implementation vaadin.bom()
     implementation vaadin.platform()
 	implementation('com.vaadin:vaadin-spring-boot-starter')
