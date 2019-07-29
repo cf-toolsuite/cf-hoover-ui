@@ -108,3 +108,35 @@ dependencies {
 	    exclude group: 'junit', module: 'junit'
 	}
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'cf-hoover-ui'
+                url = 'https://github.com/pacphi/cf-hoover-ui'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'pacphi'
+                        name = 'Chris Phillipson'
+                        email = 'cphillipson@pivotal.io'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/pacphi/cf-hoover-ui.git'
+                    developerConnection = 'scm:git:ssh://github.com/pacphi/cf-hoover-ui.git'
+                    url = 'https://github.com/pacphi/cf-hoover-ui'
+                }
+            }
+        }
+    }
+}
