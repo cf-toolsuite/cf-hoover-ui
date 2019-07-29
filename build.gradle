@@ -2,10 +2,13 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.0.0'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'com.github.ben-manes.versions' version '0.21.0'
     id 'com.devsoap.vaadin-flow' version '1.2'
+    id 'io.franzbecker.gradle-lombok' version '3.1.0'
 	id 'java'
-	id 'maven-publish'
-	id 'com.github.spotbugs' version '2.0.0'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'com.github.spotbugs' version '2.0.0'
 }
 
 gitProperties {
@@ -36,9 +39,20 @@ group = 'io.pivotal'
 version = '0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
 repositories {
-	vaadin.repositories()
 	mavenCentral()
+	maven { url 'https://maven.vaadin.com/vaadin-prereleases'}
+    maven { url 'http://maven.vaadin.com/vaadin-addons'}
 }
 
 ext {
@@ -50,14 +64,14 @@ ext {
 	set('lombok.version', '1.18.8')
 	set('mockito.version', '2.27.0')
 	set('resilience4jVersion', '0.15.0')
-	set('vaadinVersion', '13.0.7')
+	set('vaadin.version', '13.0.7')
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 		mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:${springCloudServicesVersion}"
-		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+		mavenBom "com.vaadin:vaadin-bom:${vaadin.version}"
 	}
 }
 
@@ -75,6 +89,22 @@ test {
 	useJUnitPlatform()
 	testLogging {
 		events "passed", "skipped", "failed"
+        exceptionFormat "full"
+        showCauses true
+        showExceptions true
+        showStackTraces true
+	}
+}
+
+jacoco {
+	toolVersion = "0.8.4"
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+		csv.enabled = false
 	}
 }
 
@@ -89,9 +119,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
 	implementation('io.projectreactor:reactor-core:3.2.10.RELEASE')
     implementation('io.projectreactor.netty:reactor-netty:0.8.9.RELEASE')
-	implementation vaadin.bom()
-    implementation vaadin.platform()
-	implementation('com.vaadin:vaadin-spring-boot-starter')
+    implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
 	implementation('org.springframework.cloud:spring-cloud-loadbalancer')
 	implementation("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
@@ -113,6 +141,16 @@ publishing {
     publications {
         maven(MavenPublication) {
             from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
         }
         mavenJava(MavenPublication) {
             pom {
@@ -140,3 +178,28 @@ publishing {
         }
     }
 }
+
+import io.franzbecker.gradle.lombok.task.DelombokTask
+
+task delombok(type: DelombokTask, dependsOn: compileJava) {
+    ext.outputDir = file("$buildDir/delombok")
+    outputs.dir(outputDir)
+    sourceSets.main.java.srcDirs.each {
+        inputs.dir(it)
+        args(it, "-d", outputDir)
+    }
+    doFirst {
+        outputDir.deleteDir()
+    }
+}
+
+javadoc {
+    dependsOn delombok
+    source = delombok.outputDir
+    failOnError = false
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+check.dependsOn jacocoTestReport
