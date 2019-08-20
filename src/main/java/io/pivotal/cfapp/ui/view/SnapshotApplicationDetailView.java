@@ -67,6 +67,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         Column<AppDetail> appIdColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appId]]").withProperty("appId", AppDetail::getAppId)).setHeader("Application Id");
         Column<AppDetail> appNameColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appName]]").withProperty("appName", AppDetail::getAppName)).setHeader("Application Name");
         Column<AppDetail> buildpackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.buildpack]]").withProperty("buildpack", AppDetail::getBuildpack)).setHeader("Buildpack");
+        Column<AppDetail> buildpackVersionColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.buildpackVersion]]").withProperty("buildpackVersion", AppDetail::getBuildpackVersion)).setHeader("Buildpack Version");
         Column<AppDetail> imageColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.image]]").withProperty("image", AppDetail::getImage)).setHeader("Docker Image");
         Column<AppDetail> stackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.stack]]").withProperty("stack", AppDetail::getStack)).setHeader("Stack");
         Column<AppDetail> runningInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getRunningInstances, formatter)).setHeader("Running Instances").setTextAlign(ColumnTextAlign.END);
@@ -135,6 +136,15 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         filterRow.getCell(buildpackColumn).setComponent(buildpackField);
         buildpackField.setSizeFull();
         buildpackField.setPlaceholder("Filter");
+
+        TextField buildpackVersionField = new TextField();
+        buildpackVersionField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getBuildpackVersion(), buildpackVersionField.getValue())));
+        buildpackVersionField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(buildpackVersionColumn).setComponent(buildpackVersionField);
+        buildpackVersionField.setSizeFull();
+        buildpackVersionField.setPlaceholder("Filter");
 
         TextField imageField = new TextField();
         imageField.addValueChangeListener(

@@ -1,8 +1,8 @@
 plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.0.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.1.0'
     id 'org.springframework.boot' version '2.1.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-    id 'com.github.ben-manes.versions' version '0.21.0'
+    id 'com.github.ben-manes.versions' version '0.22.0'
     id 'com.devsoap.vaadin-flow' version '1.2'
     id 'io.franzbecker.gradle-lombok' version '3.1.0'
 	id 'java'
@@ -64,7 +64,7 @@ ext {
 	set('lombok.version', '1.18.8')
 	set('mockito.version', '2.27.0')
 	set('resilience4jVersion', '0.15.0')
-	set('vaadin.version', '13.0.7')
+	set('vaadin.version', '14.0.0')
 }
 
 dependencyManagement {
