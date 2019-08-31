@@ -11,6 +11,24 @@ Here's a sample...
 
 ![Snapshot Summary containing application and application instance metrics](docs/snapshot-summary-ai.png)
 
+# Table of Contents
+
+  * [Prerequisites](#prerequisites)
+  * [Tools](#tools)
+  * [Clone](#clone)
+  * [How to configure](#how-to-configure)
+    * [To set the operations schedule](#to-set-the-operations-schedule)
+    * [General configuration notes](#general-configuration-notes)
+  * [How to Build](#how-to-build)
+  * [How to Run with Gradle](#how-to-run-with-gradle)
+  * [How to deploy to Pivotal Application Service](#how-to-deploy-to-pivotal-application-service)
+    * [using scripts](#using-scripts)
+  * [Available UI Endpoints](#available-ui-endpoints)
+    * [Accounting](#accounting)
+    * [Snapshot](#snapshot)
+  * [What else would you like to see?](#what-else-would-you-like-to-see)
+  * [Credits](#credits)
+
 ## Prerequisites
 
 Required
@@ -158,9 +176,6 @@ GET /snapshot/demographics
 ```
 > Provides summary metrics for organizations, spaces, user accounts and service accounts across all registered foundations
 
-## Take it for a spin!
-
-* [Demo site](https://cf-hoover-ui-wacky-crocodile.apps.pcfone.io)
 
 ## What else would you like to see?
 
