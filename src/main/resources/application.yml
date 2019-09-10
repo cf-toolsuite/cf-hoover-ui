@@ -11,7 +11,8 @@ management:
       mode: full
 
 cron:
-  collection: "0 0 1 * * *"
+  # each :30 on the hour
+  collection: "0 30 * * * *"
 
 ---
 spring:
