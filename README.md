@@ -1,8 +1,7 @@
 # Pivotal Application Service > Hoover UI
 
-[![Build Status](https://travis-ci.org/pacphi/cf-hoover.svg?branch=master)](https://travis-ci.org/pacphi/cf-hoover-ui) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-hoover-ui/badge.svg)](https://snyk.io/test/github/pacphi/cf-hoover-ui)
+[![Beta](https://img.shields.io/badge/Stability-Beta-orange)](https://img.shields.io/badge/Stability-Beta-orange) [![Build Status](https://travis-ci.org/pacphi/cf-hoover-ui.svg?branch=master)](https://travis-ci.org/pacphi/cf-hoover-ui) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-hoover-ui/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-hoover-ui) [![Release](https://jitpack.io/v/pacphi/cf-hoover-ui.svg)](https://jitpack.io/#pacphi/cf-hoover-ui/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
-> Status: Incubating
 
 You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.
 
@@ -11,6 +10,24 @@ You're a platform operator and you've managed to get [cf-hoover](https://github.
 Here's a sample...
 
 ![Snapshot Summary containing application and application instance metrics](docs/snapshot-summary-ai.png)
+
+# Table of Contents
+
+  * [Prerequisites](#prerequisites)
+  * [Tools](#tools)
+  * [Clone](#clone)
+  * [How to configure](#how-to-configure)
+    * [To set the operations schedule](#to-set-the-operations-schedule)
+    * [General configuration notes](#general-configuration-notes)
+  * [How to Build](#how-to-build)
+  * [How to Run with Gradle](#how-to-run-with-gradle)
+  * [How to deploy to Pivotal Application Service](#how-to-deploy-to-pivotal-application-service)
+    * [using scripts](#using-scripts)
+  * [Available UI Endpoints](#available-ui-endpoints)
+    * [Accounting](#accounting)
+    * [Snapshot](#snapshot)
+  * [What else would you like to see?](#what-else-would-you-like-to-see)
+  * [Credits](#credits)
 
 ## Prerequisites
 
@@ -159,9 +176,6 @@ GET /snapshot/demographics
 ```
 > Provides summary metrics for organizations, spaces, user accounts and service accounts across all registered foundations
 
-## Take it for a spin!
-
-* [Demo site](https://cf-hoover-ui-wacky-crocodile.apps.pcfone.io)
 
 ## What else would you like to see?
 

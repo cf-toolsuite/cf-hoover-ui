@@ -30,6 +30,7 @@ public class AppDetail {
 	private String appId;
 	private String appName;
 	private String buildpack;
+	private String buildpackVersion;
 	private String image;
 	private String stack;
 	@Default
@@ -37,9 +38,9 @@ public class AppDetail {
 	@Default
 	private Integer totalInstances = 0;
 	@Default
-	private Long memoryUsage = 0L;
+	private Long memoryUsed = 0L;
 	@Default
-	private Long diskUsage = 0L;
+	private Long diskUsed = 0L;
 	@Default
 	private List<String> urls = new ArrayList<>();
 	private LocalDateTime lastPushed;
@@ -50,16 +51,16 @@ public class AppDetail {
 
 	public String toCsv() {
 		return String.join(",", wrap(getFoundation()), wrap(getOrganization()), wrap(getSpace()), wrap(getAppId()), wrap(getAppName()),
-				wrap(getBuildpack()), wrap(getImage()), wrap(getStack()), wrap(String.valueOf(getRunningInstances())),
-				wrap(String.valueOf(getTotalInstances())), wrap(Double.toString(toGigabytes(getMemoryUsage()))),
-				wrap(Double.toString(toGigabytes(getDiskUsage()))),
+				wrap(getBuildpack()), wrap(getBuildpackVersion()), wrap(getImage()), wrap(getStack()), wrap(String.valueOf(getRunningInstances())),
+				wrap(String.valueOf(getTotalInstances())), wrap(Double.toString(toGigabytes(getMemoryUsed()))),
+				wrap(Double.toString(toGigabytes(getDiskUsed()))),
 				(wrap(String.join(",", getUrls() != null ? getUrls(): Collections.emptyList()))),
 				wrap(getLastPushed() != null ? getLastPushed().toString() : ""), wrap(getLastEvent()),
 				wrap(getLastEventActor()), wrap(getLastEventTime() != null ? getLastEventTime().toString() : ""),
 				wrap(getRequestedState()));
 	}
 
-	private String wrap(String value) {
+	private static String wrap(String value) {
 		return value != null ? StringUtils.wrap(value, '"') : StringUtils.wrap("", '"');
 	}
 
@@ -67,12 +68,12 @@ public class AppDetail {
 		return Double.valueOf(input / 1000000000.0);
 	}
 
-	public Double getMemoryUsageInGb() {
-		return toGigabytes(getMemoryUsage());
+	public Double getMemoryUsedInGb() {
+		return toGigabytes(getMemoryUsed());
 	}
 
-	public Double getDiskUsageInGb() {
-		return toGigabytes(getDiskUsage());
+	public Double getDiskUsedInGb() {
+		return toGigabytes(getDiskUsed());
 	}
 
 	public String getUrlsAsCsv() {
@@ -80,7 +81,7 @@ public class AppDetail {
 	}
 
 	public static String headers() {
-		return String.join(",", "foundation", "organization", "space", "application id", "application name", "buildpack", "image",
+		return String.join(",", "foundation", "organization", "space", "application id", "application name", "buildpack", "buildpack version", "image",
 				"stack", "running instances", "total instances", "memory used (in gb)", "disk used (in gb)", "urls", "last pushed", "last event",
 				"last event actor", "last event time", "requested state");
 	}
@@ -94,12 +95,13 @@ public class AppDetail {
 						.appId(detail.getAppId())
 						.appName(detail.getAppName())
 						.buildpack(detail.getBuildpack())
+						.buildpackVersion(detail.getBuildpackVersion())
 						.image(detail.getImage())
 						.stack(detail.getStack())
 						.runningInstances(detail.getRunningInstances())
 						.totalInstances(detail.getTotalInstances())
-						.memoryUsage(detail.getMemoryUsage())
-						.diskUsage(detail.getDiskUsage())
+						.memoryUsed(detail.getMemoryUsed())
+						.diskUsed(detail.getDiskUsed())
 						.urls(detail.getUrls())
 						.lastPushed(detail.getLastPushed())
 						.lastEvent(detail.getLastEvent())

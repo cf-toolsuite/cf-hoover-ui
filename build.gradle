@@ -2,9 +2,13 @@ plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.2.0'
     id 'org.springframework.boot' version '2.2.0.M6'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'com.github.ben-manes.versions' version '0.22.0'
     id 'com.devsoap.vaadin-flow' version '1.2'
-	id 'java'
-	id 'com.github.spotbugs' version '2.0.0'
+    id 'io.franzbecker.gradle-lombok' version '3.1.0'
+	  id 'java'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'com.github.spotbugs' version '2.0.0'
 }
 
 gitProperties {
@@ -35,29 +39,40 @@ group = 'io.pivotal'
 version = '0.1-SNAPSHOT'
 sourceCompatibility = JavaVersion.VERSION_11
 
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
+task javadocJar(type: Jar) {
+    from javadoc
+    archiveClassifier = 'javadoc'
+}
+
 repositories {
-	vaadin.repositories()
-	mavenCentral()
+	  mavenCentral()
     maven { url "https://repo.spring.io/snapshot" }
-	maven { url "https://repo.spring.io/milestone" }
+	  maven { url "https://repo.spring.io/milestone" }
+	  maven { url 'https://maven.vaadin.com/vaadin-prereleases'}
+    maven { url 'http://maven.vaadin.com/vaadin-addons'}
 }
 
 ext {
-	set('springCloudServicesVersion', '2.1.4.RELEASE')
-	set('springCloudVersion', 'Hoxton.M2')
-	set('spring-cloud-services-connectors.version', '2.1.4.RELEASE')
+	  set('springCloudServicesVersion', '2.1.4.RELEASE')
+	  set('springCloudVersion', 'Hoxton.M2')
+	  set('spring-cloud-services-connectors.version', '2.1.4.RELEASE')
     set('spring-framework.version', '5.2.0.RC2')
-	// @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
+	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
     set('spring-data-releasetrain.version', 'Moore-RC3')
-	set('resilience4jVersion', '0.17.0')
-	set('vaadinVersion', '13.0.13')
+	  set('resilience4jVersion', '0.17.0')
+	  set('vaadinVersion', '13.0.13')
 }
 
 dependencyManagement {
 	imports {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 		mavenBom "io.pivotal.spring.cloud:spring-cloud-services-dependencies:${springCloudServicesVersion}"
-		mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
+		mavenBom "com.vaadin:vaadin-bom:${vaadin.version}"
 	}
 }
 
@@ -82,6 +97,18 @@ test {
 	}
 }
 
+jacoco {
+	toolVersion = "0.8.4"
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+		csv.enabled = false
+	}
+}
+
 dependencies {
 	annotationProcessor('org.projectlombok:lombok')
 	implementation('org.projectlombok:lombok')
@@ -92,9 +119,9 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
 	implementation('io.projectreactor:reactor-core:3.3.0.RC1')
-    implementation('io.projectreactor.netty:reactor-netty:0.9.0.RC1')
+  implementation('io.projectreactor.netty:reactor-netty:0.9.0.RC1')
 	implementation vaadin.bom()
-    implementation vaadin.platform()
+  implementation vaadin.platform()
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
 	//implementation('org.springframework.cloud:spring-cloud-loadbalancer')
@@ -112,3 +139,70 @@ dependencies {
 	    exclude group: 'junit', module: 'junit'
 	}
 }
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+            artifact sourcesJar
+            artifact javadocJar
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
+            }
+        }
+        mavenJava(MavenPublication) {
+            pom {
+                name = 'cf-hoover-ui'
+                url = 'https://github.com/pacphi/cf-hoover-ui'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'pacphi'
+                        name = 'Chris Phillipson'
+                        email = 'cphillipson@pivotal.io'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/pacphi/cf-hoover-ui.git'
+                    developerConnection = 'scm:git:ssh://github.com/pacphi/cf-hoover-ui.git'
+                    url = 'https://github.com/pacphi/cf-hoover-ui'
+                }
+            }
+        }
+    }
+}
+
+import io.franzbecker.gradle.lombok.task.DelombokTask
+
+task delombok(type: DelombokTask, dependsOn: compileJava) {
+    ext.outputDir = file("$buildDir/delombok")
+    outputs.dir(outputDir)
+    sourceSets.main.java.srcDirs.each {
+        inputs.dir(it)
+        args(it, "-d", outputDir)
+    }
+    doFirst {
+        outputDir.deleteDir()
+    }
+}
+
+javadoc {
+    dependsOn delombok
+    source = delombok.outputDir
+    failOnError = false
+    if(JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+check.dependsOn jacocoTestReport

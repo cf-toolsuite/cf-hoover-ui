@@ -67,12 +67,13 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         Column<AppDetail> appIdColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appId]]").withProperty("appId", AppDetail::getAppId)).setHeader("Application Id");
         Column<AppDetail> appNameColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.appName]]").withProperty("appName", AppDetail::getAppName)).setHeader("Application Name");
         Column<AppDetail> buildpackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.buildpack]]").withProperty("buildpack", AppDetail::getBuildpack)).setHeader("Buildpack");
+        Column<AppDetail> buildpackVersionColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.buildpackVersion]]").withProperty("buildpackVersion", AppDetail::getBuildpackVersion)).setHeader("Buildpack Version");
         Column<AppDetail> imageColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.image]]").withProperty("image", AppDetail::getImage)).setHeader("Docker Image");
         Column<AppDetail> stackColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.stack]]").withProperty("stack", AppDetail::getStack)).setHeader("Stack");
         Column<AppDetail> runningInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getRunningInstances, formatter)).setHeader("Running Instances").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> totalInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getTotalInstances, formatter)).setHeader("Total Instances").setTextAlign(ColumnTextAlign.END);
-        Column<AppDetail> memUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryUsageInGb, formatter)).setHeader("Memory Usage (in Gb)").setTextAlign(ColumnTextAlign.END);
-        Column<AppDetail> diskUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskUsageInGb, formatter)).setHeader("Disk Usage (in Gb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> memUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryUsedInGb, formatter)).setHeader("Memory Usage (in Gb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> diskUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskUsedInGb, formatter)).setHeader("Disk Usage (in Gb)").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> urlsColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.urls]]").withProperty("urls", AppDetail::getUrlsAsCsv)).setHeader("Routes");
         Column<AppDetail> lastPushedColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastPushed, dateTimeFormatter)).setHeader("Last Pushed").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> lastEventColumn = grid.addColumn(TemplateRenderer.<AppDetail> of("[[item.lastEvent]]").withProperty("lastEvent", AppDetail::getLastEvent)).setHeader("Last Event");
@@ -136,6 +137,15 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         buildpackField.setSizeFull();
         buildpackField.setPlaceholder("Filter");
 
+        TextField buildpackVersionField = new TextField();
+        buildpackVersionField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getBuildpackVersion(), buildpackVersionField.getValue())));
+        buildpackVersionField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(buildpackVersionColumn).setComponent(buildpackVersionField);
+        buildpackVersionField.setSizeFull();
+        buildpackVersionField.setPlaceholder("Filter");
+
         TextField imageField = new TextField();
         imageField.addValueChangeListener(
             event -> dataProvider.addFilter(
@@ -175,7 +185,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         TextField memUsedField = new TextField();
         memUsedField.addValueChangeListener(
             event -> dataProvider.addFilter(
-                f -> StringUtils.contains(String.valueOf(f.getMemoryUsage()), memUsedField.getValue())));
+                f -> StringUtils.contains(String.valueOf(f.getMemoryUsed()), memUsedField.getValue())));
         memUsedField.setValueChangeMode(ValueChangeMode.EAGER);
         filterRow.getCell(memUsedColumn).setComponent(memUsedField);
         memUsedField.setSizeFull();
@@ -184,7 +194,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         TextField diskUsedField = new TextField();
         diskUsedField.addValueChangeListener(
             event -> dataProvider.addFilter(
-                f -> StringUtils.contains(String.valueOf(f.getDiskUsage()), diskUsedField.getValue())));
+                f -> StringUtils.contains(String.valueOf(f.getDiskUsed()), diskUsedField.getValue())));
         diskUsedField.setValueChangeMode(ValueChangeMode.EAGER);
         filterRow.getCell(diskUsedColumn).setComponent(diskUsedField);
         diskUsedField.setSizeFull();
