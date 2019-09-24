@@ -1,5 +1,5 @@
 plugins {
-    id 'com.gorylenko.gradle-git-properties' version '2.1.0'
+    id 'com.gorylenko.gradle-git-properties' version '2.2.0'
     id 'org.springframework.boot' version '2.2.0.M6'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'com.devsoap.vaadin-flow' version '1.2'
@@ -44,9 +44,11 @@ repositories {
 
 ext {
 	set('springCloudServicesVersion', '2.1.4.RELEASE')
-	set('springCloudVersion', 'Hoxton.M1')
+	set('springCloudVersion', 'Hoxton.M2')
 	set('spring-cloud-services-connectors.version', '2.1.4.RELEASE')
-    set('spring-framework.version', '5.2.0.RC1')
+    set('spring-framework.version', '5.2.0.RC2')
+	// @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
+    set('spring-data-releasetrain.version', 'Moore-RC3')
 	set('resilience4jVersion', '0.17.0')
 	set('vaadinVersion', '13.0.13')
 }
@@ -95,7 +97,7 @@ dependencies {
     implementation vaadin.platform()
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
-	implementation('org.springframework.cloud:spring-cloud-loadbalancer')
+	//implementation('org.springframework.cloud:spring-cloud-loadbalancer')
 	implementation("io.github.resilience4j:resilience4j-spring-boot2:${resilience4jVersion}")
 	implementation("io.github.resilience4j:resilience4j-reactor:${resilience4jVersion}")
 	implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
