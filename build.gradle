@@ -5,7 +5,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '0.22.0'
     id 'com.devsoap.vaadin-flow' version '1.2'
     id 'io.franzbecker.gradle-lombok' version '3.1.0'
-	  id 'java'
+	id 'java'
     id 'jacoco'
     id 'maven-publish'
     id 'com.github.spotbugs' version '2.0.0'
@@ -50,10 +50,10 @@ task javadocJar(type: Jar) {
 }
 
 repositories {
-	  mavenCentral()
+	mavenCentral()
     maven { url "https://repo.spring.io/snapshot" }
-	  maven { url "https://repo.spring.io/milestone" }
-	  maven { url 'https://maven.vaadin.com/vaadin-prereleases'}
+	maven { url "https://repo.spring.io/milestone" }
+	maven { url 'https://maven.vaadin.com/vaadin-prereleases'}
     maven { url 'http://maven.vaadin.com/vaadin-addons'}
 }
 
@@ -61,9 +61,9 @@ ext {
 	  set('springCloudServicesVersion', '2.1.4.RELEASE')
 	  set('springCloudVersion', 'Hoxton.M2')
 	  set('spring-cloud-services-connectors.version', '2.1.4.RELEASE')
-    set('spring-framework.version', '5.2.0.RC2')
+      set('spring-framework.version', '5.2.0.RC2')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
-    set('spring-data-releasetrain.version', 'Moore-RC3')
+      set('spring-data-releasetrain.version', 'Moore-RC3')
 	  set('resilience4jVersion', '0.17.0')
 	  set('vaadinVersion', '13.0.13')
 }
@@ -119,9 +119,9 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
 	implementation('io.projectreactor:reactor-core:3.3.0.RC1')
-  implementation('io.projectreactor.netty:reactor-netty:0.9.0.RC1')
+    implementation('io.projectreactor.netty:reactor-netty:0.9.0.RC1')
 	implementation vaadin.bom()
-  implementation vaadin.platform()
+    implementation vaadin.platform()
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
 	//implementation('org.springframework.cloud:spring-cloud-loadbalancer')
