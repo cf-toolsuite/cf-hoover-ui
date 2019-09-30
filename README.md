@@ -27,6 +27,7 @@ Here's a sample...
     * [Accounting](#accounting)
     * [Snapshot](#snapshot)
   * [What else would you like to see?](#what-else-would-you-like-to-see)
+    * [Have a look at Pivotal Service Instance Manager](#have-a-look-at-pivotal-service-instance-manager)
   * [Credits](#credits)
 
 ## Prerequisites
@@ -181,6 +182,11 @@ GET /snapshot/demographics
 
 What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/pacphi/cf-hoover-ui/issues/new).
 
+### Have a look at Pivotal Service Instance Manager
+
+Does having the the ability to lifecycle manage a service instance on a particular foundation from a single administrative interface excite you? Then you might want to check-out [Pivotal Service Instance Manager](https://docs.pivotal.io/service-instance-manager/0-3/using.html).
+
+> As of v0.3 you may only search for and/or delete individual service instances that a do not have bindings, service keys or route associations.
 
 ## Credits
 
