@@ -3,7 +3,7 @@ package io.pivotal.cfapp.config;
 import javax.net.ssl.SSLException;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.cloud.client.loadbalancer.reactive.LoadBalancerExchangeFilterFunction;
+import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,14 +25,14 @@ public class HooverConfig {
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="true")
-    public WebClient insecureWebClient(HooverSettings settings, LoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+    public WebClient insecureWebClient(HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
         SslContext sslContext = SslContextBuilder
                 .forClient()
                 .trustManager(InsecureTrustManagerFactory.INSTANCE)
                 .build();
         TcpClient tcpClient = TcpClient.create().secure(sslProviderBuilder -> sslProviderBuilder.sslContext(sslContext));
         HttpClient httpClient = HttpClient.from(tcpClient);
-        return 
+        return
             WebClient
                 .builder()
                     .filter(lbFunction)
@@ -43,8 +43,8 @@ public class HooverConfig {
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="false", matchIfMissing=true)
-    public WebClient secureWebClient(HooverSettings settings, LoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
-        return 
+    public WebClient secureWebClient(HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+        return
             WebClient
                 .builder()
                     .filter(lbFunction)
