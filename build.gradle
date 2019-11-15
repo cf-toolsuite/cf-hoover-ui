@@ -1,9 +1,9 @@
 plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.2.0'
-    id 'org.springframework.boot' version '2.2.0.RELEASE'
+    id 'org.springframework.boot' version '2.2.1.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'com.github.ben-manes.versions' version '0.27.0'
-    id 'com.devsoap.vaadin-flow' version '1.2'
+    id 'com.devsoap.vaadin-flow' version '1.3'
     id 'io.franzbecker.gradle-lombok' version '3.2.0'
 	id 'java'
     id 'jacoco'
@@ -23,6 +23,35 @@ spotbugs {
     effort = 'max'
     reportLevel = 'low'
     showProgress = true
+}
+
+jacoco {
+	toolVersion = "0.8.5"
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled = true
+		html.enabled = true
+		csv.enabled = false
+	}
+}
+
+vaadin {
+    version = '13.0.13'
+    compatibilityMode = true
+}
+
+node {
+  version = '12.12.0'
+  npmVersion = '6.13.0'
+  yarnVersion = '1.19.1'
+  distBaseUrl = 'https://nodejs.org/dist'
+  download = true
+  workDir = file("${project.buildDir}/nodejs")
+  npmWorkDir = file("${project.buildDir}/npm")
+  yarnWorkDir = file("${project.buildDir}/yarn")
+  nodeModulesDir = file("${project.projectDir}")
 }
 
 tasks.withType(com.github.spotbugs.SpotBugsTask) {
@@ -54,18 +83,15 @@ repositories {
 	mavenCentral()
     maven { url "https://repo.spring.io/snapshot" }
 	maven { url "https://repo.spring.io/milestone" }
-	maven { url 'https://maven.vaadin.com/vaadin-prereleases'}
-    maven { url 'http://maven.vaadin.com/vaadin-addons'}
+	vaadin.repositories()
 }
 
 ext {
 	  set('springCloudServicesVersion', '2.1.4.RELEASE')
 	  set('springCloudVersion', 'Hoxton.M3')
 	  set('spring-cloud-services-connectors.version', '2.1.4.RELEASE')
-      set('spring-framework.version', '5.2.0.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
-      set('spring-data-releasetrain.version', 'Moore-RELEASE')
-	  set('vaadinVersion', '13.0.13')
+      set('spring-data-releasetrain.version', 'Moore-SR1')
       set('resilience4j.version', '1.1.0')
 }
 
@@ -83,8 +109,9 @@ bootRun {
 }
 
 configurations {
-	// exclude Logback
+	// exclude Logback and Ribbon
     implementation.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    implementation.exclude group: 'org.springframework.cloud', module: 'spring-cloud-starter-netflix-ribbon'
 }
 
 test {
@@ -95,18 +122,6 @@ test {
         showCauses true
         showExceptions true
         showStackTraces true
-	}
-}
-
-jacoco {
-	toolVersion = "0.8.5"
-}
-
-jacocoTestReport {
-	reports {
-		xml.enabled = true
-		html.enabled = true
-		csv.enabled = false
 	}
 }
 
@@ -122,7 +137,7 @@ dependencies {
 	implementation('io.projectreactor:reactor-core:3.3.0.RELEASE')
     implementation('io.projectreactor.netty:reactor-netty:0.9.0.RELEASE')
 	implementation vaadin.bom()
-    implementation vaadin.platform()
+    implementation vaadin.core()
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
 	implementation('org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j')
