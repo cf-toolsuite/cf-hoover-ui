@@ -87,9 +87,9 @@ repositories {
 }
 
 ext {
-	  set('springCloudServicesVersion', '2.1.4.RELEASE')
-	  set('springCloudVersion', 'Hoxton.M3')
-	  set('spring-cloud-services-connectors.version', '2.1.4.RELEASE')
+	  set('springCloudServicesVersion', '3.0.1.RELEASE')
+	  set('springCloudVersion', 'Hoxton.RELEASE')
+	  set('spring-cloud-services-connectors.version', '3.0.1.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
       set('spring-data-releasetrain.version', 'Moore-SR1')
       set('resilience4j.version', '1.1.0')
