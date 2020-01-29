@@ -1,7 +1,7 @@
 ---
 applications:
 - name: cf-hoover-ui
-  memory: 1G
+  memory: 2G
   random-route: true
   stack: cflinuxfs3
   path: build/libs/cf-hoover-ui-0.1-SNAPSHOT.jar
