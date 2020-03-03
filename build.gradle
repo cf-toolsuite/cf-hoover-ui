@@ -25,6 +25,19 @@ spotbugs {
     showProgress = true
 }
 
+spotbugsMain {
+    reports {
+        html {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main/spotbugs.html")
+        }
+        xml {
+            enabled = true
+            destination = file("$buildDir/reports/spotbugs/main/spotbugs.xml")
+        }
+    }
+}
+
 jacoco {
 	toolVersion = "0.8.5"
 }
@@ -220,4 +233,9 @@ javadoc {
     }
 }
 
-check.dependsOn jacocoTestReport
+bootJar.enabled = true
+jar.enabled = false
+
+test.finalizedBy jacocoTestReport
+check.finalizedBy spotbugsMain
+build.finalizedBy publishToMavenLocal
