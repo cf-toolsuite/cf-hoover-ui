@@ -134,7 +134,7 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-log4j2')
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
-	implementation('io.projectreactor:reactor-core:3.3.2.RELEASE')
+	implementation('io.projectreactor:reactor-core:3.3.3.RELEASE')
     implementation('io.projectreactor.netty:reactor-netty:0.9.5.RELEASE')
 	implementation vaadin.bom()
     implementation vaadin.core()
