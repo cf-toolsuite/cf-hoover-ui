@@ -9,7 +9,7 @@ plugins {
     id 'jacoco'
     id 'com.google.cloud.tools.jib' version '2.1.0'
     id 'maven-publish'
-    id 'com.github.spotbugs' version '4.0.0'
+    id 'com.github.spotbugs' version '4.0.2'
 }
 
 gitProperties {
@@ -67,16 +67,6 @@ node {
   nodeModulesDir = file("${project.projectDir}")
 }
 
-tasks.withType(com.github.spotbugs.SpotBugsTask) {
-    reports {
-        html {
-            enabled = true
-        }
-        xml {
-            enabled = false
-        }
-    }
-}
 
 group = 'io.pivotal'
 version = '0.1-SNAPSHOT'
@@ -101,10 +91,10 @@ repositories {
 
 ext {
 	  set('springCloudServicesVersion', '3.1.1.RELEASE')
-	  set('springCloudVersion', 'Hoxton.SR1')
+	  set('springCloudVersion', 'Hoxton.SR2')
 	  set('spring-cloud-services-connectors.version', '3.1.1.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
-      set('spring-data-releasetrain.version', 'Moore-SR3')
+      set('spring-data-releasetrain.version', 'Moore-SR5')
       set('resilience4j.version', '1.2.0')
 }
 
