@@ -86,10 +86,10 @@ repositories {
 
 ext {
 	  set('springCloudServicesVersion', '3.1.1.RELEASE')
-	  set('springCloudVersion', 'Hoxton.SR3')
+	  set('springCloudVersion', "2020.0.0-M1")
 	  set('spring-cloud-services-connectors.version', '3.1.1.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
-      set('spring-data-releasetrain.version', 'Moore-SR5')
+      set('spring-data-releasetrain.version', 'Neumann-RC1')
       set('resilience4j.version', '1.2.0')
 }
 
