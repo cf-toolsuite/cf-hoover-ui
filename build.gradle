@@ -9,7 +9,7 @@ plugins {
     id 'jacoco'
     id 'com.google.cloud.tools.jib' version '2.2.0'
     id 'maven-publish'
-    id 'com.github.spotbugs' version '4.0.5'
+    id 'com.github.spotbugs' version '4.0.7'
 }
 
 gitProperties {
@@ -132,8 +132,8 @@ dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-log4j2')
 	implementation('org.springframework.boot:spring-boot-starter-security')
 	implementation('org.springframework.boot:spring-boot-starter-webflux')
-	implementation('io.projectreactor:reactor-core:3.3.4.RELEASE')
-    implementation('io.projectreactor.netty:reactor-netty:0.9.6.RELEASE')
+	implementation('io.projectreactor:reactor-core:3.3.5.RELEASE')
+    implementation('io.projectreactor.netty:reactor-netty:0.9.7.RELEASE')
     implementation vaadin.core()
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
