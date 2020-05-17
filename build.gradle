@@ -1,15 +1,15 @@
 plugins {
     id 'com.gorylenko.gradle-git-properties' version '2.2.2'
-    id 'org.springframework.boot' version '2.3.0.M4'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'com.github.ben-manes.versions' version '0.28.0'
     id 'com.devsoap.vaadin-flow' version '1.3.5'
-    id 'io.franzbecker.gradle-lombok' version '3.3.0'
+    id 'io.franzbecker.gradle-lombok' version '4.0.0'
 	id 'java'
     id 'jacoco'
     id 'com.google.cloud.tools.jib' version '2.2.0'
     id 'maven-publish'
-    id 'com.github.spotbugs' version '4.0.7'
+    id 'com.github.spotbugs' version '4.2.0'
 }
 
 gitProperties {
@@ -18,7 +18,7 @@ gitProperties {
 }
 
 spotbugs {
-    toolVersion = '4.0.0-beta1'
+    toolVersion = '4.0.3'
     ignoreFailures = true
     effort = 'max'
     reportLevel = 'low'
@@ -61,8 +61,8 @@ vaadin {
 }
 
 node {
-  version = '13.13.0'
-  npmVersion = '6.14.4'
+  version = '14.2.0'
+  npmVersion = '6.14.5'
   yarnVersion = '1.22.4'
   distBaseUrl = 'https://nodejs.org/dist'
   download = true
@@ -85,12 +85,12 @@ repositories {
 }
 
 ext {
-	  set('springCloudServicesVersion', '3.1.1.RELEASE')
+	  set('springCloudServicesVersion', '3.1.2.RELEASE')
 	  set('springCloudVersion', "2020.0.0-M1")
-	  set('spring-cloud-services-connectors.version', '3.1.1.RELEASE')
+	  set('spring-cloud-services-connectors.version', '3.1.2.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
-      set('spring-data-releasetrain.version', 'Neumann-RC1')
-      set('resilience4j.version', '1.2.0')
+      set('spring-data-releasetrain.version', 'Neumann-RELEASE')
+      set('resilience4j.version', '1.4.0')
 }
 
 dependencyManagement {
