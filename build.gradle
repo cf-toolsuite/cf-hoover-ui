@@ -86,11 +86,11 @@ repositories {
 
 ext {
 	  set('springCloudServicesVersion', '3.1.2.RELEASE')
-	  set('springCloudVersion', "2020.0.0-M1")
+	  set('springCloudVersion', "2020.0.0-M2")
 	  set('spring-cloud-services-connectors.version', '3.1.2.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
       set('spring-data-releasetrain.version', 'Neumann-RELEASE')
-      set('resilience4j.version', '1.4.0')
+      set('resilience4j.version', '1.5.0')
 }
 
 dependencyManagement {
@@ -148,7 +148,8 @@ dependencies {
 	testImplementation('org.mockito:mockito-core')
 	testImplementation('org.mockito:mockito-junit-jupiter')
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-	    exclude group: 'junit', module: 'junit'
+	    exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        exclude group: 'junit', module: 'junit'
 	}
 }
 

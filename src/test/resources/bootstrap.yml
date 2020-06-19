@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: cf-hoover-ui
+
+eureka:
+  client:
+    enabled: false
+
+ribbon:
+  eureka:
+    enabled: false
