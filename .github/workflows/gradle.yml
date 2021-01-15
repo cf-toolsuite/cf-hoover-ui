@@ -23,7 +23,7 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew assemble
       # - name: Upload Artifacts
       #   uses: actions/upload-artifact@v1
       #   with:
