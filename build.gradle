@@ -138,7 +138,7 @@ dependencies {
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
 	implementation('org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j')
-    implementation('io.github.resilience4j:resilience4j-annotations:1.6.1')
+    implementation('io.github.resilience4j:resilience4j-annotations:1.7.0')
 	implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
 	implementation('io.micrometer:micrometer-registry-prometheus')
 	testImplementation('io.projectreactor:reactor-test')
