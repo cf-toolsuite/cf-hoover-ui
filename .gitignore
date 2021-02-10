@@ -33,3 +33,5 @@ logs/
 config/*.json
 config/application-*.yml
 src/main/resources/application-*.yml
+
+target
