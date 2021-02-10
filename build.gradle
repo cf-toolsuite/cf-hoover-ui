@@ -3,7 +3,7 @@ plugins {
     id 'org.springframework.boot' version '2.4.2'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'com.github.ben-manes.versions' version '0.36.0'
-    id 'com.devsoap.vaadin-flow' version '1.3.5'
+    id 'com.devsoap.vaadin-flow' version '1.5.1'
     id 'io.franzbecker.gradle-lombok' version '4.0.0'
 	id 'java'
     id 'jacoco'
@@ -56,14 +56,14 @@ jacocoTestReport {
 }
 
 vaadin {
-    version = '13.0.13'
+    version = '14.4.6'
     compatibilityMode = true
 }
 
 node {
-  version = '14.2.0'
-  npmVersion = '6.14.5'
-  yarnVersion = '1.22.4'
+  version = '15.6.0'
+  npmVersion = '7.4.0'
+  yarnVersion = '2.4.0'
   distBaseUrl = 'https://nodejs.org/dist'
   download = true
   workDir = file("${project.buildDir}/nodejs")
