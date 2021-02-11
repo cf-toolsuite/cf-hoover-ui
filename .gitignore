@@ -34,4 +34,13 @@ config/*.json
 config/application-*.yml
 src/main/resources/application-*.yml
 
+## Maven
 target
+
+## Vaadin
+tsconfig.json
+types.d.ts
+webpack*
+package.json
+pnpm*
+node_modules/

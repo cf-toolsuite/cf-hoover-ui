@@ -18,7 +18,7 @@ gitProperties {
 }
 
 spotbugs {
-    toolVersion = '4.0.3'
+    toolVersion = '4.2.1'
     ignoreFailures = true
     effort = 'max'
     reportLevel = 'low'
@@ -56,14 +56,14 @@ jacocoTestReport {
 }
 
 vaadin {
-    version = '14.4.6'
+    version = '13.0.13'
     compatibilityMode = true
 }
 
 node {
-  version = '15.6.0'
-  npmVersion = '7.4.0'
-  yarnVersion = '2.4.0'
+  version = '15.8.0'
+  npmVersion = '7.5.0'
+  yarnVersion = '1.22.0'
   distBaseUrl = 'https://nodejs.org/dist'
   download = true
   workDir = file("${project.buildDir}/nodejs")
@@ -85,12 +85,12 @@ repositories {
 }
 
 ext {
-	  set('springCloudServicesVersion', '3.1.2.RELEASE')
-	  set('springCloudVersion', "2020.0.0")
-	  set('spring-cloud-services-connectors.version', '3.1.2.RELEASE')
+	  set('springCloudServicesVersion', '3.2.0.RELEASE')
+	  set('springCloudVersion', "2020.0.1")
+	  set('spring-cloud-services-connectors.version', '3.2.0.RELEASE')
 	  // @see https://github.com/spring-projects/spring-boot/blob/master/spring-boot-project/spring-boot-dependencies/pom.xml
       set('spring-data-releasetrain.version', 'Neumann-RELEASE')
-      set('resilience4j.version', '1.6.1')
+      set('resilience4j.version', '1.7.0')
 }
 
 dependencyManagement {
@@ -138,7 +138,7 @@ dependencies {
 	implementation('com.vaadin:vaadin-spring-boot-starter')
 	//implementation('com.github.appreciated:apexcharts:0.8.0')
 	implementation('org.springframework.cloud:spring-cloud-starter-circuitbreaker-reactor-resilience4j')
-    implementation('io.github.resilience4j:resilience4j-annotations:1.6.1')
+    implementation('io.github.resilience4j:resilience4j-annotations:1.7.0')
 	implementation('io.pivotal.spring.cloud:spring-cloud-services-starter-service-registry')
 	implementation('io.micrometer:micrometer-registry-prometheus')
 	testImplementation('io.projectreactor:reactor-test')

@@ -20,7 +20,7 @@ Here's a sample...
     * [To set the operations schedule](#to-set-the-operations-schedule)
     * [General configuration notes](#general-configuration-notes)
   * [How to Build](#how-to-build)
-  * [How to Run with Gradle](#how-to-run-with-gradle)
+  * [How to Run with Maven](#how-to-run-with-maven)
   * [How to deploy to Pivotal Application Service](#how-to-deploy-to-pivotal-application-service)
     * [using scripts](#using-scripts)
   * [Available UI Endpoints](#available-ui-endpoints)
@@ -72,17 +72,17 @@ If you copied and appended a suffix to the original `application.yml` then you w
 E.g., if you had a configuration file named `application-pws.yml`
 
 ```
-./gradlew bootRun -Dspring.profiles.active=pws
+./mvw spring-boot:run -Dspring.profiles.active=pws
 ```
 
 ## How to Build
 
 ```
-./gradlew build
+./mvnw --batch-mode --update-snapshots -DskipTests -P production verify
 ```
 
 
-## How to Run with Gradle
+## How to Run with Maven
 
 If you intend to run `cf-hoover-ui` in a local development environment, you must first:
 
@@ -92,7 +92,7 @@ If you intend to run `cf-hoover-ui` in a local development environment, you must
 Then:
 
 ```
-./gradlew bootRun -Dspring.profiles.active={target_foundation_profile}
+./mvw spring-boot:run -Dspring.profiles.active={target_foundation_profile}
 ```
 where `{target_foundation_profile}` is something like `pws` or `pcfone`
 
