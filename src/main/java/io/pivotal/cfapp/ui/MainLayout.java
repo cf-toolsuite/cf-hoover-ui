@@ -1,11 +1,13 @@
 package io.pivotal.cfapp.ui;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.accordion.Accordion;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
+import com.vaadin.flow.component.details.DetailsVariant;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.RouterLink;
 
@@ -27,33 +29,48 @@ public class MainLayout extends AppLayout {
     private static final long serialVersionUID = 1L;
 
     public MainLayout() {
+    	Tab homeTab = createTab(VaadinIcon.HOME.create(), "Home", HomeView.class);
+    	
+    	Accordion accordion = new Accordion();
+    	
+    	Tabs accountingTabs = createTabs();
+    	Tab aurTab = createTab(VaadinIcon.TABLE.create(),"Application", AppUsageReportView.class);
+    	Tab surTab = createTab(VaadinIcon.TABLE.create(), "Service", ServiceUsageReportView.class);
+    	Tab spurTab = createTab(VaadinIcon.TABLE.create(), "Service Plan", ServicePlanUsageReportView.class);
+    	Tab turTab = createTab(VaadinIcon.TABLE.create(), "Task", TaskUsageReportView.class);
+    	accountingTabs.add(aurTab, surTab, spurTab, turTab);
+    	accordion.add("Accounting", accountingTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	
+    	Tabs snapshotDetailTabs = createTabs();
+    	Tab sadTab = createTab(VaadinIcon.TABLE.create(), "Application", SnapshotApplicationDetailView.class);
+    	Tab sidTab = createTab(VaadinIcon.TABLE.create(), "Service Instance", SnapshotServiceInstanceDetailView.class);
+    	Tab suTab = createTab(VaadinIcon.USERS.create(), "Users", UsersView.class);
+    	snapshotDetailTabs.add(sadTab, sidTab, suTab);
+    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.REVERSE);
+
+    	Tabs snapshotSummaryTabs = createTabs();
+    	Tab ssdTab = createTab(VaadinIcon.PIE_CHART.create(),"Demographics", DemographicsView.class);
+    	Tab ssaTab = createTab(VaadinIcon.DASHBOARD.create(),"Application", SnapshotApplicationSummaryView.class);
+    	Tab sssiTab = createTab(VaadinIcon.DASHBOARD.create(),"Service Instance", SnapshotServiceInstanceSummaryView.class);
+    	snapshotSummaryTabs.add(ssdTab, ssaTab, sssiTab);
+    	accordion.add("Snapshot Summary", snapshotSummaryTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	
+    	addToNavbar(true, homeTab, new DrawerToggle());
+    	addToDrawer(accordion);
+    }
+    
+    private Tabs createTabs() {
     	Tabs menu = new Tabs();
     	menu.setWidthFull();
-    	menu.setOrientation(Tabs.Orientation.HORIZONTAL);
-    	
-    	Tab homeTab = createTab(VaadinIcon.HOME.create(), "Home", HomeView.class);
-    	Tab aurTab = createTab(VaadinIcon.TABLE.create(),"Accounting » Application", AppUsageReportView.class);
-    	Tab surTab = createTab(VaadinIcon.TABLE.create(), "Accounting » Service", ServiceUsageReportView.class);
-    	Tab spurTab = createTab(VaadinIcon.TABLE.create(), "Accounting » Service Plan", ServicePlanUsageReportView.class);
-    	Tab turTab = createTab(VaadinIcon.TABLE.create(), "Accounting » Task", TaskUsageReportView.class);
-    	Tab sadTab = createTab(VaadinIcon.TABLE.create(), "Snapshot Detail » Application", SnapshotApplicationDetailView.class);
-    	Tab sidTab = createTab(VaadinIcon.TABLE.create(), "Snapshot Detail » Service Instance", SnapshotServiceInstanceDetailView.class);
-    	Tab suTab = createTab(VaadinIcon.USERS.create(), "Snapshot Detail » Users", UsersView.class);
-    	Tab ssdTab = createTab(VaadinIcon.PIE_CHART.create(),"Snapshot Summary » Demographics", DemographicsView.class);
-    	Tab ssaTab = createTab(VaadinIcon.DASHBOARD.create(),"Snapshot Summary » Application", SnapshotApplicationSummaryView.class);
-    	Tab sssiTab = createTab(VaadinIcon.DASHBOARD.create(),"Snapshot Summary » Service Instance", SnapshotServiceInstanceSummaryView.class);
-    	
-    	menu.add(homeTab, aurTab, surTab, spurTab, turTab, sadTab, sidTab, suTab, ssdTab, ssaTab, sssiTab);
-    	
-    	addToNavbar(true, menu);
+    	menu.setOrientation(Tabs.Orientation.VERTICAL);
+    	menu.setFlexGrowForEnclosedTabs(1);
+    	return menu;
     }
     
     private Tab createTab(Icon icon, String label, Class<? extends Component> layout) {
     	RouterLink link = new RouterLink(label, layout);
-    	link.add(icon);
     	Tab tab = new Tab();
-    	tab.add(link);
-    	tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
+    	tab.add(icon, link);
     	return tab;
     }
  
