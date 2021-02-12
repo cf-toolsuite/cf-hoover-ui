@@ -4,7 +4,6 @@ import javax.net.ssl.SSLException;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -14,9 +13,7 @@ import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.InsecureTrustManagerFactory;
 import reactor.netty.http.client.HttpClient;
-import reactor.netty.tcp.TcpClient;
 
-@RefreshScope
 @Configuration
 public class WebClientConfig {
 
@@ -26,12 +23,10 @@ public class WebClientConfig {
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="true")
     public WebClient insecureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
-        SslContext sslContext = SslContextBuilder
-                .forClient()
-                .trustManager(InsecureTrustManagerFactory.INSTANCE)
-                .build();
-        TcpClient tcpClient = TcpClient.create().secure(sslProviderBuilder -> sslProviderBuilder.sslContext(sslContext));
-        HttpClient httpClient = HttpClient.from(tcpClient);
+    	SslContext context = SslContextBuilder.forClient()
+    		    .trustManager(InsecureTrustManagerFactory.INSTANCE)
+    		    .build();        
+    	HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(context));
         return
             builder
                 .filter(lbFunction)
