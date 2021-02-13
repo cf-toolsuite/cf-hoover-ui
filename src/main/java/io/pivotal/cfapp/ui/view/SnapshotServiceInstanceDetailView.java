@@ -193,10 +193,10 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
 
     public VerticalLayout getLastUpdatedPicker(ListDataProvider<ServiceInstanceDetail> dataProvider) {
         DatePicker startDatePicker = new DatePicker();
-        startDatePicker.setLabel("Start");
+        startDatePicker.setPlaceholder("Start");
         startDatePicker.setSizeFull();
         DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setLabel("End");
+        endDatePicker.setPlaceholder("End");
         endDatePicker.setSizeFull();
 
         startDatePicker.addValueChangeListener(event -> {

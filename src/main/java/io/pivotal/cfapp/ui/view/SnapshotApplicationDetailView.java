@@ -253,10 +253,10 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
 
     public VerticalLayout getLastPushedPicker(ListDataProvider<AppDetail> dataProvider) {
         DatePicker startDatePicker = new DatePicker();
-        startDatePicker.setLabel("Start");
+        startDatePicker.setPlaceholder("Start");
         startDatePicker.setSizeFull();
         DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setLabel("End");
+        endDatePicker.setPlaceholder("End");
         endDatePicker.setSizeFull();
 
         startDatePicker.addValueChangeListener(event -> {
@@ -298,10 +298,10 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
 
     public VerticalLayout getLastEventTimePicker(ListDataProvider<AppDetail> dataProvider) {
         DatePicker startDatePicker = new DatePicker();
-        startDatePicker.setLabel("Start");
+        startDatePicker.setPlaceholder("Start");
         startDatePicker.setSizeFull();
         DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setLabel("End");
+        endDatePicker.setPlaceholder("End");
         endDatePicker.setSizeFull();
 
         startDatePicker.addValueChangeListener(event -> {
