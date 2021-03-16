@@ -48,7 +48,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.2</version>
+		<version>2.4.3</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -79,12 +79,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.12.1</version>
+			<version>2.12.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.12.1</version>
+			<version>2.12.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -134,11 +134,6 @@
 			<groupId>com.lmax</groupId>
 			<artifactId>disruptor</artifactId>
 			<version>3.4.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.experimental</groupId>
-			<artifactId>spring-graalvm-native</artifactId>
-			<version>0.8.5</version>
 		</dependency>
 		<dependency>
 			<groupId>io.micrometer</groupId>
@@ -230,21 +225,17 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>Maven Central</name>
-			<layout>default</layout>
-			<url>https://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>spring-milestone</id>
-			<name>Spring milestone</name>
-			<url>https://repo.spring.io/milestone</url>
-		</repository>
+    <repositories>
+	    <repository>
+	      <id>spring-release</id>
+	      <name>Spring Release</name>
+	      <url>https://repo.spring.io/release</url>
+	    </repository>
+	    <repository>
+	      <id>spring-milestone</id>
+	      <name>Spring milestone</name>
+	      <url>https://repo.spring.io/milestone</url>
+	    </repository>
 		<repository>
 			<id>Vaadin Directory</id>
 			<url>https://maven.vaadin.com/vaadin-addons</url>
@@ -252,15 +243,20 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-	</repositories>
+  </repositories>
 
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-milestone</id>
-			<name>Spring milestone</name>
-			<url>https://repo.spring.io/milestone</url>
-		</pluginRepository>
-	</pluginRepositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>spring-release</id>
+      <name>Spring Release</name>
+      <url>https://repo.spring.io/plugins-release</url>
+    </pluginRepository>
+    <pluginRepository>
+      <id>spring-milestone</id>
+      <name>Spring milestone</name>
+      <url>https://repo.spring.io/plugins-milestone</url>
+    </pluginRepository>
+  </pluginRepositories>
 
 	<build>
 		<sourceDirectory>target/generated-sources/delombok</sourceDirectory>
@@ -452,7 +448,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.4.2</version>
+				<version>2.4.3</version>
 				<!-- Clean build and startup time for Vaadin apps sometimes may exceed 
 					the default Spring Boot's 30sec timeout. -->
 				<configuration>
@@ -539,34 +535,51 @@
 		</profile>
 		
 		<profile>
-			<id>native</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.graalvm.nativeimage</groupId>
-						<artifactId>native-image-maven-plugin</artifactId>
-						<version>20.2.0</version>
-						<configuration>
-							<mainClass>io.pivotal.cfapp.AppInit</mainClass>
-							<buildArgs>-H:+TraceClassInitialization -H:+ReportExceptionStackTraces -Dspring.native.remove-xml-support=true -Dspring.native.remove-yaml-support=true -Dspring.spel.ignore=true -Dspring.native.remove-jmx-support=true --initialize-at-build-time=org.eclipse.jgit</buildArgs>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>native-image</goal>
-								</goals>
-								<phase>package</phase>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>2.4.2</version>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+	      <id>native</id>
+          <dependencies>
+            <dependency>
+	          <groupId>org.springframework.experimental</groupId>
+	          <artifactId>spring-graalvm-native</artifactId>
+	          <version>0.9.0</version>
+	        </dependency>
+          </dependencies>
+	      <build>
+	        <plugins>
+	          <plugin>
+	            <groupId>org.springframework.experimental</groupId>
+	            <artifactId>spring-aot-maven-plugin</artifactId>
+	            <version>0.9.0</version>
+	            <executions>
+	                <execution>
+	                    <id>test-generate</id>
+	                    <goals>
+	                        <goal>test-generate</goal>
+	                    </goals>
+	                </execution>
+	                <execution>
+	                    <id>generate</id>
+	                    <goals>
+	                        <goal>generate</goal>
+	                    </goals>
+	                </execution>
+	            </executions>
+	          </plugin>
+	          <plugin>
+	            <groupId>org.springframework.boot</groupId>
+	            <artifactId>spring-boot-maven-plugin</artifactId>
+	            <version>2.4.3</version>
+	            <configuration>
+	                <image>
+	                    <builder>paketobuildpacks/builder:tiny</builder>
+	                    <env>
+	                        <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+	                    </env>
+	                </image>
+	            </configuration>
+	          </plugin>
+	        </plugins>
+	      </build>
+	    </profile>
 		
 		<profile>
 			<id>wavefront</id>
