@@ -6,7 +6,7 @@
 
 	<groupId>io.pivotal</groupId>
 	<artifactId>cf-hoover-ui</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
 
 	<name>cf-hoover-ui</name>
 	<description>A simple dashboard display for metrics gathered from a cf-hoover instance.</description>
@@ -38,6 +38,11 @@
 			<name>Deployment through Maven's SCM Publish Plugin</name>
 			<url>scm:git:git@github.com:pacphi/cf-hoover-ui.git</url>
 		</site>
+		<repository>
+			<id>github</id>
+			<name>GitHub Packages</name>
+			<url>https://maven.pkg.github.com/pacphi/cf-hoover-ui</url>
+		</repository>
 	</distributionManagement>
 
 	<issueManagement>

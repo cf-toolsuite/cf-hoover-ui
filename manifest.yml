@@ -4,7 +4,7 @@ applications:
   memory: 2G
   random-route: true
   stack: cflinuxfs3
-  path: target/cf-hoover-ui-0.1-SNAPSHOT.jar
+  path: target/cf-hoover-ui-1.0-SNAPSHOT.jar
   instances: 1
   env:
     CRON_ENABLED: true
