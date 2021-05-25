@@ -52,7 +52,7 @@ public class UsersView extends VerticalLayout {
     private Grid<User> buildGrid(Collection<User> items) {
         Grid<User> grid = new Grid<>(User.class, false);
         ListDataProvider<User> dataProvider = new ListDataProvider<>(items);
-        grid.setDataProvider(dataProvider);
+        grid.setItems(dataProvider);
 
         Column<User> nameColumn = grid.addColumn(TemplateRenderer.<User> of("[[item.name]]").withProperty("name", User::getName)).setHeader("Name").setTextAlign(ColumnTextAlign.START).setResizable(true);
 
@@ -69,7 +69,7 @@ public class UsersView extends VerticalLayout {
 
         // @see https://github.com/vaadin/vaadin-grid-flow/issues/234
         for (Column<User> column : grid.getColumns())
-	        column.getElement().getParent().callFunction("setAttribute", "resizable", true);
+	        column.getElement().getParent().callJsFunction("setAttribute", "resizable", true);
 
         return grid;
     }

@@ -18,7 +18,7 @@ public class Demographics {
 
     @Default
     @JsonProperty("demographics")
-    private Set<Demographic> demographics = new HashSet();
+    private Set<Demographic> demographics = new HashSet<>();
 
     @Default
     @JsonProperty("total-foundations")

@@ -13,7 +13,7 @@ import com.vaadin.flow.theme.material.Material;
 @EnableScheduling
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@Theme(value = Material.class, variant = Material.DARK)
+@Theme(themeClass = Material.class, variant = Material.DARK)
 @PWA(name = "A simple dashboard display for metrics gathered from a cf-hoover instance", shortName = "cf-hoover-ui")
 public class CfHooverUiApplication implements AppShellConfigurator {
 

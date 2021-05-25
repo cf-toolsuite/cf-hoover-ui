@@ -44,3 +44,5 @@ webpack*
 package.json
 pnpm*
 node_modules/
+vaadin.ts
+.npmrc

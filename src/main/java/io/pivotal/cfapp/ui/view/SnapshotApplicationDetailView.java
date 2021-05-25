@@ -57,7 +57,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
 
         Grid<AppDetail> grid = new Grid<>(AppDetail.class, false);
         ListDataProvider<AppDetail> dataProvider = new ListDataProvider<>(items);
-        grid.setDataProvider(dataProvider);
+        grid.setItems(dataProvider);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
 
@@ -246,7 +246,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
 
         // @see https://github.com/vaadin/vaadin-grid-flow/issues/234
         for (Column<AppDetail> column : grid.getColumns())
-	        column.getElement().getParent().callFunction("setAttribute", "resizable", true);
+	        column.getElement().getParent().callJsFunction("setAttribute", "resizable", true);
 
         return grid;
     }

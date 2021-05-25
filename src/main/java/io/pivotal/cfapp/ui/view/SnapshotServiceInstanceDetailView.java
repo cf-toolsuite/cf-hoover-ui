@@ -52,7 +52,7 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
     public Grid<ServiceInstanceDetail> buildGrid(Collection<ServiceInstanceDetail> items) {
         Grid<ServiceInstanceDetail> grid = new Grid<>(ServiceInstanceDetail.class, false);
         ListDataProvider<ServiceInstanceDetail> dataProvider = new ListDataProvider<>(items);
-        grid.setDataProvider(dataProvider);
+        grid.setItems(dataProvider);
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
 
@@ -186,7 +186,7 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
 
         // @see https://github.com/vaadin/vaadin-grid-flow/issues/234
         for (Column<ServiceInstanceDetail> column : grid.getColumns())
-            column.getElement().getParent().callFunction("setAttribute", "resizable", true);
+            column.getElement().getParent().callJsFunction("setAttribute", "resizable", true);
 
         return grid;
     }
