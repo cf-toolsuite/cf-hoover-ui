@@ -53,7 +53,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.4.5</version>
+		<version>2.5.3</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -71,7 +71,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>20.0.1</vaadin.version>
+		<vaadin.version>20.0.5</vaadin.version>
 		<lombok.version>1.18.20</lombok.version>
 	</properties>
 
@@ -84,12 +84,12 @@
 		<dependency>
 			<groupId>com.fasterxml.jackson.datatype</groupId>
 			<artifactId>jackson-datatype-jsr310</artifactId>
-			<version>2.12.3</version>
+			<version>2.12.4</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.12.3</version>
+			<version>2.12.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -156,12 +156,12 @@
 		<dependency>
 			<groupId>io.github.resilience4j</groupId>
 			<artifactId>resilience4j-annotations</artifactId>
-			<version>1.7.0</version>
+			<version>1.7.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
-			<version>3.0.2</version>
+			<version>3.0.3</version>
 		</dependency>
 
 		<dependency>
@@ -172,7 +172,7 @@
 		<dependency>
             <groupId>org.vaadin.artur</groupId>
             <artifactId>a-vaadin-helper</artifactId>
-            <version>1.5.0</version>
+            <version>1.7.1</version>
         </dependency>
 
 		<dependency>
@@ -183,7 +183,7 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.19.0</version>
+			<version>3.20.2</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -458,8 +458,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.4.5</version>
-				<!-- Clean build and startup time for Vaadin apps sometimes may exceed 
+				<version>2.5.3</version>
+				<!-- Clean build and startup time for Vaadin apps sometimes may exceed
 					the default Spring Boot's 30sec timeout. -->
 				<configuration>
 					<wait>500</wait>
@@ -523,7 +523,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>2.4.5</version>
+						<version>2.5.3</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
@@ -544,22 +544,44 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 		<profile>
 	      <id>native</id>
           <dependencies>
             <dependency>
 	          <groupId>org.springframework.experimental</groupId>
-	          <artifactId>spring-graalvm-native</artifactId>
-	          <version>0.9.0</version>
+	          <artifactId>spring-native</artifactId>
+	          <version>0.10.2</version>
 	        </dependency>
           </dependencies>
-	      <build>
-	        <plugins>
+		  <build>
+			<resources>
+			  <resource>
+			    <directory>src/main/resources</directory>
+				<excludes>
+				  <exclude>logback-spring.xml</exclude>
+				  <exclude>log4j2-spring.xml</exclude>
+				  <exclude>log4j2.component.properties</exclude>
+				</excludes>
+				<filtering>false</filtering>
+			  </resource>
+			</resources>
+			<plugins>
+			  <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.0.0-M5</version>
+				<configuration>
+				<argLine>-DspringAot=true -agentlib:native-image-agent=access-filter-file=src/test/resources/access-filter.json,config-merge-dir=target/classes/META-INF/native-image --illegal-access=permit ${surefire.jacoco.args}</argLine>
+				</configuration>
+			  </plugin>
 	          <plugin>
 	            <groupId>org.springframework.experimental</groupId>
 	            <artifactId>spring-aot-maven-plugin</artifactId>
-	            <version>0.9.0</version>
+	            <version>0.10.2</version>
+				<configuration>
+                  <mode>native-agent</mode>
+                </configuration>
 	            <executions>
 	                <execution>
 	                    <id>test-generate</id>
@@ -576,29 +598,30 @@
 	            </executions>
 	          </plugin>
 	          <plugin>
-	            <groupId>org.springframework.boot</groupId>
-	            <artifactId>spring-boot-maven-plugin</artifactId>
-	            <version>2.4.5</version>
-	            <configuration>
-	                <image>
-	                    <builder>paketobuildpacks/builder:tiny</builder>
-	                    <env>
-	                        <BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
-	                    </env>
-	                </image>
-	            </configuration>
-	          </plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<image>
+						<builder>paketobuildpacks/builder:tiny</builder>
+						<env>
+							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+							<BP_NATIVE_IMAGE_BUILD_ARGUMENTS>-H:+ReportExceptionStackTraces --initialize-at-build-time=sun.instrument.InstrumentationImpl</BP_NATIVE_IMAGE_BUILD_ARGUMENTS>
+						</env>
+					</image>
+				</configuration>
+			  </plugin>
 	        </plugins>
 	      </build>
 	    </profile>
-		
+
 		<profile>
 			<id>wavefront</id>
 			<dependencies>
 				<dependency>
 					<groupId>com.wavefront</groupId>
 					<artifactId>wavefront-spring-boot-starter</artifactId>
-					<version>2.0.1</version>
+					<version>2.2.0</version>
 				</dependency>
 			</dependencies>
 		</profile>
@@ -609,7 +632,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.2.3</version>
+				<version>4.3.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
