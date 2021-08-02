@@ -1,4 +1,4 @@
-# Pivotal Application Service > Hoover UI
+# VMware Tanzu Application Service > Hoover UI
 
 [![Beta](https://img.shields.io/badge/Stability-Beta-orange)](https://img.shields.io/badge/Stability-Beta-orange) [![Build Status](https://travis-ci.org/pacphi/cf-hoover-ui.svg?branch=master)](https://travis-ci.org/pacphi/cf-hoover-ui) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-hoover-ui/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-hoover-ui) [![Release](https://jitpack.io/v/pacphi/cf-hoover-ui.svg)](https://jitpack.io/#pacphi/cf-hoover-ui/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -21,13 +21,12 @@ Here's a sample...
     * [General configuration notes](#general-configuration-notes)
   * [How to Build](#how-to-build)
   * [How to Run with Maven](#how-to-run-with-maven)
-  * [How to deploy to Pivotal Application Service](#how-to-deploy-to-pivotal-application-service)
+  * [How to deploy to VMware Tanzu Application Service](#how-to-deploy-to-vmware-tanzu-application-service)
     * [using scripts](#using-scripts)
   * [Available UI Endpoints](#available-ui-endpoints)
     * [Accounting](#accounting)
     * [Snapshot](#snapshot)
   * [What else would you like to see?](#what-else-would-you-like-to-see)
-    * [Have a look at Pivotal Service Instance Manager](#have-a-look-at-pivotal-service-instance-manager)
   * [Credits](#credits)
 
 ## Prerequisites
@@ -35,8 +34,8 @@ Here's a sample...
 Required
 
 * [cf-hoover](https://github.com/pacphi/cf-hoover)
-* [Pivotal Application Service](https://pivotal.io/platform/pivotal-application-service) 2.4 or better
-* [Service Registry for Pivotal Cloud Foundry](https://docs.pivotal.io/spring-cloud-services/2-0/common/service-registry/index.html) 2.0.x or better
+* [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.4 or better
+* [Service Registry for VMware Tanzu Cloud Foundry](https://docs.pivotal.io/spring-cloud-services/2-0/common/service-registry/index.html) 2.0.x or better
 
 
 ## Tools
@@ -55,13 +54,13 @@ git clone https://github.com/pacphi/cf-hoover-ui.git
 
 ## How to configure
 
-Make a copy of then edit the contents of the `application.yml` file located in `src/main/resources`.  A best practice is to append a suffix representating the target deployment environment (e.g., `application-pws.yml`, `application-pcfone.yml`). You will need to provide administrator credentials to Apps Manager for the foundation if you want the butler to keep your entire foundation tidy.
+Make a copy of then edit the contents of the `application.yml` file located in `src/main/resources`.  A best practice is to append a suffix representing the target deployment environment (e.g., `application-pws.yml`, `application-pcfone.yml`). You will need to provide administrator credentials to Apps Manager for the foundation if you want the butler to keep your entire foundation tidy.
 
 > You really should not bundle configuration with the application. To take some of the sting away, you might consider externalizing and/or [encrypting](https://blog.novatec-gmbh.de/encrypted-properties-spring/) this configuration.
 
 ### To set the operations schedule
 
-`cf-hoover-ui` periodically queries an instance of `cf-hoover` to obtain foundation data.  It does this by configuring a Spring Cloud Loadbalancer [filter](https://github.com/spring-cloud-incubator/spring-cloud-loadbalancer/blob/master/docs/src/main/asciidoc/spring-cloud-commons.adoc#spring-webflux-webclient-as-a-load-balancer-client) for use with [WebClient](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-webclient.html#boot-features-webclient).
+`cf-hoover-ui` periodically queries an instance of `cf-hoover` to obtain foundation data.  It does this by configuring a Spring Cloud Loadbalancer [filter](https://docs.spring.io/spring-cloud-commons/docs/current/reference/html/#webflux-with-reactive-loadbalancer) for use with [WebClient](https://docs.spring.io/spring-boot/docs/current/reference/html/boot-features-webclient.html#boot-features-webclient).
 
 Update the value of the `cron.collection` property in `application.yml`.  Consult this [article](https://www.baeldung.com/spring-scheduled-tasks) and the [Javadoc](https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/scheduling/annotation/Scheduled.html#cron--) to understand how to tune it for your purposes.
 
@@ -99,7 +98,7 @@ where `{target_foundation_profile}` is something like `pws` or `pcfone`
 > You'll need to manually stop to the application with `Ctrl+C`
 
 
-## How to deploy to Pivotal Application Service
+## How to deploy to VMware Tanzu Application Service
 
 Please review the [manifest.yml](manifest.yml) before deploying.
 
@@ -182,11 +181,6 @@ GET /snapshot/demographics
 
 What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/pacphi/cf-hoover-ui/issues/new).
 
-### Have a look at Pivotal Service Instance Manager
-
-Does having the the ability to lifecycle manage a service instance on a particular foundation from a single administrative interface excite you? Then you might want to check-out [Pivotal Service Instance Manager](https://docs.pivotal.io/service-instance-manager/0-3/using.html).
-
-> As of v0.3 you may only search for and/or delete individual service instances that a do not have bindings, service keys or route associations.
 
 ## Credits
 
