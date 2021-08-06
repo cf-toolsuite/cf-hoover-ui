@@ -34,8 +34,8 @@ Here's a sample...
 Required
 
 * [cf-hoover](https://github.com/pacphi/cf-hoover)
-* [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.4 or better
-* [Service Registry for VMware Tanzu Cloud Foundry](https://docs.pivotal.io/spring-cloud-services/2-0/common/service-registry/index.html) 2.0.x or better
+* [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.9 or better
+* [Spring Cloud Services, Service Registry](https://docs.pivotal.io/spring-cloud-services/3-1/common/service-registry/index.html) 3.1.x or better
 
 
 ## Tools
