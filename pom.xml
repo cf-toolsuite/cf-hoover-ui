@@ -53,7 +53,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.5.5</version>
+		<version>2.5.6</version>
 		<relativePath />
 		<!-- lookup parent from repository -->
 	</parent>
@@ -71,8 +71,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>21.0.2</vaadin.version>
-		<lombok.version>1.18.20</lombok.version>
+		<vaadin.version>21.0.3</vaadin.version>
+		<lombok.version>1.18.22</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -458,7 +458,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.5.5</version>
+				<version>2.5.6</version>
 				<!-- Clean build and startup time for Vaadin apps sometimes may exceed
 					the default Spring Boot's 30sec timeout. -->
 				<configuration>
@@ -523,7 +523,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>2.5.5</version>
+						<version>2.5.6</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
@@ -551,7 +551,7 @@
             <dependency>
 	          <groupId>org.springframework.experimental</groupId>
 	          <artifactId>spring-native</artifactId>
-	          <version>0.10.3</version>
+	          <version>0.10.5</version>
 	        </dependency>
           </dependencies>
 		  <build>
@@ -578,7 +578,7 @@
 	          <plugin>
 	            <groupId>org.springframework.experimental</groupId>
 	            <artifactId>spring-aot-maven-plugin</artifactId>
-	            <version>0.10.3</version>
+	            <version>0.10.5</version>
 				<configuration>
                   <mode>native-agent</mode>
                 </configuration>
@@ -600,7 +600,7 @@
 	          <plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.5.5</version>
+				<version>2.5.6</version>
 				<configuration>
 					<image>
 						<builder>paketobuildpacks/builder:tiny</builder>
