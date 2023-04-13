@@ -46,3 +46,4 @@ pnpm*
 node_modules/
 vaadin.ts
 .npmrc
+frontend/
