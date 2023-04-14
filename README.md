@@ -34,15 +34,15 @@ Here's a sample...
 Required
 
 * [cf-hoover](https://github.com/pacphi/cf-hoover)
-* [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.9 or better
+* [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.11 or better
 * [Spring Cloud Services, Service Registry](https://docs.pivotal.io/spring-cloud-services/3-1/common/service-registry/index.html) 3.1.x or better
 
 
 ## Tools
 
-* [git](https://git-scm.com/downloads) 2.20.1 or better
-* [JDK](http://openjdk.java.net/install/) 11 or better
-* [cf](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html) CLI 6.41.0 or better
+* [git](https://git-scm.com/downloads) 2.40.0 or better
+* [JDK](http://openjdk.java.net/install/) 17 or better
+* [cf](https://docs.cloudfoundry.org/cf-cli/install-go-cli.html) CLI 8.6.1 or better
 
 
 ## Clone
