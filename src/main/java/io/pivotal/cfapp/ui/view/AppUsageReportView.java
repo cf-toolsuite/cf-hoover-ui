@@ -44,7 +44,7 @@ public class AppUsageReportView extends VerticalLayout {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         Grid<AppUsageMonthly> grid = new Grid<>(AppUsageMonthly.class, false);
-        grid.addColumn(LitRenderer.<AppUsageMonthly> of("[[item.year]]").withProperty("year", AppUsageMonthly::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        grid.addColumn(LitRenderer.<AppUsageMonthly> of("${item.year}").withProperty("year", AppUsageMonthly::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(AppUsageMonthly::getMonth, formatter)).setHeader("Month").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(AppUsageMonthly::getAverageAppInstances, formatter)).setHeader("Average Application Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(AppUsageMonthly::getMaximumAppInstances, formatter)).setHeader("Maximum Application Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);

@@ -54,7 +54,7 @@ public class UsersView extends VerticalLayout {
         ListDataProvider<User> dataProvider = new ListDataProvider<>(items);
         grid.setItems(dataProvider);
 
-        Column<User> nameColumn = grid.addColumn(LitRenderer.<User> of("[[item.name]]").withProperty("name", User::getName)).setHeader("Name").setTextAlign(ColumnTextAlign.START).setResizable(true);
+        Column<User> nameColumn = grid.addColumn(LitRenderer.<User> of("${item.name}").withProperty("name", User::getName)).setHeader("Name").setTextAlign(ColumnTextAlign.START).setResizable(true);
 
         HeaderRow filterRow = grid.appendHeaderRow();
 

@@ -44,10 +44,10 @@ public class ServiceUsageReportView extends VerticalLayout {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         Grid<NormalizedServiceMonthlyUsage> grid = new Grid<>(NormalizedServiceMonthlyUsage.class, false);
-        grid.addColumn(LitRenderer.<NormalizedServiceMonthlyUsage> of("[[item.year]]").withProperty("year", NormalizedServiceMonthlyUsage::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServiceMonthlyUsage> of("${item.year}").withProperty("year", NormalizedServiceMonthlyUsage::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServiceMonthlyUsage::getMonth, formatter)).setHeader("Month").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
-        grid.addColumn(LitRenderer.<NormalizedServiceMonthlyUsage> of("[[item.serviceName]]").withProperty("serviceName", NormalizedServiceMonthlyUsage::getServiceName)).setHeader("Service Name").setResizable(true);
-        grid.addColumn(LitRenderer.<NormalizedServiceMonthlyUsage> of("[[item.serviceGuid]]").withProperty("serviceGuid", NormalizedServiceMonthlyUsage::getServiceGuid)).setHeader("Service Guid").setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServiceMonthlyUsage> of("${item.serviceName}").withProperty("serviceName", NormalizedServiceMonthlyUsage::getServiceName)).setHeader("Service Name").setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServiceMonthlyUsage> of("${item.serviceGuid}").withProperty("serviceGuid", NormalizedServiceMonthlyUsage::getServiceGuid)).setHeader("Service Guid").setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServiceMonthlyUsage::getAverageInstances, formatter)).setHeader("Average Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServiceMonthlyUsage::getMaximumInstances, formatter)).setHeader("Maximum Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServiceMonthlyUsage::getDurationInHours, formatter)).setHeader("Duration In Hours").setTextAlign(ColumnTextAlign.END).setResizable(true);

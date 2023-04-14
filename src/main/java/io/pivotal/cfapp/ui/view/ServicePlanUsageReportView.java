@@ -44,12 +44,12 @@ public class ServicePlanUsageReportView extends VerticalLayout {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         Grid<NormalizedServicePlanMonthlyUsage> grid = new Grid<>(NormalizedServicePlanMonthlyUsage.class, false);
-        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("[[item.year]]").withProperty("year", NormalizedServicePlanMonthlyUsage::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("${item.year}").withProperty("year", NormalizedServicePlanMonthlyUsage::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServicePlanMonthlyUsage::getMonth, formatter)).setHeader("Month").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
-        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("[[item.serviceName]]").withProperty("serviceName", NormalizedServicePlanMonthlyUsage::getServiceName)).setHeader("Service Name").setResizable(true);
-        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("[[item.serviceGuid]]").withProperty("serviceGuid", NormalizedServicePlanMonthlyUsage::getServiceGuid)).setHeader("Service Guid").setResizable(true);
-        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("[[item.servicePlanName]]").withProperty("servicePlanName", NormalizedServicePlanMonthlyUsage::getServicePlanName)).setHeader("Service Plan Name").setResizable(true);
-        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("[[item.servicePlanGuid]]").withProperty("servicePlanGuid", NormalizedServicePlanMonthlyUsage::getServicePlanGuid)).setHeader("Service Plan Guid").setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("${item.serviceName}").withProperty("serviceName", NormalizedServicePlanMonthlyUsage::getServiceName)).setHeader("Service Name").setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("${item.serviceGuid}").withProperty("serviceGuid", NormalizedServicePlanMonthlyUsage::getServiceGuid)).setHeader("Service Guid").setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("${item.servicePlanName}").withProperty("servicePlanName", NormalizedServicePlanMonthlyUsage::getServicePlanName)).setHeader("Service Plan Name").setResizable(true);
+        grid.addColumn(LitRenderer.<NormalizedServicePlanMonthlyUsage> of("${item.servicePlanGuid}").withProperty("servicePlanGuid", NormalizedServicePlanMonthlyUsage::getServicePlanGuid)).setHeader("Service Plan Guid").setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServicePlanMonthlyUsage::getAverageInstances, formatter)).setHeader("Average Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServicePlanMonthlyUsage::getMaximumInstances, formatter)).setHeader("Maximum Instances").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(NormalizedServicePlanMonthlyUsage::getDurationInHours, formatter)).setHeader("Duration In Hours").setTextAlign(ColumnTextAlign.END).setResizable(true);

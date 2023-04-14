@@ -44,7 +44,7 @@ public class TaskUsageReportView extends VerticalLayout {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         Grid<TaskUsageMonthly> grid = new Grid<>(TaskUsageMonthly.class, false);
-        grid.addColumn(LitRenderer.<TaskUsageMonthly> of("[[item.year]]").withProperty("year", TaskUsageMonthly::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        grid.addColumn(LitRenderer.<TaskUsageMonthly> of("${item.year}").withProperty("year", TaskUsageMonthly::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(TaskUsageMonthly::getMonth, formatter)).setHeader("Month").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(TaskUsageMonthly::getTotalTaskRuns, formatter)).setHeader("Total Task Runs").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(TaskUsageMonthly::getMaximumConcurrentTasks, formatter)).setHeader("Maximum Concurrent Tasks").setTextAlign(ColumnTextAlign.END).setResizable(true);
