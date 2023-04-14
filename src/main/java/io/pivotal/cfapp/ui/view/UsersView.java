@@ -15,7 +15,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
@@ -54,7 +54,7 @@ public class UsersView extends VerticalLayout {
         ListDataProvider<User> dataProvider = new ListDataProvider<>(items);
         grid.setItems(dataProvider);
 
-        Column<User> nameColumn = grid.addColumn(TemplateRenderer.<User> of("[[item.name]]").withProperty("name", User::getName)).setHeader("Name").setTextAlign(ColumnTextAlign.START).setResizable(true);
+        Column<User> nameColumn = grid.addColumn(LitRenderer.<User> of("${item.name}").withProperty("name", User::getName)).setHeader("Name").setTextAlign(ColumnTextAlign.START).setResizable(true);
 
         HeaderRow filterRow = grid.appendHeaderRow();
 

@@ -10,7 +10,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NumberRenderer;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.router.Route;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +56,7 @@ public class DemographicsView extends VerticalLayout {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         Grid<Demographic> grid = new Grid<>(Demographic.class, false);
-        grid.addColumn(TemplateRenderer.<Demographic> of("[[item.foundation]]").withProperty("foundation", Demographic::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        grid.addColumn(LitRenderer.<Demographic> of("${item.foundation}").withProperty("foundation", Demographic::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(Demographic::getOrganizations, formatter)).setHeader("Organizations").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(Demographic::getSpaces, formatter)).setHeader("Spaces").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(Demographic::getUserAccounts, formatter)).setHeader("User Accounts").setTextAlign(ColumnTextAlign.END).setResizable(true);

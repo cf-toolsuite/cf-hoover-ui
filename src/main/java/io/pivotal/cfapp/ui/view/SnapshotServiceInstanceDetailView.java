@@ -18,7 +18,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 
@@ -56,19 +56,19 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
 
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG, FormatStyle.SHORT);
 
-        Column<ServiceInstanceDetail> foundationColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.foundation]]").withProperty("foundation", ServiceInstanceDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER);
-        Column<ServiceInstanceDetail> organizationColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.organization]]").withProperty("organization", ServiceInstanceDetail::getOrganization)).setHeader("Organization");
-        Column<ServiceInstanceDetail> spaceColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.space]]").withProperty("space", ServiceInstanceDetail::getSpace)).setHeader("Space");
-        Column<ServiceInstanceDetail> serviceInstanceIdColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.serviceInstanceId]]").withProperty("serviceInstanceId", ServiceInstanceDetail::getServiceInstanceId)).setHeader("Service Instance Id");
-        Column<ServiceInstanceDetail> nameColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.name]]").withProperty("name", ServiceInstanceDetail::getName)).setHeader("Name");
-        Column<ServiceInstanceDetail> serviceColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.service]]").withProperty("service", ServiceInstanceDetail::getService)).setHeader("Service");
-        Column<ServiceInstanceDetail> descriptionColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.description]]").withProperty("description", ServiceInstanceDetail::getDescription)).setHeader("Description");
-        Column<ServiceInstanceDetail> planColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.plan]]").withProperty("plan", ServiceInstanceDetail::getPlan)).setHeader("Plan");
-        Column<ServiceInstanceDetail> applicationsColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.applications]]").withProperty("applications", ServiceInstanceDetail::getApplicationsAsCsv)).setHeader("Bound Applications");
-        Column<ServiceInstanceDetail> lastOperationColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.lastOperation]]").withProperty("lastOperation", ServiceInstanceDetail::getLastOperation)).setHeader("Last Operation");
-        Column<ServiceInstanceDetail> lastUpdatedColumn = grid.addColumn(new LocalDateTimeRenderer<ServiceInstanceDetail>(ServiceInstanceDetail::getLastUpdated, dateTimeFormatter)).setHeader("Last Updated").setTextAlign(ColumnTextAlign.END);
-        Column<ServiceInstanceDetail> dashboardUrlColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.dashboardUrl]]").withProperty("dashboardUrl", ServiceInstanceDetail::getDashboardUrl)).setHeader("Dashboard URL");
-        Column<ServiceInstanceDetail> requestedStateColumn = grid.addColumn(TemplateRenderer.<ServiceInstanceDetail> of("[[item.requestedState]]").withProperty("requestedState", ServiceInstanceDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER);
+        Column<ServiceInstanceDetail> foundationColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.foundation}").withProperty("foundation", ServiceInstanceDetail::getFoundation)).setHeader("Foundation").setTextAlign(ColumnTextAlign.CENTER);
+        Column<ServiceInstanceDetail> organizationColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.organization}").withProperty("organization", ServiceInstanceDetail::getOrganization)).setHeader("Organization");
+        Column<ServiceInstanceDetail> spaceColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.space}").withProperty("space", ServiceInstanceDetail::getSpace)).setHeader("Space");
+        Column<ServiceInstanceDetail> serviceInstanceIdColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.serviceInstanceId}").withProperty("serviceInstanceId", ServiceInstanceDetail::getServiceInstanceId)).setHeader("Service Instance Id");
+        Column<ServiceInstanceDetail> nameColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.name}").withProperty("name", ServiceInstanceDetail::getName)).setHeader("Name");
+        Column<ServiceInstanceDetail> serviceColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.service}").withProperty("service", ServiceInstanceDetail::getService)).setHeader("Service");
+        Column<ServiceInstanceDetail> descriptionColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.description}").withProperty("description", ServiceInstanceDetail::getDescription)).setHeader("Description");
+        Column<ServiceInstanceDetail> planColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.plan}").withProperty("plan", ServiceInstanceDetail::getPlan)).setHeader("Plan");
+        Column<ServiceInstanceDetail> applicationsColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.applications}").withProperty("applications", ServiceInstanceDetail::getApplicationsAsCsv)).setHeader("Bound Applications");
+        Column<ServiceInstanceDetail> lastOperationColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.lastOperation}").withProperty("lastOperation", ServiceInstanceDetail::getLastOperation)).setHeader("Last Operation");
+        Column<ServiceInstanceDetail> lastUpdatedColumn = grid.addColumn(new LocalDateTimeRenderer<ServiceInstanceDetail>(ServiceInstanceDetail::getLastUpdated, () -> dateTimeFormatter)).setHeader("Last Updated").setTextAlign(ColumnTextAlign.END);
+        Column<ServiceInstanceDetail> dashboardUrlColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.dashboardUrl}").withProperty("dashboardUrl", ServiceInstanceDetail::getDashboardUrl)).setHeader("Dashboard URL");
+        Column<ServiceInstanceDetail> requestedStateColumn = grid.addColumn(LitRenderer.<ServiceInstanceDetail> of("${item.requestedState}").withProperty("requestedState", ServiceInstanceDetail::getRequestedState)).setHeader("Requested State").setTextAlign(ColumnTextAlign.CENTER);
 
         HeaderRow filterRow = grid.appendHeaderRow();
 

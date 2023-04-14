@@ -10,7 +10,7 @@ import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.data.renderer.NumberRenderer;
-import com.vaadin.flow.data.renderer.TemplateRenderer;
+import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.router.Route;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class TaskUsageReportView extends VerticalLayout {
         NumberFormat formatter = NumberFormat.getInstance();
         formatter.setMaximumFractionDigits(2);
         Grid<TaskUsageMonthly> grid = new Grid<>(TaskUsageMonthly.class, false);
-        grid.addColumn(TemplateRenderer.<TaskUsageMonthly> of("[[item.year]]").withProperty("year", TaskUsageMonthly::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
+        grid.addColumn(LitRenderer.<TaskUsageMonthly> of("${item.year}").withProperty("year", TaskUsageMonthly::getYear)).setHeader("Year").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(TaskUsageMonthly::getMonth, formatter)).setHeader("Month").setTextAlign(ColumnTextAlign.CENTER).setResizable(true);
         grid.addColumn(new NumberRenderer<>(TaskUsageMonthly::getTotalTaskRuns, formatter)).setHeader("Total Task Runs").setTextAlign(ColumnTextAlign.END).setResizable(true);
         grid.addColumn(new NumberRenderer<>(TaskUsageMonthly::getMaximumConcurrentTasks, formatter)).setHeader("Maximum Concurrent Tasks").setTextAlign(ColumnTextAlign.END).setResizable(true);
