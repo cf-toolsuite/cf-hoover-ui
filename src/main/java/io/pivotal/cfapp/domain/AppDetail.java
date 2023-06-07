@@ -40,7 +40,11 @@ public class AppDetail {
 	@Default
 	private Long memoryUsed = 0L;
 	@Default
+	private Long memoryQuota = 0L;
+	@Default
 	private Long diskUsed = 0L;
+	@Default
+	private Long diskQuota = 0L;
 	@Default
 	private List<String> urls = new ArrayList<>();
 	private LocalDateTime lastPushed;
@@ -52,8 +56,8 @@ public class AppDetail {
 	public String toCsv() {
 		return String.join(",", wrap(getFoundation()), wrap(getOrganization()), wrap(getSpace()), wrap(getAppId()), wrap(getAppName()),
 				wrap(getBuildpack()), wrap(getBuildpackVersion()), wrap(getImage()), wrap(getStack()), wrap(String.valueOf(getRunningInstances())),
-				wrap(String.valueOf(getTotalInstances())), wrap(Double.toString(toGigabytes(getMemoryUsed()))),
-				wrap(Double.toString(toGigabytes(getDiskUsed()))),
+				wrap(String.valueOf(getTotalInstances())), wrap(Double.toString(toGigabytes(getMemoryUsed()))), wrap(Double.toString(toGigabytes(getMemoryQuota()))),
+                wrap(Double.toString(toGigabytes(getDiskUsed()))), wrap(Double.toString(toGigabytes(getDiskQuota()))),
 				(wrap(String.join(",", getUrls() != null ? getUrls(): Collections.emptyList()))),
 				wrap(getLastPushed() != null ? getLastPushed().toString() : ""), wrap(getLastEvent()),
 				wrap(getLastEventActor()), wrap(getLastEventTime() != null ? getLastEventTime().toString() : ""),
@@ -65,7 +69,7 @@ public class AppDetail {
 	}
 
 	private Double toGigabytes(Long input) {
-		return Double.valueOf(input / 1000000000.0);
+		return Double.valueOf(input / Math.pow(1024, 3));
 	}
 
 	public Double getMemoryUsedInGb() {
@@ -76,14 +80,22 @@ public class AppDetail {
 		return toGigabytes(getDiskUsed());
 	}
 
+	public Double getMemoryQuotaInGb() {
+		return toGigabytes(getMemoryQuota());
+	}
+
+	public Double getDiskQuotaInGb() {
+		return toGigabytes(getDiskQuota());
+	}
+
 	public String getUrlsAsCsv() {
 		return String.join(",", getUrls() != null ? getUrls(): Collections.emptyList());
 	}
 
 	public static String headers() {
-		return String.join(",", "foundation", "organization", "space", "application id", "application name", "buildpack", "buildpack version", "image",
-				"stack", "running instances", "total instances", "memory used (in gb)", "disk used (in gb)", "urls", "last pushed", "last event",
-				"last event actor", "last event time", "requested state");
+		return String.join(",", "organization", "space", "application id", "application name", "buildpack", "buildpack version", "image",
+                "stack", "running instances", "total instances", "memory used (in gb)", "memory quota (in gb)", "disk used (in gb)", "disk quota (in gb)", "urls", "last pushed", "last event",
+                "last event actor", "last event time", "requested state");
 	}
 
 	public static AppDetailBuilder from(AppDetail detail) {
@@ -101,7 +113,9 @@ public class AppDetail {
 						.runningInstances(detail.getRunningInstances())
 						.totalInstances(detail.getTotalInstances())
 						.memoryUsed(detail.getMemoryUsed())
+						.memoryQuota(detail.getMemoryQuota())
 						.diskUsed(detail.getDiskUsed())
+						.diskQuota(detail.getDiskQuota())
 						.urls(detail.getUrls())
 						.lastPushed(detail.getLastPushed())
 						.lastEvent(detail.getLastEvent())
