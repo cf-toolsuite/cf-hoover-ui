@@ -42,8 +42,8 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
         Tile stoppedAIs = new Tile("Stopped Application Instances", formatter.format(counts.getTotalStoppedApplicationInstances()));
         Tile crashedAIs = new Tile("Crashed Application Instances", formatter.format(counts.getTotalCrashedApplicationInstances()));
         Tile totalAIs = new Tile("Total Application Instances", formatter.format(counts.getTotalApplicationInstances()));
-        Tile memoryUsed = new Tile("Memory Used (in Gb)", formatter.format(counts.getTotalMemoryUsed()));
-        Tile diskUsed = new Tile("Disk Used (in Gb)", formatter.format(counts.getTotalDiskUsed()));
+        Tile memoryUsed = new Tile("Memory Used (in Mb)", formatter.format(counts.getTotalMemoryUsed()));
+        Tile diskUsed = new Tile("Disk Used (in Mb)", formatter.format(counts.getTotalDiskUsed()));
         GridTile<BuildpackCount> byBuildpack = new GridTile<>("By Buildpack", BuildpackCount.class, BuildpackCount.listOf(counts.getByBuildpack()), new String[] { "buildpack", "count" });
         GridTile<StackCount> byStack = new GridTile<>("By Stack", StackCount.class, StackCount.listOf(counts.getByStack()), new String[] { "stack", "count" });
         GridTile<DockerImageCount> byDockerImage = new GridTile<>("By Docker Image", DockerImageCount.class, DockerImageCount.listOf(counts.getByDockerImage()), new String[] { "image", "count" });
