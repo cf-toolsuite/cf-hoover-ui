@@ -93,7 +93,7 @@ public class AppDetail {
 	}
 
 	public static String headers() {
-		return String.join(",", "organization", "space", "application id", "application name", "buildpack", "buildpack version", "image",
+		return String.join(",", "foundation", "organization", "space", "application id", "application name", "buildpack", "buildpack version", "image",
                 "stack", "running instances", "total instances", "memory used (in mb)", "memory quota (in mb)", "disk used (in mb)", "disk quota (in mb)", "urls", "last pushed", "last event",
                 "last event actor", "last event time", "requested state");
 	}
