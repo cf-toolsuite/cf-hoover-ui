@@ -72,10 +72,10 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         Column<AppDetail> stackColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.stack}").withProperty("stack", AppDetail::getStack)).setHeader("Stack");
         Column<AppDetail> runningInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getRunningInstances, formatter)).setHeader("Running Instances").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> totalInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getTotalInstances, formatter)).setHeader("Total Instances").setTextAlign(ColumnTextAlign.END);
-        Column<AppDetail> memUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryUsedInGb, formatter)).setHeader("Memory Usage (in Mb)").setTextAlign(ColumnTextAlign.END);
-        Column<AppDetail> memQuotaColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryQuotaInGb, formatter)).setHeader("Memory Quota (in Mb)").setTextAlign(ColumnTextAlign.END);
-        Column<AppDetail> diskUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskUsedInGb, formatter)).setHeader("Disk Usage (in Mb)").setTextAlign(ColumnTextAlign.END);
-        Column<AppDetail> diskQuotaColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskQuotaInGb, formatter)).setHeader("Disk Quota (in Mb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> memUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryUsedInMb, formatter)).setHeader("Memory Usage (in Mb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> memQuotaColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getMemoryQuotaInMb, formatter)).setHeader("Memory Quota (in Mb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> diskUsedColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskUsedInMb, formatter)).setHeader("Disk Usage (in Mb)").setTextAlign(ColumnTextAlign.END);
+        Column<AppDetail> diskQuotaColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getDiskQuotaInMb, formatter)).setHeader("Disk Quota (in Mb)").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> urlsColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.urls}").withProperty("urls", AppDetail::getUrlsAsCsv)).setHeader("Routes");
         Column<AppDetail> lastPushedColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getLastPushed, () -> dateTimeFormatter)).setHeader("Last Pushed").setTextAlign(ColumnTextAlign.END);
         Column<AppDetail> lastEventColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.lastEvent}").withProperty("lastEvent", AppDetail::getLastEvent)).setHeader("Last Event");
