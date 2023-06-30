@@ -251,7 +251,7 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         lastEventActorField.setSizeFull();
         lastEventActorField.setPlaceholder("Filter");
 
-        VerticalLayout lastEventTimeField = getLastPushedPicker(dataProvider);
+        VerticalLayout lastEventTimeField = getLastEventTimePicker(dataProvider);
         filterRow.getCell(lastEventTimeColumn).setComponent(lastEventTimeField);
         lastEventTimeField.setSizeFull();
 
