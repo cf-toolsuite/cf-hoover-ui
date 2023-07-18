@@ -2,11 +2,13 @@ package io.pivotal.cfapp.config;
 
 import javax.net.ssl.SSLException;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import io.netty.handler.ssl.SslContext;
@@ -22,14 +24,26 @@ public class WebClientConfig {
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="true")
-    public WebClient insecureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+    public WebClient insecureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction,
+        @Value("${spring.codec.max-in-memory-size}") Integer maxInMemorySize) throws SSLException {
     	SslContext context = SslContextBuilder.forClient()
     		    .trustManager(InsecureTrustManagerFactory.INSTANCE)
-    		    .build();        
+    		    .build();
     	HttpClient httpClient = HttpClient.create().secure(t -> t.sslContext(context));
         return
             builder
                 .filter(lbFunction)
+                .exchangeStrategies(
+                    ExchangeStrategies
+                        .builder()
+                        .codecs(
+                            configurer ->
+                                configurer
+                                    .defaultCodecs()
+                                    .maxInMemorySize(maxInMemorySize)
+                        )
+                        .build()
+                )
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .baseUrl(settings.getBaseUrl())
                 .build();
@@ -37,10 +51,22 @@ public class WebClientConfig {
 
     @Bean
     @ConditionalOnProperty(prefix="cf", name="sslValidationSkipped", havingValue="false", matchIfMissing=true)
-    public WebClient secureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction) throws SSLException {
+    public WebClient secureWebClient(WebClient.Builder builder, HooverSettings settings, ReactorLoadBalancerExchangeFilterFunction lbFunction,
+        @Value("${spring.codec.max-in-memory-size}") Integer maxInMemorySize) throws SSLException {
         return
             builder
                 .filter(lbFunction)
+                .exchangeStrategies(
+                    ExchangeStrategies
+                        .builder()
+                        .codecs(
+                            configurer ->
+                                configurer
+                                    .defaultCodecs()
+                                    .maxInMemorySize(maxInMemorySize)
+                        )
+                        .build()
+                )
                 .clientConnector(new ReactorClientHttpConnector(HttpClient.newConnection().compress(true)))
                 .baseUrl(settings.getBaseUrl())
                 .build();
