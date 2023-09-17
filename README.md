@@ -21,6 +21,7 @@ Here's a sample...
     * [General configuration notes](#general-configuration-notes)
   * [How to Build](#how-to-build)
   * [How to Run with Maven](#how-to-run-with-maven)
+  * [How to check code quality with Sonarqube](#how-to-check-code-quality-with-sonarqube)
   * [How to deploy to VMware Tanzu Application Service](#how-to-deploy-to-vmware-tanzu-application-service)
     * [using scripts](#using-scripts)
   * [Available UI Endpoints](#available-ui-endpoints)
@@ -115,6 +116,24 @@ Shutdown and delete the app with
 ```
 ./destroy.sh
 ```
+
+
+## How to check code quality with Sonarqube
+
+Launch an instance of Sonarqube on your workstation with Docker
+
+```
+docker run -d --name sonarqube -p 9000:9000 -p 9092:9092 sonarqube
+```
+
+Then make sure to add goal and required arguments when building with Maven. For example:
+
+```
+mvn clean package sonar:sonar -Dsonar.token=cf-hoover-ui -Dsonar.login=admin -Dsonar.password=admin
+```
+
+Then visit `http://localhost:9000` in your favorite browser to inspect results of scan.
+
 
 ## Available UI Endpoints
 
