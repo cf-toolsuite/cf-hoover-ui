@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -53,7 +52,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.4</version>
+		<version>3.2.0-SNAPSHOT</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -66,7 +65,7 @@
 	</licenses>
 
 	<properties>
-		<java.version>17</java.version>
+		<java.version>21</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -170,10 +169,10 @@
 			<version>${vaadin.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>org.vaadin.artur</groupId>
-            <artifactId>a-vaadin-helper</artifactId>
-            <version>1.9.0</version>
-        </dependency>
+			<groupId>org.vaadin.artur</groupId>
+			<artifactId>a-vaadin-helper</artifactId>
+			<version>1.9.0</version>
+		</dependency>
 
 		<dependency>
 			<groupId>io.projectreactor</groupId>
@@ -235,17 +234,22 @@
 		</dependencies>
 	</dependencyManagement>
 
-    <repositories>
-	    <repository>
-	      <id>spring-release</id>
-	      <name>Spring Release</name>
-	      <url>https://repo.spring.io/release</url>
-	    </repository>
-	    <repository>
-	      <id>spring-milestone</id>
-	      <name>Spring milestone</name>
-	      <url>https://repo.spring.io/milestone</url>
-	    </repository>
+	<repositories>
+		<repository>
+			<id>spring-release</id>
+			<name>Spring Release</name>
+			<url>https://repo.spring.io/release</url>
+		</repository>
+		<repository>
+			<id>spring-milestone</id>
+			<name>Spring milestone</name>
+			<url>https://repo.spring.io/milestone</url>
+		</repository>
+		<repository>
+			<id>spring-snapshots</id>
+			<name>Spring snapshots</name>
+			<url>https://repo.spring.io/snapshot</url>
+		</repository>
 		<repository>
 			<id>Vaadin Directory</id>
 			<url>https://maven.vaadin.com/vaadin-addons</url>
@@ -253,23 +257,28 @@
 				<enabled>false</enabled>
 			</snapshots>
 		</repository>
-  </repositories>
+	</repositories>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>spring-release</id>
-      <name>Spring Release</name>
-      <url>https://repo.spring.io/plugins-release</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>spring-milestone</id>
-      <name>Spring milestone</name>
-      <url>https://repo.spring.io/plugins-milestone</url>
-    </pluginRepository>
-  </pluginRepositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-release</id>
+			<name>Spring Release</name>
+			<url>https://repo.spring.io/plugins-release</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-milestone</id>
+			<name>Spring milestone</name>
+			<url>https://repo.spring.io/plugins-milestone</url>
+		</pluginRepository>
+		<pluginRepository>
+			<id>spring-snapshots</id>
+			<name>Spring snapshots</name>
+			<url>https://repo.spring.io/plugins-snapshot</url>
+		</pluginRepository>
+	</pluginRepositories>
 
 	<build>
-	    <pluginManagement>
+		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.sonarsource.scanner.maven</groupId>
@@ -279,6 +288,43 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok-maven-plugin</artifactId>
+				<version>1.18.20.0</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.projectlombok</groupId>
+						<artifactId>lombok</artifactId>
+						<version>${lombok.version}</version>
+					</dependency>
+				</dependencies>
+				<executions>
+					<execution>
+						<id>delombok</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>delombok</goal>
+						</goals>
+						<configuration>
+							<formatPreferences>
+								<javaLangAsFQN>skip</javaLangAsFQN>
+							</formatPreferences>
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+					<execution>
+						<id>test-delombok</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>testDelombok</goal>
+						</goals>
+						<configuration>
+							<verbose>true</verbose>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>pl.project13.maven</groupId>
 				<artifactId>git-commit-id-plugin</artifactId>
@@ -306,21 +352,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.11.0</version>
-				<configuration>
-					<source>${java.version}</source>
-					<target>${java.version}</target>
-					<compilerArgs>
-						<arg>-verbose</arg>
-						<arg>-Xlint:all,-options,-path</arg>
-					</compilerArgs>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -436,10 +467,16 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.1.4</version>
-				<!-- Clean build and startup time for Vaadin apps sometimes may exceed
-					the default Spring Boot's 30sec timeout. -->
+				<version>3.2.0-SNAPSHOT</version>
 				<configuration>
+					<image>
+						<builder>paketobuildpacks/builder-jammy-tiny</builder>
+						<env>
+						<BP_JVM_VERSION>21.0.0</BP_JVM_VERSION>
+						<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+						</env>
+					</image>
+					<!-- Clean build and startup time for Vaadin apps sometimes may exceed the default Spring Boot's 30sec timeout. -->
 					<wait>500</wait>
 					<maxAttempts>240</maxAttempts>
 				</configuration>
@@ -461,26 +498,26 @@
 				<artifactId>license-maven-plugin</artifactId>
 				<version>4.2</version>
 				<configuration>
-				<properties>
-					<owner>io.pivotal.cf-hoover-ui</owner>
-					<email>cphillipson@pivotal.io</email>
-				</properties>
-				<licenseSets>
-					<licenseSet>
-					<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
-					<excludes>
-						<exclude>**/README</exclude>
-						<exclude>src/test/resources/**</exclude>
-						<exclude>src/main/resources/**</exclude>
-					</excludes>
-					</licenseSet>
-				</licenseSets>
+					<properties>
+						<owner>io.pivotal.cf-hoover-ui</owner>
+						<email>cphillipson@pivotal.io</email>
+					</properties>
+					<licenseSets>
+						<licenseSet>
+							<header>com/mycila/maven/plugin/license/templates/APACHE-2.txt</header>
+							<excludes>
+								<exclude>**/README</exclude>
+								<exclude>src/test/resources/**</exclude>
+								<exclude>src/main/resources/**</exclude>
+							</excludes>
+						</licenseSet>
+					</licenseSets>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>4.0.0-M6</version>
+				<version>4.0.0-M8</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -492,7 +529,7 @@
 				<artifactId>spotbugs-maven-plugin</artifactId>
 				<version>4.7.3.4</version>
 				<configuration>
-				<xmlOutput>true</xmlOutput>
+					<xmlOutput>true</xmlOutput>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -527,7 +564,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>3.1.4</version>
+						<version>3.2.0-SNAPSHOT</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
