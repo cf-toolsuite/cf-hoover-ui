@@ -53,7 +53,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.3</version>
+		<version>3.1.4</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -72,7 +72,7 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<vaadin.version>24.1.10</vaadin.version>
-		<lombok.version>1.18.28</lombok.version>
+		<lombok.version>1.18.30</lombok.version>
 	</properties>
 
 	<dependencies>
@@ -436,7 +436,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.1.3</version>
+				<version>3.1.4</version>
 				<!-- Clean build and startup time for Vaadin apps sometimes may exceed
 					the default Spring Boot's 30sec timeout. -->
 				<configuration>
@@ -527,7 +527,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>3.1.3</version>
+						<version>3.1.4</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
