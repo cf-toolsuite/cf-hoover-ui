@@ -52,7 +52,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.2.0-SNAPSHOT</version>
+		<version>3.1.4</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -65,7 +65,7 @@
 	</licenses>
 
 	<properties>
-		<java.version>21</java.version>
+		<java.version>17</java.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
@@ -119,25 +119,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-log4j2</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.lmax</groupId>
-			<artifactId>disruptor</artifactId>
-			<version>3.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>io.micrometer</groupId>
@@ -213,7 +194,7 @@
 			<dependency>
 				<groupId>io.pivotal.spring.cloud</groupId>
 				<artifactId>spring-cloud-services-dependencies</artifactId>
-				<version>4.0.2</version>
+				<version>4.0.3</version>
 				<scope>import</scope>
 				<type>pom</type>
 			</dependency>
@@ -356,7 +337,7 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.15.0</version>
+				<version>2.16.1</version>
 				<configuration>
 					<generateBackupPoms>false</generateBackupPoms>
 				</configuration>
@@ -443,7 +424,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.2</version>
 				<configuration>
 					<argLine>${surefire.jacoco.args}</argLine>
 				</configuration>
@@ -451,7 +432,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.0.0</version>
+				<version>3.1.2</version>
 				<configuration>
 					<argLine>${failsafe.jacoco.args}</argLine>
 				</configuration>
@@ -467,13 +448,13 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>3.2.0-SNAPSHOT</version>
+				<version>3.1.4</version>
 				<configuration>
 					<image>
 						<builder>paketobuildpacks/builder-jammy-tiny</builder>
 						<env>
-						<BP_JVM_VERSION>21.0.0</BP_JVM_VERSION>
-						<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+							<BP_JVM_VERSION>21.0.0</BP_JVM_VERSION>
+							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
 						</env>
 					</image>
 					<!-- Clean build and startup time for Vaadin apps sometimes may exceed the default Spring Boot's 30sec timeout. -->
@@ -522,12 +503,12 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.4.2</version>
+				<version>3.4.5</version>
 			</plugin>
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.4</version>
+				<version>4.7.3.6</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 				</configuration>
@@ -548,6 +529,43 @@
 	<profiles>
 
 		<profile>
+			<id>log4j2</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter</artifactId>
+					<exclusions>
+						<exclusion>
+							<groupId>org.springframework.boot</groupId>
+							<artifactId>spring-boot-starter-logging</artifactId>
+						</exclusion>
+					</exclusions>
+				</dependency>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-log4j2</artifactId>
+				</dependency>
+				<dependency>
+					<groupId>com.lmax</groupId>
+					<artifactId>disruptor</artifactId>
+					<version>3.4.4</version>
+					<scope>runtime</scope>
+				</dependency>
+			</dependencies>
+			<build>
+				<resources>
+					<resource>
+						<directory>src/main/resources</directory>
+						<excludes>
+							<exclude>logback-spring.xml</exclude>
+						</excludes>
+						<filtering>false</filtering>
+					</resource>
+				</resources>
+			</build>
+		</profile>
+
+		<profile>
 			<!-- Production mode is activated using -Pproduction -->
 			<id>production</id>
 			<properties>
@@ -564,7 +582,7 @@
 					<plugin>
 						<groupId>org.springframework.boot</groupId>
 						<artifactId>spring-boot-maven-plugin</artifactId>
-						<version>3.2.0-SNAPSHOT</version>
+						<version>3.1.4</version>
 						<configuration>
 							<jvmArguments>-Dvaadin.productionMode</jvmArguments>
 						</configuration>
@@ -603,12 +621,12 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.7.3.4</version>
+				<version>4.7.3.6</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>versions-maven-plugin</artifactId>
-				<version>2.15.0</version>
+				<version>2.16.1</version>
 				<reportSets>
 					<reportSet>
 						<reports>
