@@ -184,7 +184,7 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.24.2</version>
+			<version>3.25.1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -436,7 +436,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.12.0</version>
+				<version>3.12.1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -528,7 +528,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.3</version>
+				<version>3.2.5</version>
 				<configuration>
 					<argLine>${surefire.jacoco.args}</argLine>
 				</configuration>
@@ -536,7 +536,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.2.3</version>
+				<version>3.2.5</version>
 				<configuration>
 					<argLine>${failsafe.jacoco.args}</argLine>
 				</configuration>
@@ -612,7 +612,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.8.2.0</version>
+				<version>4.8.3.0</version>
 				<configuration>
 					<xmlOutput>true</xmlOutput>
 				</configuration>
@@ -741,7 +741,7 @@
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
 				<artifactId>spotbugs-maven-plugin</artifactId>
-				<version>4.8.2.0</version>
+				<version>4.8.3.0</version>
 			</plugin>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
