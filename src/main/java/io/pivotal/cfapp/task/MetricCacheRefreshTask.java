@@ -74,6 +74,11 @@ public class MetricCacheRefreshTask implements ApplicationRunner {
                     log.trace(mapWithException("Demographics", r));
                     cache.setDemographics(r);
                 })
+            .then(hooverClient.craftSpringApplicationReport())
+                .doOnNext(r -> {
+                    log.trace(mapWithException("SpringApplicationReport", r));
+                    cache.setSpringApplication(r);;
+                })
             .subscribe(e -> log.info("MetricCacheRefreshTask completed"));
     }
 
