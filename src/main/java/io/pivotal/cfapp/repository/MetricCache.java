@@ -21,6 +21,6 @@ public class MetricCache {
     private ServiceUsageReport serviceUsage;
     private TaskUsageReport taskUsage;
     private Demographics demographics;
-    private SpringApplicationReport springApplication;
+    private SpringApplicationReport springApplicationReport;
 
 }
