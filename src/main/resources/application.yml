@@ -27,6 +27,9 @@ management:
     git:
       mode: full
 
+vaadin:
+  whitelisted-packages: com.vaadin,org.vaadin,com.github.appreciated.apexcharts
+
 cron:
   # each :30 on the hour
   collection: "0 30 * * * *"

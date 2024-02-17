@@ -3,12 +3,23 @@ package io.pivotal.cfapp.ui.view;
 import static io.pivotal.cfapp.ui.view.SpringApplicationReportDependencyFrequencyView.NAV;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.appreciated.apexcharts.ApexCharts;
+import com.github.appreciated.apexcharts.ApexChartsBuilder;
+import com.github.appreciated.apexcharts.config.builder.ChartBuilder;
+import com.github.appreciated.apexcharts.config.builder.LegendBuilder;
+import com.github.appreciated.apexcharts.config.builder.ResponsiveBuilder;
+import com.github.appreciated.apexcharts.config.chart.Type;
+import com.github.appreciated.apexcharts.config.legend.Position;
+import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilder;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.Grid.Column;
@@ -37,20 +48,63 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
         MetricCache cache) {
         // TODO Resource bundle for title and tile labels
         H2 title = new H2("Spring Application Report » Dependency Frequency");
+
         HorizontalLayout firstRow = new HorizontalLayout();
+        HorizontalLayout secondRow = new HorizontalLayout();
+
+        Map<String, Integer> dependencyFrequencies = cache.getSpringApplicationReport().getDependencyFrequency();
+
+        // Calculate total frequency
+        int totalFrequency = dependencyFrequencies.values().stream().mapToInt(Integer::intValue).sum();
+
+        // Prepare data for the chart
+        List<String> labels = new ArrayList<>();
+        List<Number> series = new ArrayList<>();
+        dependencyFrequencies.forEach((dependency, frequency) -> {
+            labels.add(dependency);
+            series.add(100 * frequency / (double) totalFrequency); // Calculate percentage
+        });
+
+        ApexChartsBuilder chartBuilder = new ApexChartsBuilder();
+        chartBuilder.withChart(ChartBuilder.get().withType(Type.DONUT).build())
+                .withLegend(LegendBuilder.get()
+                        .withPosition(Position.RIGHT)
+                        .build())
+                .withLabels(labels.toArray(new String[0]))
+                .withSeries(series.toArray(new Double[0]))
+                .withResponsive(ResponsiveBuilder.get()
+                        .withBreakpoint(480.0)
+                        .withOptions(OptionsBuilder.get()
+                                .withLegend(LegendBuilder.get()
+                                        .withPosition(Position.BOTTOM)
+                                        .build())
+                                .build())
+                        .build());
+        ApexCharts chart = chartBuilder.build();
+        chart.setHeight("400px");
+        firstRow.add(chart);
+
         GridTile<DependencyFrequency> tile =
             new GridTile<>(
                 "Frequencies",
                 buildGrid(
-                    cache
-                        .getSpringApplicationReport().getDependencyFrequency()
+                    dependencyFrequencies
                             .entrySet()
                                 .stream()
                                 .map(entry -> new DependencyFrequency(entry.getKey(), entry.getValue()))
                                 .collect(Collectors.toList())));
-        firstRow.add(tile);
-        add(title, firstRow);
-        firstRow.setSizeFull();
+        secondRow.add(tile);
+
+        // Set the size of the rows relative to the parent layout
+        firstRow.setHeight("30%");
+        secondRow.setHeight("70%");
+
+        add(title, firstRow, secondRow);
+
+        // Ensure the rows stretch to full width
+        firstRow.setWidthFull();
+        secondRow.setWidthFull();
+
         setSizeFull();
     }
 
