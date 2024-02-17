@@ -1,6 +1,6 @@
 package io.pivotal.cfapp.ui.view;
 
-import static io.pivotal.cfapp.ui.view.SnapshotApplicationDetailView.NAV;
+import static io.pivotal.cfapp.ui.view.SpringApplicationReportDetailView.NAV;
 
 import java.text.NumberFormat;
 import java.util.Collection;

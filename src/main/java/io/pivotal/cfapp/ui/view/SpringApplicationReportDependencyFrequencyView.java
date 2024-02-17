@@ -1,6 +1,6 @@
 package io.pivotal.cfapp.ui.view;
 
-import static io.pivotal.cfapp.ui.view.SnapshotApplicationDetailView.NAV;
+import static io.pivotal.cfapp.ui.view.SpringApplicationReportDependencyFrequencyView.NAV;
 
 import java.text.NumberFormat;
 import java.util.Collection;
@@ -62,8 +62,8 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
         ListDataProvider<DependencyFrequency> dataProvider = new ListDataProvider<>(items);
         grid.setItems(dataProvider);
 
-        Column<DependencyFrequency> dependencyColumn = grid.addColumn(LitRenderer.<DependencyFrequency> of("${item.dependency}").withProperty("dependency", DependencyFrequency::getDependency)).setHeader("Dependency").setTextAlign(ColumnTextAlign.CENTER);
-        Column<DependencyFrequency> frequencyColumn = grid.addColumn(LitRenderer.<DependencyFrequency> of("${item.frequency}").withProperty("frequency", DependencyFrequency::getFrequency)).setHeader("Frequency");
+        Column<DependencyFrequency> dependencyColumn = grid.addColumn(LitRenderer.<DependencyFrequency> of("${item.dependency}").withProperty("dependency", DependencyFrequency::getDependency)).setHeader("Dependency").setTextAlign(ColumnTextAlign.START);
+        Column<DependencyFrequency> frequencyColumn = grid.addColumn(LitRenderer.<DependencyFrequency> of("${item.frequency}").withProperty("frequency", DependencyFrequency::getFrequency)).setHeader("Frequency").setTextAlign(ColumnTextAlign.END);
 
         HeaderRow filterRow = grid.appendHeaderRow();
 
