@@ -1,15 +1,20 @@
 package io.pivotal.cfapp.client;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.pivotal.cfapp.domain.Demographics;
+import io.pivotal.cfapp.domain.JavaAppDetail;
 import io.pivotal.cfapp.domain.SnapshotDetail;
 import io.pivotal.cfapp.domain.SnapshotSummary;
+import io.pivotal.cfapp.domain.SpringApplicationReport;
 import io.pivotal.cfapp.domain.accounting.application.AppUsageReport;
 import io.pivotal.cfapp.domain.accounting.service.ServiceUsageReport;
 import io.pivotal.cfapp.domain.accounting.task.TaskUsageReport;
@@ -110,4 +115,46 @@ public class HooverClient {
         log.warn("Could not obtain results from call to /accounting/services", e);
         return Mono.just(ServiceUsageReport.aggregate(Collections.emptyList()));
     }
+
+    @CircuitBreaker(name = "hooverClient.springApplicationDetails", fallbackMethod = "fallbackForSpringApplicationDetails")
+    public Mono<List<JavaAppDetail>> getSpringApplicationDetails() {
+        return client
+                .get()
+                    .uri("/snapshot/detail/ai/spring")
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<List<JavaAppDetail>>() {});
+    }
+
+    protected Mono<List<JavaAppDetail>> fallbackForSpringApplicationDetails(Exception e) {
+        log.warn("Could not obtain results from call to /snapshot/detail/ai/spring", e);
+        return Mono.just(Collections.emptyList());
+    }
+
+    @CircuitBreaker(name = "hooverClient.springApplicationDependencyFrequency", fallbackMethod = "fallbackForSpringApplicationDependencyFrequency")
+    public Mono<Map<String, Integer>> getSpringApplicationDependencyFrequency() {
+        return client
+                .get()
+                    .uri("/snapshot/summary/ai/spring")
+                    .retrieve()
+                    .bodyToMono(new ParameterizedTypeReference<Map<String, Integer>>() {});
+    }
+
+    protected Mono<Map<String, Integer>> fallbackForSpringApplicationDependencyFrequency(Exception e) {
+        log.warn("Could not obtain results from call to /snapshot/summary/ai/spring", e);
+        return Mono.just(Collections.emptyMap());
+    }
+
+    public Mono<SpringApplicationReport> craftSpringApplicationReport() {
+        Mono<List<JavaAppDetail>> detailsMono = getSpringApplicationDetails();
+        Mono<Map<String, Integer>> dependencyFrequencyMono = getSpringApplicationDependencyFrequency();
+
+        return Mono.zip(detailsMono, dependencyFrequencyMono,
+            (details, dependencyFrequency) ->
+                SpringApplicationReport
+                    .builder()
+                        .details(details)
+                        .dependencyFrequency(dependencyFrequency)
+                        .build());
+    }
+
 }
