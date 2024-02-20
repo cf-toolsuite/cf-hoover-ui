@@ -3,7 +3,7 @@ package io.pivotal.cfapp.ui.component;
 import java.util.Collection;
 
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.html.NativeLabel;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 
@@ -16,7 +16,7 @@ public class GridTile<T> extends VerticalLayout {
         grid.setColumns(propertyNames);
         grid.setItems(items);
         grid.setSizeFull();
-        add(new Label(labelName), grid);
+        add(new NativeLabel(labelName), grid);
         setAlignItems(Alignment.STRETCH);
         setSizeFull();
     }
@@ -24,14 +24,14 @@ public class GridTile<T> extends VerticalLayout {
     public GridTile(String labelName, Grid<T> grid, Collection<T> items) {
         grid.setItems(items);
         grid.setSizeFull();
-        add(new Label(labelName), grid);
+        add(new NativeLabel(labelName), grid);
         setAlignItems(Alignment.STRETCH);
         setSizeFull();
     }
 
     public GridTile(String labelName, Grid<T> grid) {
         grid.setSizeFull();
-        add(new Label(labelName), grid);
+        add(new NativeLabel(labelName), grid);
         setAlignItems(Alignment.STRETCH);
         setSizeFull();
     }
