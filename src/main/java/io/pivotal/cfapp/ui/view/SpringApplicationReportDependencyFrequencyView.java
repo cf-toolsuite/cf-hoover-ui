@@ -43,6 +43,8 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
     private static final long serialVersionUID = 1L;
     public static final String NAV = "snapshot/summary/ai/spring";
 
+    private final ApexCharts chart;
+
     @Autowired
     public SpringApplicationReportDependencyFrequencyView(
         MetricCache cache) {
@@ -53,25 +55,18 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
         HorizontalLayout secondRow = new HorizontalLayout();
 
         Map<String, Integer> dependencyFrequencies = cache.getSpringApplicationReport().getDependencyFrequency();
-
-        // Calculate total frequency
-        int totalFrequency = dependencyFrequencies.values().stream().mapToInt(Integer::intValue).sum();
-
-        // Prepare data for the chart
-        List<String> labels = new ArrayList<>();
-        List<Number> series = new ArrayList<>();
-        dependencyFrequencies.forEach((dependency, frequency) -> {
-            labels.add(dependency);
-            series.add(100 * frequency / (double) totalFrequency); // Calculate percentage
-        });
+        Collection<DependencyFrequency> items =
+            dependencyFrequencies
+                .entrySet()
+                    .stream()
+                    .map(entry -> new DependencyFrequency(entry.getKey(), entry.getValue()))
+                    .collect(Collectors.toList());
 
         ApexChartsBuilder chartBuilder = new ApexChartsBuilder();
         chartBuilder.withChart(ChartBuilder.get().withType(Type.DONUT).build())
                 .withLegend(LegendBuilder.get()
                         .withPosition(Position.RIGHT)
                         .build())
-                .withLabels(labels.toArray(new String[0]))
-                .withSeries(series.toArray(new Double[0]))
                 .withResponsive(ResponsiveBuilder.get()
                         .withBreakpoint(480.0)
                         .withOptions(OptionsBuilder.get()
@@ -80,19 +75,16 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
                                         .build())
                                 .build())
                         .build());
-        ApexCharts chart = chartBuilder.build();
-        chart.setHeight("400px");
+        chart = chartBuilder.build();
+        updateChartData(chart, items);
+        chart.setHeight("320px");
         firstRow.add(chart);
 
         GridTile<DependencyFrequency> tile =
             new GridTile<>(
                 "Frequencies",
-                buildGrid(
-                    dependencyFrequencies
-                            .entrySet()
-                                .stream()
-                                .map(entry -> new DependencyFrequency(entry.getKey(), entry.getValue()))
-                                .collect(Collectors.toList())));
+                buildGrid(items)
+            );
         secondRow.add(tile);
 
         // Set the size of the rows relative to the parent layout
@@ -123,8 +115,19 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
 
         TextField dependencyField = new TextField();
         dependencyField.addValueChangeListener(
-            event -> dataProvider.addFilter(
-                f -> StringUtils.containsIgnoreCase(f.getDependency(), dependencyField.getValue())));
+            event -> {
+                dataProvider.addFilter(
+                    f -> StringUtils.containsIgnoreCase(f.getDependency(), dependencyField.getValue())
+                );
+                Collection<DependencyFrequency> filteredItems =
+                    dataProvider
+                        .getItems()
+                        .stream()
+                        .filter(f -> StringUtils.containsIgnoreCase(f.getDependency(), dependencyField.getValue()))
+                        .collect(Collectors.toList());
+                updateChartData(chart, filteredItems);
+            }
+        );
         dependencyField.setValueChangeMode(ValueChangeMode.EAGER);
         filterRow.getCell(dependencyColumn).setComponent(dependencyField);
         dependencyField.setSizeFull();
@@ -132,8 +135,19 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
 
         TextField frequencyField = new TextField();
         frequencyField.addValueChangeListener(
-            event -> dataProvider.addFilter(
-                f -> StringUtils.contains(String.valueOf(f.getFrequency()), frequencyField.getValue())));
+            event -> {
+                dataProvider.addFilter(
+                    f -> StringUtils.contains(String.valueOf(f.getFrequency()), frequencyField.getValue())
+                );
+                Collection<DependencyFrequency> filteredItems =
+                    dataProvider
+                        .getItems()
+                        .stream()
+                        .filter(f -> StringUtils.contains(String.valueOf(f.getFrequency()), frequencyField.getValue()))
+                        .collect(Collectors.toList());
+                updateChartData(chart, filteredItems);
+            }
+        );
         frequencyField.setValueChangeMode(ValueChangeMode.EAGER);
         filterRow.getCell(frequencyColumn).setComponent(frequencyField);
         frequencyField.setSizeFull();
@@ -144,6 +158,18 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
 	        column.getElement().getParent().callJsFunction("setAttribute", "resizable", true);
 
         return grid;
+    }
+
+    private void updateChartData(ApexCharts chart, Collection<DependencyFrequency> items) {
+        int totalFrequency = items.stream().mapToInt(DependencyFrequency::getFrequency).sum();
+        List<String> labels = new ArrayList<>();
+        List<Number> series = new ArrayList<>();
+        for (DependencyFrequency item : items) {
+            labels.add(item.getDependency());
+            series.add(100 * item.getFrequency() / (double) totalFrequency);
+        }
+        chart.updateSeries(series.toArray(new Double[0]));
+        chart.setLabels(labels.toArray(new String[0]));
     }
 
     class DependencyFrequency {
