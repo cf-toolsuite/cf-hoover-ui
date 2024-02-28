@@ -120,7 +120,7 @@ public class SpringApplicationReportDetailView extends VerticalLayout {
         TextField springDependenciesField = new TextField();
         springDependenciesField.addValueChangeListener(
             event -> dataProvider.addFilter(
-                f -> StringUtils.containsIgnoreCase(f.getDropletId(), springDependenciesField.getValue())));
+                f -> StringUtils.containsIgnoreCase(f.getSpringDependencies(), springDependenciesField.getValue())));
         springDependenciesField.setValueChangeMode(ValueChangeMode.EAGER);
         filterRow.getCell(springDependenciesColumn).setComponent(springDependenciesField);
         springDependenciesField.setSizeFull();
