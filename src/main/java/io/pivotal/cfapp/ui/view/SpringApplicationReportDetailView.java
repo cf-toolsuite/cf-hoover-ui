@@ -121,7 +121,7 @@ public class SpringApplicationReportDetailView extends VerticalLayout {
         springDependenciesField.addValueChangeListener(
             event -> dataProvider.addFilter(
                 f -> StringUtils.containsIgnoreCase(f.getSpringDependencies(), springDependenciesField.getValue())));
-        springDependenciesField.setValueChangeMode(ValueChangeMode.EAGER);
+        springDependenciesField.setValueChangeMode(ValueChangeMode.LAZY);
         filterRow.getCell(springDependenciesColumn).setComponent(springDependenciesField);
         springDependenciesField.setSizeFull();
         springDependenciesField.setPlaceholder("Filter");
