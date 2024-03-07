@@ -1,9 +1,9 @@
 # VMware Tanzu Application Service > Hoover UI
 
-[![GA](https://img.shields.io/badge/Release-GA-darkgreen)](https://img.shields.io/badge/Release-GA-darkgreen) ![Github Action CI Workflow Status](https://github.com/pacphi/cf-hoover-ui/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/pacphi/cf-hoover-ui/badge.svg?style=plastic)](https://snyk.io/test/github/pacphi/cf-hoover-ui) [![Release](https://jitpack.io/v/pacphi/cf-hoover-ui.svg)](https://jitpack.io/#pacphi/cf-hoover-ui/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![GA](https://img.shields.io/badge/Release-GA-darkgreen)](https://img.shields.io/badge/Release-GA-darkgreen) ![Github Action CI Workflow Status](https://github.com/cf-toolsuite/cf-hoover-ui/actions/workflows/maven.yml/badge.svg) [![Known Vulnerabilities](https://snyk.io/test/github/cf-toolsuite/cf-hoover-ui/badge.svg?style=plastic)](https://snyk.io/test/github/cf-toolsuite/cf-hoover-ui) [![Release](https://jitpack.io/v/cf-toolsuite/cf-hoover-ui.svg)](https://jitpack.io/#cf-toolsuite/cf-hoover-ui/master-SNAPSHOT) [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-You're a platform operator and you've managed to get [cf-hoover](https://github.com/pacphi/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.
+You're a platform operator and you've managed to get [cf-hoover](https://github.com/cf-toolsuite/cf-hoover) deployed. It's happily aggregating usage data from multiple foundations.  Now your CIO wants you to build a dashboard.
 
 `cf-hoover-ui` humbly aspires to deliver individual dashboards corresponding to each of the endpoints `cf-hoover` exposes.
 
@@ -34,7 +34,7 @@ Here's a sample...
 
 Required
 
-* [cf-hoover](https://github.com/pacphi/cf-hoover)
+* [cf-hoover](https://github.com/cf-toolsuite/cf-hoover)
 * [VMware Tanzu Application Service](https://pivotal.io/platform/pivotal-application-service) 2.11 or better
 * [Spring Cloud Services, Service Registry](https://docs.pivotal.io/spring-cloud-services/3-1/common/service-registry/index.html) 3.1.x or better
 
@@ -49,7 +49,7 @@ Required
 ## Clone
 
 ```
-git clone https://github.com/pacphi/cf-hoover-ui.git
+git clone https://github.com/cf-toolsuite/cf-hoover-ui.git
 ```
 
 
@@ -111,7 +111,7 @@ The below represent a collection of Maven profiles available in the Maven POM.
 If you intend to run `cf-hoover-ui` in a local development environment, you must first:
 
 * Launch a standalone instance of [Eureka server](https://cloud.spring.io/spring-cloud-netflix/multi/multi_spring-cloud-eureka-server.html)
-* Launch an instance of [cf-hoover](https://github.com/pacphi/cf-hoover#how-to-run-with-gradle)
+* Launch an instance of [cf-hoover](https://github.com/cf-toolsuite/cf-hoover#how-to-run-with-gradle)
 
 Then:
 
@@ -222,7 +222,7 @@ GET /snapshot/demographics
 
 ## What else would you like to see?
 
-What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/pacphi/cf-hoover-ui/issues/new).
+What other insight might we glean from available foundation data? Applications, services, tasks, events, logs, users, product info... all fair game.  Submit a [feature request](https://github.com/cf-toolsuite/cf-hoover-ui/issues/new).
 
 
 ## Credits

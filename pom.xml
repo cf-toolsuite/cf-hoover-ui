@@ -11,9 +11,9 @@
 	<description>A simple dashboard display for metrics gathered from a cf-hoover instance.</description>
 
 	<scm>
-		<connection>scm:git:git://github.com/pacphi/cf-hoover-ui.git</connection>
-		<developerConnection>scm:git:ssh://github.com/pacphi/cf-hoover-ui.git</developerConnection>
-		<url>https://github.com/pacphi/cf-hoover-ui</url>
+		<connection>scm:git:git://github.com/cf-toolsuite/cf-hoover-ui.git</connection>
+		<developerConnection>scm:git:ssh://github.com/cf-toolsuite/cf-hoover-ui.git</developerConnection>
+		<url>https://github.com/cf-toolsuite/cf-hoover-ui</url>
 	</scm>
 
 	<developers>
@@ -35,17 +35,17 @@
 		<site>
 			<id>github</id>
 			<name>Deployment through Maven's SCM Publish Plugin</name>
-			<url>scm:git:git@github.com:pacphi/cf-hoover-ui.git</url>
+			<url>scm:git:git@github.com:cf-toolsuite/cf-hoover-ui.git</url>
 		</site>
 		<repository>
 			<id>github</id>
 			<name>GitHub Packages</name>
-			<url>https://maven.pkg.github.com/pacphi/cf-hoover-ui</url>
+			<url>https://maven.pkg.github.com/cf-toolsuite/cf-hoover-ui</url>
 		</repository>
 	</distributionManagement>
 
 	<issueManagement>
-		<url>https://github.com/pacphi/cf-hoover-ui/issues</url>
+		<url>https://github.com/cf-toolsuite/cf-hoover-ui/issues</url>
 		<system>GitHub Issues</system>
 	</issueManagement>
 
