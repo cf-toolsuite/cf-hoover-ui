@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
-		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>io.pivotal</groupId>
@@ -295,7 +295,7 @@
 			</plugins>
 		</pluginManagement>
 		<plugins>
-		    <plugin>
+			<plugin>
 				<groupId>org.cyclonedx</groupId>
 				<artifactId>cyclonedx-maven-plugin</artifactId>
 				<version>2.7.11</version>
@@ -303,7 +303,7 @@
 					<execution>
 						<phase>validate</phase>
 						<goals>
-						<goal>makeAggregateBom</goal>
+							<goal>makeAggregateBom</goal>
 						</goals>
 					</execution>
 				</executions>
@@ -744,6 +744,17 @@
 					</plugin>
 				</plugins>
 			</build>
+		</profile>
+
+		<profile>
+			<id>expose-runtime-metadata</id>
+			<dependencies>
+				<dependency>
+					<groupId>io.pivotal.app.actuator</groupId>
+					<artifactId>spring-boot-starter-runtime-metadata</artifactId>
+					<version>0.1.0</version>
+				</dependency>
+			</dependencies>
 		</profile>
 
 		<profile>
