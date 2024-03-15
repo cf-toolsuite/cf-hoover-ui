@@ -6,7 +6,6 @@ applications:
   path: target/cf-hoover-ui-1.0-SNAPSHOT.jar
   instances: 1
   env:
-    CRON_ENABLED: true
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
     SPRING_PROFILES_ACTIVE: cloud
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'

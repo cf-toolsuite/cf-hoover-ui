@@ -1,7 +1,6 @@
 package io.pivotal.cfapp.task;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 @RestController
-@ConditionalOnProperty(prefix="cron", name="enabled", havingValue="true")
 public class MetricCacheRefreshController {
 
     private final MetricCacheRefreshTask task;
