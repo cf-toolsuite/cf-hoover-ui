@@ -1,4 +1,4 @@
-# VMware Tanzu Application Service > Butler
+# VMware Tanzu Application Service > Hoover UI
 
 ## How to check code quality with Sonarqube
 
