@@ -1,4 +1,4 @@
-# VMware Tanzu Application Service > Butler
+# VMware Tanzu Application Service > Hoover UI
 
 ## Credits
 
