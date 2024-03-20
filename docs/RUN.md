@@ -10,7 +10,7 @@ If you intend to run `cf-hoover-ui` in a local development environment, you must
 Then:
 
 ```
-./mvw spring-boot:run -Dspring.profiles.active={target_foundation_profile}
+./mvw spring-boot:run -Dspring-boot.run.profiles={target_foundation_profile}
 ```
 where `{target_foundation_profile}` is something like `pws` or `pcfone`
 
