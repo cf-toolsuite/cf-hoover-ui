@@ -17,7 +17,7 @@ The below represent a collection of Maven profiles available in the Maven POM.
 
 
 ```
-./mvnw clean package -Plog4j2
+./mvnw --batch-mode --update-snapshots -DskipTests -Pproduction,log4j2 verify
 ```
 > Swap out default "lossy" logging provider
 
