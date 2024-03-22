@@ -431,7 +431,10 @@
 				<groupId>org.graalvm.buildtools</groupId>
 				<artifactId>native-maven-plugin</artifactId>
 				<configuration>
-					<buildArgs>-H:IncludeResources=".frontend/*$" -H:Log=registerResource:4</buildArgs>
+					<buildArgs>
+						<buildArg>--no-fallback</buildArg>
+						<buildArg>-H:IncludeResources=.*\.(bundle|css|js|ts|html|map|txt|yml|xml)</buildArg>
+					</buildArgs>
 				</configuration>
 			</plugin>
 			<plugin>
