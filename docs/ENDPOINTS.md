@@ -1,5 +1,12 @@
 # VMware Tanzu Application Service > Hoover UI
 
+* [Endpoints](#endpoints)
+  * [Accounting](#accounting)
+  * [Snapshot](#snapshot)
+  * [Cache refresh](#cache-refresh)
+
+Note: _Accounting_ endpoints are only available when the target foundation hosts Tanzu Application Service.
+
 ## Endpoints
 
 These REST endpoints have been exposed for reporting and administrative purposes.
