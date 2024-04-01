@@ -20,12 +20,13 @@
 		<developer>
 			<id>cphillipson</id>
 			<name>Chris Phillipson</name>
-			<email>cphillipson@pivotal.io</email>
-			<url>https://pivotal.io</url>
+			<email>cphillipson@cftoolsuite.org</email>
 			<roles>
 				<role>architect</role>
 				<role>developer</role>
 			</roles>
+			<organization>Cloud Foundry Tool Suite</organization>
+			<organizationUrl>https://github.com/cf-toolsuite</organizationUrl>
 			<timezone>America/Seattle</timezone>
 		</developer>
 	</developers>
