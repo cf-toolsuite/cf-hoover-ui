@@ -610,8 +610,8 @@
 				<version>4.3</version>
 				<configuration>
 					<properties>
-						<owner>io.pivotal.cf-hoover-ui</owner>
-						<email>cphillipson@pivotal.io</email>
+						<owner>org.cftoolsuite.cfapp.cf-hoover-ui</owner>
+						<email>cphillipson@cftoolsuite.org</email>
 					</properties>
 					<licenseSets>
 						<licenseSet>
@@ -667,6 +667,23 @@
 						<link>https://docs.spring.io/spring-data/commons/docs/current/api/</link>
 						<link>https://docs.oracle.com/javase/${java.version}/docs/api/</link>
 					</links>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>ch.acanda.maven</groupId>
+				<artifactId>spring-banner-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<id>generate-spring-banner</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<info>Commit: ${git.commit.id.abbrev}, Version: ${project.version}, Active Profiles: ${spring.profiles.active:default}</info>
 				</configuration>
 			</plugin>
 		</plugins>
