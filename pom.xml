@@ -76,7 +76,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.3.6</vaadin.version>
+		<vaadin.version>24.3.8</vaadin.version>
 		<lombok.version>1.18.32</lombok.version>
 	</properties>
 
