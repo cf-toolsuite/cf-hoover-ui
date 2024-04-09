@@ -26,7 +26,7 @@ jobs:
           sudo apt update && sudo apt install gh -y
       - name: Publish package capable of targeting H2 in-memory backend
         run: |
-          ./mvnw versions:set -DnewVersion=${{ github.event.release.tag_name }} && ./mvnw --batch-mode --update-snapshots -Pexpose-runtime-metadata clean deploy
+          ./mvnw versions:set -DnewVersion=${{ github.event.release.tag_name }} && ./mvnw --batch-mode --update-snapshots -Pproduction,expose-runtime-metadata clean deploy
           SUFFIX="${{ github.event.release.tag_name }}"
           echo "Uploading cf-hoover-ui-$SUFFIX.jar to release ${{ github.event.release.tag_name }}"
           gh release upload "${{ github.event.release.tag_name }}" "/home/runner/.m2/repository/org/cftoolsuite/cfapp/cf-hoover-ui/$SUFFIX/cf-hoover-ui-$SUFFIX.jar" --clobber
