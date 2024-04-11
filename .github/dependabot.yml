@@ -1,12 +1,8 @@
 version: 2
 updates:
-- package-ecosystem: gradle
+- package-ecosystem: maven
   directory: "/"
   schedule:
     interval: daily
     time: "13:00"
   open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: com.devsoap.vaadin-flow
-    versions:
-    - 1.5.1
