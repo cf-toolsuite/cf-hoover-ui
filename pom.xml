@@ -76,7 +76,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
-		<vaadin.version>24.3.8</vaadin.version>
+		<vaadin.version>24.3.9</vaadin.version>
 		<lombok.version>1.18.32</lombok.version>
 	</properties>
 
@@ -633,7 +633,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>3.4.5</version>
+				<version>3.5.0</version>
 			</plugin>
 			<plugin>
 				<groupId>com.github.spotbugs</groupId>
