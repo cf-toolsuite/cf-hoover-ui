@@ -48,3 +48,4 @@ vaadin.ts
 .npmrc
 frontend/
 vite.*
+*.bundle
