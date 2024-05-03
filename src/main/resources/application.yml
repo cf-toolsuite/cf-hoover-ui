@@ -40,7 +40,7 @@ management:
       show-details: always
 
 vaadin:
-  whitelisted-packages: com.vaadin,org.vaadin,com.github.appreciated.apexcharts
+  allowed-packages: com.vaadin,org.vaadin,com.github.appreciated.apexcharts
 
 cron:
   # each :30 on the hour

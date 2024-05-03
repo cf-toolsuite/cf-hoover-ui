@@ -4,24 +4,27 @@ import static org.cftoolsuite.cfapp.ui.view.ServicePlanUsageReportView.NAV;
 
 import java.text.NumberFormat;
 
+import org.cftoolsuite.cfapp.domain.accounting.service.NormalizedServicePlanMonthlyUsage;
+import org.cftoolsuite.cfapp.repository.MetricCache;
+import org.cftoolsuite.cfapp.ui.MainLayout;
+import org.cftoolsuite.cfapp.ui.component.GridTile;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.renderer.NumberRenderer;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.cftoolsuite.cfapp.domain.accounting.service.NormalizedServicePlanMonthlyUsage;
-import org.cftoolsuite.cfapp.repository.MetricCache;
-import org.cftoolsuite.cfapp.ui.MainLayout;
-import org.cftoolsuite.cfapp.ui.component.GridTile;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-hoover-ui » Accounting » Service » Plans")
+@AnonymousAllowed
 public class ServicePlanUsageReportView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

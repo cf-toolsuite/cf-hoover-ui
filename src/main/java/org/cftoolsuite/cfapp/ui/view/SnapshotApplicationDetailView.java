@@ -8,6 +8,13 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
 
+import org.apache.commons.lang3.StringUtils;
+import org.cftoolsuite.cfapp.domain.AppDetail;
+import org.cftoolsuite.cfapp.repository.MetricCache;
+import org.cftoolsuite.cfapp.ui.MainLayout;
+import org.cftoolsuite.cfapp.ui.component.GridTile;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -22,17 +29,13 @@ import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.cftoolsuite.cfapp.domain.AppDetail;
-import org.cftoolsuite.cfapp.repository.MetricCache;
-import org.cftoolsuite.cfapp.ui.MainLayout;
-import org.cftoolsuite.cfapp.ui.component.GridTile;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-hoover-ui » Snapshot » Detail » AI")
+@AnonymousAllowed
 public class SnapshotApplicationDetailView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

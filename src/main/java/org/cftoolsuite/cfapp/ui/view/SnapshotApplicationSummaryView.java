@@ -6,6 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.cftoolsuite.cfapp.domain.ApplicationCounts;
+import org.cftoolsuite.cfapp.domain.BuildpackCount;
+import org.cftoolsuite.cfapp.domain.DockerImageCount;
+import org.cftoolsuite.cfapp.domain.StackCount;
+import org.cftoolsuite.cfapp.domain.VelocityCount;
+import org.cftoolsuite.cfapp.repository.MetricCache;
+import org.cftoolsuite.cfapp.ui.MainLayout;
+import org.cftoolsuite.cfapp.ui.MetricFormatter;
+import org.cftoolsuite.cfapp.ui.component.GridTile;
+import org.cftoolsuite.cfapp.ui.component.Tile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.appreciated.apexcharts.ApexCharts;
@@ -19,21 +29,14 @@ import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilde
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import org.cftoolsuite.cfapp.domain.ApplicationCounts;
-import org.cftoolsuite.cfapp.domain.BuildpackCount;
-import org.cftoolsuite.cfapp.domain.DockerImageCount;
-import org.cftoolsuite.cfapp.domain.StackCount;
-import org.cftoolsuite.cfapp.domain.VelocityCount;
-import org.cftoolsuite.cfapp.repository.MetricCache;
-import org.cftoolsuite.cfapp.ui.MainLayout;
-import org.cftoolsuite.cfapp.ui.MetricFormatter;
-import org.cftoolsuite.cfapp.ui.component.GridTile;
-import org.cftoolsuite.cfapp.ui.component.Tile;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-hoover-ui » Snapshot » Summary » AI")
+@AnonymousAllowed
 public class SnapshotApplicationSummaryView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

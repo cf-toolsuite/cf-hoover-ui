@@ -2,16 +2,21 @@ package org.cftoolsuite.cfapp.ui.view;
 
 import static org.cftoolsuite.cfapp.ui.view.HomeView.NAV;
 
+import org.cftoolsuite.cfapp.ui.MainLayout;
+
 import com.vaadin.flow.component.AttachEvent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
-import org.cftoolsuite.cfapp.ui.MainLayout;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-hoover-ui » Home")
+@AnonymousAllowed
 public class HomeView extends Div {
 
     private static final long serialVersionUID = 1L;

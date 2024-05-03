@@ -2,13 +2,6 @@ package org.cftoolsuite.cfapp.ui.view;
 
 import static org.cftoolsuite.cfapp.ui.view.SnapshotServiceInstanceSummaryView.NAV;
 
-import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.Route;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.cftoolsuite.cfapp.domain.ServiceCount;
 import org.cftoolsuite.cfapp.domain.ServiceInstanceCounts;
 import org.cftoolsuite.cfapp.domain.ServicePlanCount;
@@ -18,9 +11,19 @@ import org.cftoolsuite.cfapp.ui.MainLayout;
 import org.cftoolsuite.cfapp.ui.MetricFormatter;
 import org.cftoolsuite.cfapp.ui.component.GridTile;
 import org.cftoolsuite.cfapp.ui.component.Tile;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-hoover-ui » Snapshot » Summary » SI")
+@AnonymousAllowed
 public class SnapshotServiceInstanceSummaryView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;

@@ -6,6 +6,10 @@ import java.text.NumberFormat;
 import java.util.Collection;
 
 import org.apache.commons.lang3.StringUtils;
+import org.cftoolsuite.cfapp.domain.JavaAppDetail;
+import org.cftoolsuite.cfapp.repository.MetricCache;
+import org.cftoolsuite.cfapp.ui.MainLayout;
+import org.cftoolsuite.cfapp.ui.component.GridTile;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.vaadin.flow.component.grid.ColumnTextAlign;
@@ -19,14 +23,13 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import org.cftoolsuite.cfapp.domain.JavaAppDetail;
-import org.cftoolsuite.cfapp.repository.MetricCache;
-import org.cftoolsuite.cfapp.ui.MainLayout;
-import org.cftoolsuite.cfapp.ui.component.GridTile;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 
 @Route(value = NAV, layout = MainLayout.class)
+@PageTitle("cf-hoover-ui » Spring Application Report » Detail")
+@AnonymousAllowed
 public class SpringApplicationReportDetailView extends VerticalLayout {
 
     private static final long serialVersionUID = 1L;
