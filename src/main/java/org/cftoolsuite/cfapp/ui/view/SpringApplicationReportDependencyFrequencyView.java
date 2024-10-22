@@ -67,17 +67,15 @@ public class SpringApplicationReportDependencyFrequencyView extends VerticalLayo
 
         ApexChartsBuilder chartBuilder = new ApexChartsBuilder();
         chartBuilder.withChart(ChartBuilder.get().withType(Type.DONUT).build())
-                .withLegend(LegendBuilder.get()
-                        .withPosition(Position.RIGHT)
+            .withLegend(LegendBuilder.get().withShow(false).build())
+            .withResponsive(ResponsiveBuilder.get()
+                .withBreakpoint(480.0)
+                .withOptions(OptionsBuilder.get()
+                    .withLegend(LegendBuilder.get()
+                        .withShow(false)
                         .build())
-                .withResponsive(ResponsiveBuilder.get()
-                        .withBreakpoint(480.0)
-                        .withOptions(OptionsBuilder.get()
-                                .withLegend(LegendBuilder.get()
-                                        .withPosition(Position.BOTTOM)
-                                        .build())
-                                .build())
-                        .build());
+                    .build())
+                .build());
         chart = chartBuilder.build();
         updateChartData(chart, items);
         chart.setHeight("320px");

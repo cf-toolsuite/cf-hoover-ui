@@ -85,17 +85,15 @@ public class SnapshotApplicationSummaryView extends VerticalLayout {
     private ApexCharts createDonutChart(Map<String, Long> items) {
         ApexChartsBuilder chartBuilder = new ApexChartsBuilder();
         chartBuilder.withChart(ChartBuilder.get().withType(Type.DONUT).build())
-                .withLegend(LegendBuilder.get()
-                        .withPosition(Position.RIGHT)
+            .withLegend(LegendBuilder.get().withShow(false).build())
+            .withResponsive(ResponsiveBuilder.get()
+                .withBreakpoint(480.0)
+                .withOptions(OptionsBuilder.get()
+                    .withLegend(LegendBuilder.get()
+                        .withShow(false)
                         .build())
-                .withResponsive(ResponsiveBuilder.get()
-                        .withBreakpoint(480.0)
-                        .withOptions(OptionsBuilder.get()
-                                .withLegend(LegendBuilder.get()
-                                        .withPosition(Position.BOTTOM)
-                                        .build())
-                                .build())
-                        .build());
+                    .build())
+                .build());
         ApexCharts chart = chartBuilder.build();
         updateChartData(chart, items);
         chart.setHeight("120px");
