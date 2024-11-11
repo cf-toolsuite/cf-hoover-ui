@@ -130,6 +130,10 @@ public class AppDetail {
 						.lastEvent(detail.getLastEvent())
 						.lastEventActor(detail.getLastEventActor())
 						.lastEventTime(detail.getLastEventTime())
+						.buildpackReleaseType(detail.getBuildpackReleaseType())
+						.buildpackReleaseDate(detail.getBuildpackReleaseDate())
+						.buildpackLatestVersion(detail.getBuildpackLatestVersion())
+						.buildpackLatestUrl(detail.getBuildpackLatestUrl())
 						.requestedState(detail.getRequestedState());
 	}
 }
