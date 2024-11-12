@@ -24,7 +24,6 @@ import com.github.appreciated.apexcharts.config.builder.ChartBuilder;
 import com.github.appreciated.apexcharts.config.builder.LegendBuilder;
 import com.github.appreciated.apexcharts.config.builder.ResponsiveBuilder;
 import com.github.appreciated.apexcharts.config.chart.Type;
-import com.github.appreciated.apexcharts.config.legend.Position;
 import com.github.appreciated.apexcharts.config.responsive.builder.OptionsBuilder;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
