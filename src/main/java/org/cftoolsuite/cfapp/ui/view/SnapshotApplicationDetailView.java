@@ -4,9 +4,11 @@ import static org.cftoolsuite.cfapp.ui.view.SnapshotApplicationDetailView.NAV;
 
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Collection;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 import org.cftoolsuite.cfapp.domain.AppDetail;
@@ -15,6 +17,8 @@ import org.cftoolsuite.cfapp.ui.MainLayout;
 import org.cftoolsuite.cfapp.ui.component.GridTile;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -29,6 +33,7 @@ import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.renderer.NumberRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -71,6 +76,12 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         Column<AppDetail> appNameColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.appName}").withProperty("appName", AppDetail::getAppName)).setHeader("Application Name");
         Column<AppDetail> buildpackColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.buildpack}").withProperty("buildpack", AppDetail::getBuildpack)).setHeader("Buildpack");
         Column<AppDetail> buildpackVersionColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.buildpackVersion}").withProperty("buildpackVersion", AppDetail::getBuildpackVersion)).setHeader("Buildpack Version");
+
+        Column<AppDetail> buildpackReleaseTypeColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.buildpackReleaseType}").withProperty("buildpackReleaseType", AppDetail::getBuildpackReleaseType)).setHeader("Buildpack Release Type");
+        Column<AppDetail> buildpackLatestVersionColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.buildpackLatestVersion}").withProperty("buildpackLatestVersion", AppDetail::getBuildpackLatestVersion)).setHeader("Buildpack Latest Version");
+        Column<AppDetail> buildpackLatestUrlColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.buildpackLatestUrl}").withProperty("buildpackLatestUrl", AppDetail::getBuildpackLatestUrl)).setHeader("Buildpack Latest URL");
+        Column<AppDetail> buildpackReleaseDateColumn = grid.addColumn(new LocalDateTimeRenderer<AppDetail>(AppDetail::getBuildpackReleaseDate, () -> dateTimeFormatter)).setHeader("Buildpack Release Date").setTextAlign(ColumnTextAlign.END);
+
         Column<AppDetail> imageColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.image}").withProperty("image", AppDetail::getImage)).setHeader("Docker Image");
         Column<AppDetail> stackColumn = grid.addColumn(LitRenderer.<AppDetail> of("${item.stack}").withProperty("stack", AppDetail::getStack)).setHeader("Stack");
         Column<AppDetail> runningInstancesColumn = grid.addColumn(new NumberRenderer<>(AppDetail::getRunningInstances, formatter)).setHeader("Running Instances").setTextAlign(ColumnTextAlign.END);
@@ -150,6 +161,37 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         filterRow.getCell(buildpackVersionColumn).setComponent(buildpackVersionField);
         buildpackVersionField.setSizeFull();
         buildpackVersionField.setPlaceholder("Filter");
+
+        TextField buildpackReleaseTypeField = new TextField();
+        buildpackReleaseTypeField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getBuildpackReleaseType(), buildpackReleaseTypeField.getValue())));
+        buildpackReleaseTypeField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(buildpackReleaseTypeColumn).setComponent(buildpackReleaseTypeField);
+        buildpackReleaseTypeField.setSizeFull();
+        buildpackReleaseTypeField.setPlaceholder("Filter");
+
+        VerticalLayout buildpackReleaseDateField = getBuildpackReleaseDatePicker(dataProvider);
+        filterRow.getCell(buildpackReleaseDateColumn).setComponent(buildpackReleaseDateField);
+        buildpackReleaseDateField.setSizeFull();
+
+        TextField buildpackLatestVersionField = new TextField();
+        buildpackLatestVersionField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getBuildpackLatestVersion(), buildpackLatestVersionField.getValue())));
+        buildpackLatestVersionField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(buildpackLatestVersionColumn).setComponent(buildpackLatestVersionField);
+        buildpackLatestVersionField.setSizeFull();
+        buildpackLatestVersionField.setPlaceholder("Filter");
+
+        TextField buildpackLatestUrlField = new TextField();
+        buildpackLatestUrlField.addValueChangeListener(
+            event -> dataProvider.addFilter(
+                f -> StringUtils.containsIgnoreCase(f.getBuildpackLatestUrl(), buildpackLatestVersionField.getValue())));
+        buildpackLatestUrlField.setValueChangeMode(ValueChangeMode.EAGER);
+        filterRow.getCell(buildpackLatestUrlColumn).setComponent(buildpackLatestUrlField);
+        buildpackLatestUrlField.setSizeFull();
+        buildpackLatestUrlField.setPlaceholder("Filter");
 
         TextField imageField = new TextField();
         imageField.addValueChangeListener(
@@ -274,93 +316,84 @@ public class SnapshotApplicationDetailView extends VerticalLayout {
         return grid;
     }
 
-    public VerticalLayout getLastPushedPicker(ListDataProvider<AppDetail> dataProvider) {
-        DatePicker startDatePicker = new DatePicker();
+    private VerticalLayout createDateRangePicker(ListDataProvider<AppDetail> dataProvider,
+                                                 Function<AppDetail, LocalDateTime> dateExtractor,
+                                                 String startLabel,
+                                                 String endLabel) {
+        DatePicker startDatePicker = new DatePicker(startLabel);
         startDatePicker.setPlaceholder("Start");
-        startDatePicker.setSizeFull();
-        DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setPlaceholder("End");
-        endDatePicker.setSizeFull();
+        startDatePicker.setWidthFull();
 
-        startDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
+        DatePicker endDatePicker = new DatePicker(endLabel);
+        endDatePicker.setPlaceholder("End");
+        endDatePicker.setWidthFull();
+
+        ValueChangeListener<ComponentValueChangeEvent<DatePicker, LocalDate>> dateChangeListener = event -> {
+            LocalDate startDate = startDatePicker.getValue();
             LocalDate endDate = endDatePicker.getValue();
-            if (selectedDate != null) {
-                endDatePicker.setMin(selectedDate.plusDays(1));
-                if (endDate == null) {
-                    endDatePicker.setOpened(true);
-                } else {
-                    dataProvider.addFilter(
-                        f -> f.getLastPushed() == null ? false : (f.getLastPushed().toLocalDate().isAfter(selectedDate) &&
-                            f.getLastPushed().toLocalDate().isBefore(endDate)));
-                }
+
+            if (startDate != null) {
+                endDatePicker.setMin(startDate);
             } else {
                 endDatePicker.setMin(null);
             }
-        });
 
-        endDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate startDate = startDatePicker.getValue();
-            if (selectedDate != null) {
-                startDatePicker.setMax(selectedDate.minusDays(1));
-                if (startDate != null) {
-                    dataProvider.addFilter(
-                        f -> f.getLastPushed() == null ? false : (f.getLastPushed().toLocalDate().isBefore(selectedDate) &&
-                            f.getLastPushed().toLocalDate().isAfter(startDate)));
-                }
+            if (endDate != null) {
+                startDatePicker.setMax(endDate);
             } else {
                 startDatePicker.setMax(null);
             }
-        });
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.add(startDatePicker, endDatePicker);
+            dataProvider.setFilter(createDateRangeFilter(startDate, endDate, dateExtractor));
+        };
+
+        startDatePicker.addValueChangeListener(dateChangeListener);
+        endDatePicker.addValueChangeListener(dateChangeListener);
+
+        VerticalLayout layout = new VerticalLayout(startDatePicker, endDatePicker);
+        layout.setSpacing(true);
+        layout.setPadding(false);
         return layout;
     }
 
+    private SerializablePredicate<AppDetail> createDateRangeFilter(LocalDate startDate, LocalDate endDate,
+                                                                   Function<AppDetail, LocalDateTime> dateExtractor) {
+        if (startDate != null && endDate != null) {
+            return item -> {
+                LocalDateTime itemDateTime = dateExtractor.apply(item);
+                if (itemDateTime == null) return false;
+                LocalDate itemDate = itemDateTime.toLocalDate();
+                return (itemDate.isEqual(startDate) || itemDate.isAfter(startDate)) &&
+                       (itemDate.isEqual(endDate) || itemDate.isBefore(endDate));
+            };
+        } else if (startDate != null) {
+            return item -> {
+                LocalDateTime itemDateTime = dateExtractor.apply(item);
+                if (itemDateTime == null) return false;
+                LocalDate itemDate = itemDateTime.toLocalDate();
+                return itemDate.isEqual(startDate) || itemDate.isAfter(startDate);
+            };
+        } else if (endDate != null) {
+            return item -> {
+                LocalDateTime itemDateTime = dateExtractor.apply(item);
+                if (itemDateTime == null) return false;
+                LocalDate itemDate = itemDateTime.toLocalDate();
+                return itemDate.isEqual(endDate) || itemDate.isBefore(endDate);
+            };
+        } else {
+            return item -> true;
+        }
+    }
+
+    public VerticalLayout getLastPushedPicker(ListDataProvider<AppDetail> dataProvider) {
+        return createDateRangePicker(dataProvider, AppDetail::getLastPushed, "Last Pushed Start", "Last Pushed End");
+    }
+
     public VerticalLayout getLastEventTimePicker(ListDataProvider<AppDetail> dataProvider) {
-        DatePicker startDatePicker = new DatePicker();
-        startDatePicker.setPlaceholder("Start");
-        startDatePicker.setSizeFull();
-        DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setPlaceholder("End");
-        endDatePicker.setSizeFull();
+        return createDateRangePicker(dataProvider, AppDetail::getLastEventTime, "Last Event Start", "Last Event End");
+    }
 
-        startDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate endDate = endDatePicker.getValue();
-            if (selectedDate != null) {
-                endDatePicker.setMin(selectedDate.plusDays(1));
-                if (endDate == null) {
-                    endDatePicker.setOpened(true);
-                } else {
-                    dataProvider.addFilter(
-                        f -> f.getLastEventTime() == null ? false : (f.getLastEventTime().toLocalDate().isAfter(selectedDate) &&
-                            f.getLastEventTime().toLocalDate().isBefore(endDate)));
-                }
-            } else {
-                endDatePicker.setMin(null);
-            }
-        });
-
-        endDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate startDate = startDatePicker.getValue();
-            if (selectedDate != null) {
-                startDatePicker.setMax(selectedDate.minusDays(1));
-                if (startDate != null) {
-                    dataProvider.addFilter(
-                        f -> f.getLastEventTime() == null ? false : (f.getLastEventTime().toLocalDate().isBefore(selectedDate) &&
-                            f.getLastEventTime().toLocalDate().isAfter(startDate)));
-                }
-            } else {
-                startDatePicker.setMax(null);
-            }
-        });
-
-        VerticalLayout layout = new VerticalLayout();
-        layout.add(startDatePicker, endDatePicker);
-        return layout;
+    public VerticalLayout getBuildpackReleaseDatePicker(ListDataProvider<AppDetail> dataProvider) {
+        return createDateRangePicker(dataProvider, AppDetail::getBuildpackReleaseDate, "Buildpack Release Start", "Buildpack Release End");
     }
 }

@@ -14,6 +14,8 @@ import org.cftoolsuite.cfapp.ui.MainLayout;
 import org.cftoolsuite.cfapp.ui.component.GridTile;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.vaadin.flow.component.AbstractField.ComponentValueChangeEvent;
+import com.vaadin.flow.component.HasValue.ValueChangeListener;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.grid.ColumnTextAlign;
 import com.vaadin.flow.component.grid.Grid;
@@ -27,6 +29,7 @@ import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.LocalDateTimeRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -195,47 +198,63 @@ public class SnapshotServiceInstanceDetailView extends VerticalLayout {
     }
 
     public VerticalLayout getLastUpdatedPicker(ListDataProvider<ServiceInstanceDetail> dataProvider) {
-        DatePicker startDatePicker = new DatePicker();
+        DatePicker startDatePicker = new DatePicker("Start Date");
         startDatePicker.setPlaceholder("Start");
-        startDatePicker.setSizeFull();
-        DatePicker endDatePicker = new DatePicker();
-        endDatePicker.setPlaceholder("End");
-        endDatePicker.setSizeFull();
+        startDatePicker.setWidthFull();
 
-        startDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
+        DatePicker endDatePicker = new DatePicker("End Date");
+        endDatePicker.setPlaceholder("End");
+        endDatePicker.setWidthFull();
+
+        ValueChangeListener<ComponentValueChangeEvent<DatePicker, LocalDate>> dateChangeListener = event -> {
+            LocalDate startDate = startDatePicker.getValue();
             LocalDate endDate = endDatePicker.getValue();
-            if (selectedDate != null) {
-                endDatePicker.setMin(selectedDate.plusDays(1));
-                if (endDate == null) {
-                    endDatePicker.setOpened(true);
-                } else {
-                    dataProvider.addFilter(
-                        f -> f.getLastUpdated() == null ? false : (f.getLastUpdated().toLocalDate().isAfter(selectedDate) &&
-                            f.getLastUpdated().toLocalDate().isBefore(endDate)));
-                }
+
+            if (startDate != null) {
+                endDatePicker.setMin(startDate);
             } else {
                 endDatePicker.setMin(null);
             }
-        });
 
-        endDatePicker.addValueChangeListener(event -> {
-            LocalDate selectedDate = event.getValue();
-            LocalDate startDate = startDatePicker.getValue();
-            if (selectedDate != null) {
-                startDatePicker.setMax(selectedDate.minusDays(1));
-                if (startDate != null) {
-                    dataProvider.addFilter(
-                        f -> f.getLastUpdated() == null ? false : (f.getLastUpdated().toLocalDate().isBefore(selectedDate) &&
-                            f.getLastUpdated().toLocalDate().isAfter(startDate)));
-                }
+            if (endDate != null) {
+                startDatePicker.setMax(endDate);
             } else {
                 startDatePicker.setMax(null);
             }
-        });
 
-        VerticalLayout layout = new VerticalLayout();
-        layout.add(startDatePicker, endDatePicker);
+            dataProvider.setFilter(createDateRangeFilter(startDate, endDate));
+        };
+
+        startDatePicker.addValueChangeListener(dateChangeListener);
+        endDatePicker.addValueChangeListener(dateChangeListener);
+
+        VerticalLayout layout = new VerticalLayout(startDatePicker, endDatePicker);
+        layout.setSpacing(true);
+        layout.setPadding(false);
         return layout;
     }
+
+    private SerializablePredicate<ServiceInstanceDetail> createDateRangeFilter(LocalDate startDate, LocalDate endDate) {
+        if (startDate != null && endDate != null) {
+            return item -> {
+                LocalDate itemDate = item.getLastUpdated() != null ? item.getLastUpdated().toLocalDate() : null;
+                return itemDate != null &&
+                       (itemDate.isEqual(startDate) || itemDate.isAfter(startDate)) &&
+                       (itemDate.isEqual(endDate) || itemDate.isBefore(endDate));
+            };
+        } else if (startDate != null) {
+            return item -> {
+                LocalDate itemDate = item.getLastUpdated() != null ? item.getLastUpdated().toLocalDate() : null;
+                return itemDate != null && (itemDate.isEqual(startDate) || itemDate.isAfter(startDate));
+            };
+        } else if (endDate != null) {
+            return item -> {
+                LocalDate itemDate = item.getLastUpdated() != null ? item.getLastUpdated().toLocalDate() : null;
+                return itemDate != null && (itemDate.isEqual(endDate) || itemDate.isBefore(endDate));
+            };
+        } else {
+            return item -> true;
+        }
+    }
+
 }
