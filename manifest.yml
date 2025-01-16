@@ -9,3 +9,5 @@ applications:
     JAVA_OPTS: -Djava.security.egd=file:///dev/urandom
     SPRING_PROFILES_ACTIVE: cloud
     JBP_CONFIG_OPEN_JDK_JRE: '{ jre: { version: 21.+ } }'
+    JBP_CONFIG_SPRING_AUTO_RECONFIGURATION: '{ enabled: false }'
+    JAVA_ARTIFACTS_FETCH_MODE: list-jars-in-droplet
