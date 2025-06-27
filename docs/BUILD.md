@@ -3,7 +3,7 @@
 ## How to Build
 
 ```
-./mvnw --batch-mode --update-snapshots -DskipTests -Pproduction verify
+./mvnw --batch-mode --update-snapshots -Pproduction verify
 ```
 
 ### Alternatives
@@ -17,15 +17,15 @@ The below represent a collection of Maven profiles available in the Maven POM.
 
 
 ```
-./mvnw --batch-mode --update-snapshots -DskipTests -Pproduction,log4j2 verify
+./mvnw --batch-mode --update-snapshots -Pproduction,log4j2 verify
 ```
 > Swap out default "lossy" logging provider
 
 
 ```
 # Using Cloud Native Buildpacks image
-./mvnw spring-boot:build-image -Pnative --batch-mode --update-snapshots -DskipTests -Pproduction
+./mvnw spring-boot:build-image -Pnative --batch-mode --update-snapshots -Pproduction
 
 # Using pre-installed Graal CE
-./mvnw native:compile --batch-mode --update-snapshots -DskipTests -Pproduction -Pnative
+./mvnw native:compile --batch-mode --update-snapshots -Pproduction -Pnative
 ```
