@@ -41,7 +41,6 @@ target
 tsconfig.json
 types.d.ts
 webpack*
-package*.json
 pnpm*
 node_modules/
 vaadin.ts
