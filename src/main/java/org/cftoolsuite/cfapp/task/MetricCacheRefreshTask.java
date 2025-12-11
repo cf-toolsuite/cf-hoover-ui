@@ -1,17 +1,16 @@
 package org.cftoolsuite.cfapp.task;
 
+import org.cftoolsuite.cfapp.client.HooverClient;
+import org.cftoolsuite.cfapp.repository.MetricCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.cftoolsuite.cfapp.client.HooverClient;
-import org.cftoolsuite.cfapp.repository.MetricCache;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Component
@@ -83,7 +82,7 @@ public class MetricCacheRefreshTask implements ApplicationRunner {
     private String mapWithException(String type, Object value) {
         try {
             return mapper.writeValueAsString(value);
-        } catch (JsonProcessingException jpe) {
+        } catch (JacksonException jpe) {
             throw new RuntimeException("Problem mapping " + type);
         }
     }

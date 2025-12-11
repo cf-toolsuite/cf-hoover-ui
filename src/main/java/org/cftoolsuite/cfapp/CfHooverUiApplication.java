@@ -8,12 +8,12 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import com.vaadin.flow.component.page.AppShellConfigurator;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.theme.Theme;
-import com.vaadin.flow.theme.material.Material;
+import com.vaadin.flow.theme.lumo.Lumo;
 
 @EnableScheduling
 @SpringBootApplication
 @ConfigurationPropertiesScan
-@Theme(themeClass = Material.class, variant = Material.DARK)
+@Theme(themeClass = Lumo.class, variant = Lumo.DARK)
 @PWA(name = "A simple dashboard display for metrics gathered from a cf-hoover instance", shortName = "cf-hoover-ui")
 public class CfHooverUiApplication implements AppShellConfigurator {
 

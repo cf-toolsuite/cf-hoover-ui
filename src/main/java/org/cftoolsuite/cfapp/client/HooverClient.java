@@ -4,12 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.cftoolsuite.cfapp.domain.Demographics;
 import org.cftoolsuite.cfapp.domain.JavaAppDetail;
 import org.cftoolsuite.cfapp.domain.SnapshotDetail;
@@ -18,6 +12,12 @@ import org.cftoolsuite.cfapp.domain.SpringApplicationReport;
 import org.cftoolsuite.cfapp.domain.accounting.application.AppUsageReport;
 import org.cftoolsuite.cfapp.domain.accounting.service.ServiceUsageReport;
 import org.cftoolsuite.cfapp.domain.accounting.task.TaskUsageReport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
