@@ -2,8 +2,8 @@
 
 ## How to Build
 
-```
-./mvnw --batch-mode --update-snapshots -Pproduction verify
+```bash
+./mvnw clean package --batch-mode --update-snapshots -Pproduction verify
 ```
 
 ### Alternatives
@@ -15,14 +15,13 @@ The below represent a collection of Maven profiles available in the Maven POM.
 * Native image (native)
   * uses [Spring AOT](https://docs.spring.io/spring-native/docs/current/reference/htmlsingle/#spring-aot-maven) to compile a native executable with [GraalVM](https://www.graalvm.org/docs/introduction/)
 
+```bash
+./mvnw clean package --batch-mode --update-snapshots -Pproduction,log4j2 verify
+```
 
-```
-./mvnw --batch-mode --update-snapshots -Pproduction,log4j2 verify
-```
 > Swap out default "lossy" logging provider
 
-
-```
+```bash
 # Using Cloud Native Buildpacks image
 ./mvnw spring-boot:build-image -Pnative --batch-mode --update-snapshots -Pproduction
 
