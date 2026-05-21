@@ -45,27 +45,27 @@ public class MainLayout extends AppLayout {
     	Tab spurTab = createTab(VaadinIcon.TABLE.create(), "Service Plan", ServicePlanUsageReportView.class);
     	Tab turTab = createTab(VaadinIcon.TABLE.create(), "Task", TaskUsageReportView.class);
     	accountingTabs.add(aurTab, surTab, spurTab, turTab);
-    	accordion.add("Accounting", accountingTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	accordion.add("Accounting", accountingTabs).addThemeVariants(DetailsVariant.LUMO_REVERSE);
 
     	Tabs snapshotDetailTabs = createTabs();
     	Tab sadTab = createTab(VaadinIcon.TABLE.create(), "Application", SnapshotApplicationDetailView.class);
     	Tab sidTab = createTab(VaadinIcon.TABLE.create(), "Service Instance", SnapshotServiceInstanceDetailView.class);
     	Tab suTab = createTab(VaadinIcon.USERS.create(), "Users", UsersView.class);
     	snapshotDetailTabs.add(sadTab, sidTab, suTab);
-    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	accordion.add("Snapshot Detail", snapshotDetailTabs).addThemeVariants(DetailsVariant.LUMO_REVERSE);
 
     	Tabs snapshotSummaryTabs = createTabs();
     	Tab ssdTab = createTab(VaadinIcon.PIE_CHART.create(),"Demographics", DemographicsView.class);
     	Tab ssaTab = createTab(VaadinIcon.DASHBOARD.create(),"Application", SnapshotApplicationSummaryView.class);
     	Tab sssiTab = createTab(VaadinIcon.DASHBOARD.create(),"Service Instance", SnapshotServiceInstanceSummaryView.class);
     	snapshotSummaryTabs.add(ssdTab, ssaTab, sssiTab);
-    	accordion.add("Snapshot Summary", snapshotSummaryTabs).addThemeVariants(DetailsVariant.REVERSE);
+    	accordion.add("Snapshot Summary", snapshotSummaryTabs).addThemeVariants(DetailsVariant.LUMO_REVERSE);
 
 		Tabs springApplicationReportTabs = createTabs();
 		Tab sarDetailTab = createTab(VaadinIcon.TABLE.create(),"Detail", SpringApplicationReportDetailView.class);
 		Tab sardvTab = createTab(VaadinIcon.TABLE.create(),"Dependency Frequency", SpringApplicationReportDependencyFrequencyView.class);
 		springApplicationReportTabs.add(sarDetailTab, sardvTab);
-		accordion.add("Spring Application Insights", springApplicationReportTabs).addThemeVariants((DetailsVariant.REVERSE));
+		accordion.add("Spring Application Insights", springApplicationReportTabs).addThemeVariants((DetailsVariant.LUMO_REVERSE));
 
     	addToNavbar(true, homeTab, new DrawerToggle());
     	addToDrawer(accordion);
