@@ -32,7 +32,7 @@
     "strip-css-comments": "5.0.0",
     "transform-ast": "2.4.4",
     "typescript": "5.9.3",
-    "vite": "7.3.1",
+    "vite": "7.3.2",
     "vite-plugin-checker": "0.12.0",
     "workbox-build": "7.4.1"
   },
@@ -68,7 +68,7 @@
       "strip-css-comments": "5.0.0",
       "transform-ast": "2.4.4",
       "typescript": "5.9.3",
-      "vite": "7.3.1",
+      "vite": "7.3.2",
       "vite-plugin-checker": "0.12.0",
       "workbox-build": "7.4.1"
     },
@@ -150,8 +150,11 @@
     "@vaadin/router": "2.0.1",
     "@vaadin/vertical-layout": "25.0.0-beta7",
     "@vaadin/virtual-list": "25.0.0-beta7",
+    "@babel/plugin-transform-modules-systemjs": "7.29.4",
     "dompurify": "3.4.5",
     "fast-uri": "3.1.2",
-    "postcss": "8.5.15"
+    "picomatch": "4.0.4",
+    "postcss": "8.5.15",
+    "rollup": "4.60.4"
   }
 }
