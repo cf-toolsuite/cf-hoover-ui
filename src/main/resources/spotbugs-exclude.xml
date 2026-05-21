@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+
+    <!--
+        WHY: Spring DI stores collaborators by reference by design.
+        A defensive copy would break the IoC contract.
+    -->
+    <Match>
+        <Bug pattern="EI_EXPOSE_REP2"/>
+        <Method name="&lt;init&gt;"/>
+    </Match>
+
+    <!--
+        WHY: ApplicationEvent subclasses are in-process only and never
+        serialised across a wire; the Serializable requirement is moot.
+    -->
+    <Match>
+        <Bug pattern="SE_BAD_FIELD"/>
+        <Or>
+            <Class name="~.*Event$"/>
+            <Class name="~.*ApplicationEvent$"/>
+        </Or>
+    </Match>
+
+</FindBugsFilter>

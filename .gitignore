@@ -46,5 +46,8 @@ node_modules/
 vaadin.ts
 .npmrc
 frontend/
+!src/main/frontend/
+!src/main/frontend/themes/
+!src/main/frontend/themes/**
 vite.*
 *.bundle
