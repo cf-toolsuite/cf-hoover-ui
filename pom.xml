@@ -178,7 +178,7 @@
 		<dependency>
 			<groupId>com.github.appreciated</groupId>
 			<artifactId>apexcharts</artifactId>
-			<version>24.0.2</version>
+			<version>25.0.1</version>
 		</dependency>
 
 		<dependency>
