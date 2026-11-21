@@ -250,7 +250,7 @@
     "@vaadin/slider": "25.1.2",
     "workbox-build": {
       "serialize-javascript": "7.0.5",
-      "@rollup/plugin-terser": "1.0.0",
+      "@rollup/plugin-terser": "1.0.2",
       "glob": "13.0.6"
     },
     "@vaadin/badge": "25.1.2"
