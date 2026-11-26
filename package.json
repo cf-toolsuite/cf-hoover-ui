@@ -245,7 +245,7 @@
     "dompurify": "3.4.5",
     "fast-uri": "3.1.2",
     "picomatch": "4.0.4",
-    "postcss": "8.5.15",
+    "postcss": "8.5.23",
     "rollup": "4.60.4",
     "@vaadin/slider": "25.1.2",
     "workbox-build": {
