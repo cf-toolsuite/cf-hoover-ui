@@ -1,7 +1,7 @@
 {
   "dependencies": {
     "@vaadin/aura": "25.1.2",
-    "@vaadin/common-frontend": "0.0.22",
+    "@vaadin/common-frontend": "0.0.25",
     "@vaadin/react-components": "25.1.2",
     "@vaadin/vaadin-development-mode-detector": "2.0.7",
     "@vaadin/vaadin-lumo-styles": "25.1.2",
